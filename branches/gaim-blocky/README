@@ -1,0 +1,37 @@
+Get the latest version of this file at http://tools.desire.ch/gaim-blocky/
+===============================================================================
+
+gaim-blocky is a gaim plugin to stop spammers from annoying you.
+
+It offers the following features:
+
+	- Block certain users (with an optional auto-reply)
+	- Block messages from people who are not on your contact list
+	  ((with an optional auto-reply)
+	- Suppress repeated authorization requests (only on gaim 2.0beta7+)
+
+
+Blocking users
+--------------
+
+To block a user, all you have to do is append "   " (three spaces) to their
+alias. Optionally you can have an auto-reply message sent to them whenever
+they try to bother you.
+
+
+Messages from unknown people
+----------------------------
+
+You can block any messages from people who are not on your contact list and
+optionally have an auto-reply sent, telling them to request your authorization
+first. Just check the corresponding options in the configuration dialog.
+
+
+Authorization requests
+----------------------
+
+On recent gaim versions, you can have repeated authorization requests
+suppressed by gaim-blocks. After enabling that option, make sure to have
+"Block only the users below" selected in the gaim privacy dialog. Then,
+whenever you deny an authorization request, the sender is automatically added
+to that list.
