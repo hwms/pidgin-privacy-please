@@ -1,5 +1,5 @@
 #summary Changelog for pidgin-privacy-please
-#labels changes,news
+#labels Featured
 
 = v0.4.0 (27 Nov 2007) =
  * The "yay, they included my patch" release
