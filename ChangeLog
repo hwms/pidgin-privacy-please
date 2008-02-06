@@ -1,12 +1,6 @@
 Get the latest version of this file at http://tools.desire.ch/pidgin-pp/
 ===============================================================================
 
-v0.4.0 (27 Nov 2007)
-====================
- * The "yay, they included my patch" release
- * Added Makefile.mingw for Windows builds (thanks to Chris Lakitu7 Schwarz)
- * Fixed compatibility with pidgin 2.3.0
-
 v0.3.1 (07 Jun 2007)
 ====================
  * Updated the auth-signals patch to prevent crashes with dbus (closes #44)

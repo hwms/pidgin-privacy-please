@@ -11,20 +11,13 @@ It offers the following features:
   - Suppress repeated authorization requests
 
 
-Blocking users (gaim 1.x only)
-------------------------------
+Blocking users
+--------------
 
 To block a user in gaim 1.x, all you have to do is append "   " (three spaces)
 to their alias. In pidgin 2.x this is no longer neccessary, since proper
-privacy features have been implemented.
-
-
-Auto-reply on blocked messages
-------------------------------
-
-Optionally you can have an auto-reply message sent to people when their
-messages have been blocked. You'll need to apply a special patch to pidgin for
-this to work, though (see below).
+privacy features have been implemented. Optionally you can have an auto-reply
+message sent to them whenever they try to bother you.
 
 
 Messages from unknown people
@@ -47,12 +40,8 @@ automatically added to that list.
 
 Patches
 -------
+
 In order to use this plugin with pidgin 2.0.0, you'll need to apply the
 corresponding patches from http://tools.desire.ch/pidgin-pp/ to pidgin.
 Otherwise you won't be able to have auto-replies sent to blocked messages and
 authorization requests won't be intercepted.
-
-Since version 2.3.0, pidgin includes the auth-signals patch, thus you'll only
-need to apply the patch for blocked-signals. If you choose not to apply that
-patch, pidgin-privacy-please won't be able to send auto-replies when a message
-has been blocked.

@@ -1,7 +1,7 @@
-diff -Naur pidgin-2.3.0.orig/libpurple/conversation.c pidgin-2.3.0/libpurple/conversation.c
---- pidgin-2.3.0.orig/libpurple/conversation.c	2007-11-24 20:05:52.000000000 +0100
-+++ pidgin-2.3.0/libpurple/conversation.c	2007-11-27 17:28:32.000000000 +0100
-@@ -2201,6 +2201,13 @@
+diff -Nru pidgin-mtn.orig/libpurple/conversation.c pidgin-mtn/libpurple/conversation.c
+--- pidgin-mtn.orig/libpurple/conversation.c	2007-05-17 03:52:42.000000000 +0200
++++ pidgin-mtn/libpurple/conversation.c	2007-05-17 04:16:29.000000000 +0200
+@@ -2081,6 +2081,13 @@
  										PURPLE_SUBTYPE_CONVERSATION),
  						 purple_value_new(PURPLE_TYPE_UINT));
  
@@ -13,12 +13,12 @@ diff -Naur pidgin-2.3.0.orig/libpurple/conversation.c pidgin-2.3.0/libpurple/con
 +						 purple_value_new_outgoing(PURPLE_TYPE_STRING));
 +
  	purple_signal_register(handle, "writing-chat-msg",
- 						 purple_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER_UINT,
+ 						 purple_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER_POINTER,
  						 purple_value_new(PURPLE_TYPE_BOOLEAN), 5,
-diff -Naur pidgin-2.3.0.orig/libpurple/server.c pidgin-2.3.0/libpurple/server.c
---- pidgin-2.3.0.orig/libpurple/server.c	2007-11-24 20:06:01.000000000 +0100
-+++ pidgin-2.3.0/libpurple/server.c	2007-11-27 17:28:32.000000000 +0100
-@@ -554,8 +554,11 @@
+diff -Nru pidgin-mtn.orig/libpurple/server.c pidgin-mtn/libpurple/server.c
+--- pidgin-mtn.orig/libpurple/server.c	2007-05-17 03:52:44.000000000 +0200
++++ pidgin-mtn/libpurple/server.c	2007-05-17 04:18:35.000000000 +0200
+@@ -437,8 +437,11 @@
  
  	if (PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->set_permit_deny == NULL) {
  		/* protocol does not support privacy, handle it ourselves */
@@ -31,7 +31,7 @@ diff -Naur pidgin-2.3.0.orig/libpurple/server.c pidgin-2.3.0/libpurple/server.c
  	}
  
  	/*
-@@ -774,8 +777,11 @@
+@@ -660,8 +663,11 @@
  	account = purple_connection_get_account(gc);
  	if (PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->set_permit_deny == NULL) {
  		/* protocol does not support privacy, handle it ourselves */

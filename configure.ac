@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([pidgin-privacy-please],[0.4.0],[stefan@ott.net])
+AC_INIT([pidgin-privacy-please],[0.3.1],[stefan@desire.ch])
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE([1.9.5])
 
