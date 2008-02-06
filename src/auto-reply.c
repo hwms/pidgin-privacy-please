@@ -1,6 +1,6 @@
 /*
- * pidgin privacy please
- * Copyright (C) 2005-2007 Stefan Ott
+ * gaim-blocky
+ * Copyright (C) 2005/2006 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -24,6 +24,7 @@
 
 // system headers
 #include <glib.h>
+#include <error.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -42,7 +43,7 @@ llnode *head = NULL;
 void
 destroy_msg_list ()
 {
-	gaim_debug_info ("pidgin-pp", "Freeing message list\n");
+	gaim_debug_info ("gaim-blocky", "Freeing message list\n");
 	llnode *node = head;
 
 	while (node != NULL)
@@ -55,27 +56,27 @@ destroy_msg_list ()
 void
 debug_msg_list ()
 {
-	gaim_debug_info ("pidgin-pp", ",----- Current message list -----\n");
+	gaim_debug_info ("gaim-blocky", ",----- Current message list -----\n");
 
 	llnode *current = head;
 
 	while (current != NULL)
 	{
 		char *sender = current->sender;
-		gaim_debug_info ("pidgin-pp", "| %s\n", sender);
+		gaim_debug_info ("gaim-blocky", "| %s\n", sender);
 		current = current->next;
 	}
 
-	gaim_debug_info ("pidgin-pp", "`--------------------------------\n");
+	gaim_debug_info ("gaim-blocky", "`--------------------------------\n");
 }
 
 void
 rm_from_msg_list (llnode *node)
 {
-	gaim_debug_info ("pidgin-pp", "Removing %s from list\n",
+	gaim_debug_info ("gaim-blocky", "Removing %s from list\n",
 								node->sender);
 	llnode *current = head, *prev = NULL;
-
+	
 	while (current != NULL)
 	{
 		if (current == node)
@@ -113,7 +114,7 @@ timer_expired (void *data)
 {
 	llnode *node = (llnode *) data;
 
-	gaim_debug_info ("pidgin-pp", "Timer for %s expired\n", node->sender);
+	gaim_debug_info ("gaim-blocky", "Timer for %s expired\n", node->sender);
 
 	g_source_remove (node->timer);
 
@@ -121,21 +122,20 @@ timer_expired (void *data)
 	debug_msg_list ();
 }
 
-void
+void 
 add_to_msg_list (const char *sender)
 {
 	llnode *node;
 
 	if ((node = malloc (sizeof (llnode))) == NULL)
 	{
-		gaim_debug_fatal ("pidgin-pp", "Malloc failed\n");
+		perror ("add_to_msg_list");
 		(void) exit (EXIT_FAILURE);
 	}
 
 	if ((node->sender = malloc (MAX_NAME_LENGTH + 1)) == NULL)
 	{
-		free (node);
-		gaim_debug_fatal ("pidgin-pp", "Malloc failed\n");
+		perror ("add_to_msg_list");
 		(void) exit (EXIT_FAILURE);
 	}
 	strncpy (node->sender, sender, MAX_NAME_LENGTH);

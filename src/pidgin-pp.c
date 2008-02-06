@@ -1,5 +1,5 @@
 /*
- * pidgin privacy please
+ * gaim-blocky
  * Copyright (C) 2005-2007 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -28,6 +28,7 @@
 
 // system headers
 #include <glib.h>
+#include <error.h>
 #include <string.h>
 
 // gaim headers for most plugins
@@ -106,17 +107,17 @@ static gboolean
 receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
 						int *flags, void *data)
 {
-	gaim_debug_info ("pidgin-pp", "Got message from %s\n", *sender);
+	gaim_debug_info ("pidgin_pp", "Got message from %s\n", *sender);
 	GaimBuddy* buddy = gaim_find_buddy(account, *sender);
 
 	if (buddy == NULL) // No contact list entry
 	{
-		gaim_debug_info ("pidgin-pp", "Got message from unknown "
+		gaim_debug_info ("pidgin_pp", "Got message from unknown "
 						"source: %s\n", *sender);
 
 		if (blocky_block_unknown ())
 		{
-			gaim_debug_info ("pidgin-pp", "Blocked\n");
+			gaim_debug_info ("pidgin_pp", "Blocked\n");
 
 			if (blocky_reply_unknown ())
 			{
@@ -127,70 +128,40 @@ receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
 		}
 		else
 		{
-			gaim_debug_info ("pidgin-pp", "Allowed\n");
+			gaim_debug_info ("pidgin_pp", "Allowed\n");
 		}
 	}
 	else // Contact list entry exists
 	{
-		const char* alias = gaim_buddy_get_alias_only (buddy);
+        	const char* alias = gaim_buddy_get_alias_only (buddy);
 		if (blocky_match (alias))
 		{
-			gaim_debug_info ("pidgin-pp", "Blocked %s\n", alias);
+			gaim_debug_info ("pidgin_pp", "Blocked %s\n", alias);
 
 			if (blocky_get_reply ())
 			{
 				const char* msg = blocky_get_message ();
 				auto_reply (account, *sender, msg);
 			}
+			
 			return TRUE; // block
 		}
 		else
 		{
-			gaim_debug_info ("pidgin-pp", "Allowed %s\n", alias);
+			gaim_debug_info ("pidgin_pp", "Allowed %s\n", alias);
 		}
 	}
 	return FALSE; // default: accept
 }
 
 #if GAIM_VERSION_CHECK (2, 0, 0)
-#if GAIM_VERSION_CHECK (2, 3, 0)
-static gboolean
-request_authorization_cb (GaimAccount* account, char *sender)
-{
-	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
-		return 0; // prompt user
-
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing authorization "
-						"request from %s\n", sender);
-	// < 0: deny
-	// = 0: prompt user
-	// > 0: accept
-	return -!gaim_privacy_check (account, sender);
-}
-
-static void
-authorization_deny_cb (GaimAccount* account, char *sender)
-{
-	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
-		return;
-
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing rejected "
-				"authorization request from %s\n", sender);
-	if (gaim_privacy_check (account, sender))
-		gaim_privacy_deny_add (account, sender, FALSE);
-}
-
-#else
-// This is for compatibility with the old patches and will be removed
-// one fine day.
-
 static gboolean
 request_authorization_cb (GaimAccount* account, char **sender)
 {
 	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
 		return FALSE;
 
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing authorization "
+	gaim_debug (GAIM_DEBUG_INFO, "pidgin_pp", "Processing authorization "
 						"request from %s\n", *sender);
 	// FALSE -> accept
 	return !gaim_privacy_check (account, *sender);
@@ -202,13 +173,11 @@ authorization_deny_cb (GaimAccount* account, char **sender)
 	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
 		return;
 
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing rejected "
+	gaim_debug (GAIM_DEBUG_INFO, "pidgin_pp", "Processing rejected "
 				"authorization request from %s\n", *sender);
 	if (gaim_privacy_check (account, *sender))
 		gaim_privacy_deny_add (account, *sender, FALSE);
 }
-#endif
-
 
 static void
 msg_blocked_cb (GaimAccount* account, char **sender)
@@ -229,15 +198,16 @@ get_plugin_pref_frame (GaimPlugin* plugin)
 
 	frame = gaim_plugin_pref_frame_new();
 
-	ppref = gaim_plugin_pref_new_with_label(_("Blocked messages"));
+	ppref = gaim_plugin_pref_new_with_label(_("Contact list entries"));
 	gaim_plugin_pref_frame_add(frame, ppref);
 
 	ppref = gaim_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/reply", _("Auto-reply on blocked messages with:"));
+		("/plugins/core/pidgin_pp/reply", _("Enable auto-reply"));
 	gaim_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_name
-				("/plugins/core/pidgin_pp/message");
+	ppref = gaim_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/message", 
+		_("Your auto-reply message:"));
 	gaim_plugin_pref_frame_add(frame, ppref);
 
 	ppref = gaim_plugin_pref_new_with_label(_("Unknown people"));
@@ -258,7 +228,7 @@ get_plugin_pref_frame (GaimPlugin* plugin)
 #if GAIM_VERSION_CHECK (2, 0, 0)
 	ppref = gaim_plugin_pref_new_with_label(_("Authorization"));
 	gaim_plugin_pref_frame_add(frame, ppref);
-
+	
 	ppref = gaim_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/block_denied", _("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"));
 	gaim_plugin_pref_frame_add(frame, ppref);
@@ -278,22 +248,15 @@ plugin_load (GaimPlugin * plugin)
 	gaim_prefs_add_string ("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
 	gaim_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
-		_("I currently only accept messages from people on my contact"
+		_("I currently only accept messages from people on my contact "
 				" list - please request my authorization."));
 	gaim_prefs_add_bool ("/plugins/core/pidgin_pp/block_denied", FALSE);
 
 	gaim_signal_connect (conv_handle, "receiving-im-msg",
 			plugin, GAIM_CALLBACK (receiving_im_msg_cb), NULL);
 #if GAIM_VERSION_CHECK (2, 0, 0)
-#if GAIM_VERSION_CHECK (2, 3, 0)
-	gaim_signal_connect (acct_handle, "account-authorization-requested",
-			plugin, GAIM_CALLBACK (request_authorization_cb), NULL);
-#else
-// This is for compatibility with the old patches and will be removed
-// one fine day.
 	gaim_signal_connect (acct_handle, "account-request-authorization",
 			plugin, GAIM_CALLBACK (request_authorization_cb), NULL);
-#endif
 	gaim_signal_connect (acct_handle, "account-authorization-denied",
 			plugin, GAIM_CALLBACK (authorization_deny_cb), NULL);
 	gaim_signal_connect (conv_handle, "blocked-im-msg",
@@ -328,10 +291,10 @@ static GaimPluginInfo info =
 	N_("core-pidgin_pp_"),				/**< id             */
 	N_("Privacy Please"),				/**< name           */
 	VERSION,					/**< version        */
-	N_("Stops IM-spam"),				/**< summary	    */
+	N_("Block any contact protocol independently"), /**< summary	    */
 							/**  description    */
 	N_("A simple plugin to stop unwanted messages and repeated authorization requests from spammers."),
-	"Stefan Ott <stefan@ott.net>",			/**< author         */
+	"Stefan Ott <stefan@desire.ch>",		/**< author         */
 	"http://tools.desire.ch/pidgin-pp/",		/**< homepage       */
 
 	plugin_load,					/**< load           */
