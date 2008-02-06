@@ -1,28 +1,5 @@
-Get the latest version of this file at http://tools.desire.ch/pidgin-pp/
+Get the latest version of this file at http://tools.desire.ch/gaim-blocky/
 ===============================================================================
-
-v0.4.0 (27 Nov 2007)
-====================
- * The "yay, they included my patch" release
- * Added Makefile.mingw for Windows builds (thanks to Chris Lakitu7 Schwarz)
- * Fixed compatibility with pidgin 2.3.0
-
-v0.3.1 (07 Jun 2007)
-====================
- * Updated the auth-signals patch to prevent crashes with dbus (closes #44)
- * Removed some leftover references to gaim-blocky
- * Minor code cleanups
-
-v0.3.0 (17 May 2007)
-===================
- * Renamed the plugin to pidgin-privacy-please
- * Added feature to block repeated authorization requests (only for pidgin 2.0)
- * Did some minor changes in order to get the plugin to accept the name change
-   from gaim to pidgin
-
-v0.2.1 (4 Nov 2006)
-===================
- * Fixed includes to properly compile with gaim 2.0
 
 v0.2.0 (4 Nov 2006)
 ===================

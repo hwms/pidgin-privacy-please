@@ -2,20 +2,20 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([pidgin-privacy-please],[0.4.0],[stefan@ott.net])
+AC_INIT([gaim-blocky],[0.2.0],[stefan@desire.ch])
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE([1.9.5])
 
 REQUIRED_PKG_CONFIG="0.15.0"
 AC_SUBST(REQUIRED_PKG_CONFIG)
 
-REQUIRED_PIDGIN="pidgin >= 2.0 pidgin < 3.0"
-AC_SUBST(REQUIRED_PIDGIN)
+REQUIRED_GAIM="gaim >= 1.2 gaim < 3.0"
+AC_SUBST(REQUIRED_GAIM)
 
-AC_CONFIG_SRCDIR([src/pidgin-pp.c])
+AC_CONFIG_SRCDIR([src/gaim-blocky.c])
 AC_CONFIG_HEADER([config.h])
 
-AC_DEFINE(PIDGIN_PLUGINS, 1, [Define if plugins are enabled.])
+AC_DEFINE(GAIM_PLUGINS, 1, [Define if plugins are enabled.])
 
 # Checks for programs.
 AC_PROG_CC
@@ -32,28 +32,28 @@ fi
 
 # Checks for libraries.
 PKG_PROG_PKG_CONFIG([$REQUIRED_PKG_CONFIG])
-PKG_CHECK_MODULES([PIDGIN], [$REQUIRED_PIDGIN],
+PKG_CHECK_MODULES([GAIM], [$REQUIRED_GAIM],
 	[
-	AC_SUBST(PIDGIN_CFLAGS)
-	AC_SUBST(PIDGIN_LIBS)
+	AC_SUBST(GAIM_CFLAGS)
+	AC_SUBST(GAIM_LIBS)
 	]
 )
-AC_ARG_VAR([PIDGIN_DATADIR], [datadir of PIDGIN, overriding pkg-config])dnl
-AC_ARG_VAR([PIDGIN_LIBDIR], [libdir of PIDGIN, overriding pkg-config])dnl
-AC_CACHE_CHECK([for PIDGIN][_DATADIR], [pkg_cv_][PIDGIN][_DATADIR],
-	[_PKG_CONFIG([PIDGIN][_DATADIR], [variable=datadir], [pidgin])])
-AC_CACHE_CHECK([for PIDGIN][_LIBDIR], [pkg_cv_][PIDGIN][_LIBDIR],
-	[_PKG_CONFIG([PIDGIN][_LIBDIR], [variable=libdir], [pidgin])])
-PIDGIN[]_DATADIR=$pkg_cv_[]PIDGIN[]_DATADIR
-PIDGIN[]_LIBDIR=$pkg_cv_[]PIDGIN[]_LIBDIR
-AC_SUBST(PIDGIN_DATADIR)
-AC_SUBST(PIDGIN_LIBDIR)
+AC_ARG_VAR([GAIM_DATADIR], [datadir of GAIM, overriding pkg-config])dnl
+AC_ARG_VAR([GAIM_LIBDIR], [libdir of GAIM, overriding pkg-config])dnl
+AC_CACHE_CHECK([for GAIM][_DATADIR], [pkg_cv_][GAIM][_DATADIR],
+	[_PKG_CONFIG([GAIM][_DATADIR], [variable=datadir], [gaim])])
+AC_CACHE_CHECK([for GAIM][_LIBDIR], [pkg_cv_][GAIM][_LIBDIR],
+	[_PKG_CONFIG([GAIM][_LIBDIR], [variable=libdir], [gaim])])
+GAIM[]_DATADIR=$pkg_cv_[]GAIM[]_DATADIR
+GAIM[]_LIBDIR=$pkg_cv_[]GAIM[]_LIBDIR
+AC_SUBST(GAIM_DATADIR)
+AC_SUBST(GAIM_LIBDIR)
 
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([stdlib.h string.h])
 
-# AM_CONFIG_HEADER
+AM_CONFIG_HEADER
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -84,7 +84,7 @@ AC_OUTPUT
 echo
 echo $PACKAGE $VERSION
 echo
-echo Installation directory........... : $PIDGIN_LIBDIR/pidgin
+echo Installation directory........... : $GAIM_LIBDIR/gaim
 echo
 echo configure complete, now type \'make\'
 echo

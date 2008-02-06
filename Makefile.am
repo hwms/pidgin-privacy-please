@@ -1,6 +1,5 @@
 EXTRA_DIST = \
-	README \
-	Makefile.mingw
+	README
 
 SUBDIRS = \
 	src
