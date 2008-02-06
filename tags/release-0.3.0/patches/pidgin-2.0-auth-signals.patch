@@ -1,0 +1,120 @@
+diff -Nru pidgin-mtn.orig/libpurple/account.c pidgin-mtn/libpurple/account.c
+--- pidgin-mtn.orig/libpurple/account.c	2007-05-17 03:53:53.000000000 +0200
++++ pidgin-mtn/libpurple/account.c	2007-05-17 04:09:49.000000000 +0200
+@@ -2422,7 +2422,26 @@
+ 						 purple_value_new(PURPLE_TYPE_SUBTYPE,
+ 							 			PURPLE_SUBTYPE_ACCOUNT),
+ 						 purple_value_new(PURPLE_TYPE_STRING));
+-	
++
++	purple_signal_register(handle, "account-request-authorization",
++						purple_marshal_BOOLEAN__POINTER_POINTER, NULL, 2,
++						purple_value_new(PURPLE_TYPE_BOOLEAN), 2,
++						purple_value_new(PURPLE_TYPE_SUBTYPE,
++										PURPLE_SUBTYPE_ACCOUNT),
++						purple_value_new(PURPLE_TYPE_STRING));
++
++	purple_signal_register(handle, "account-authorization-denied",
++						purple_marshal_VOID__POINTER_POINTER, NULL, 2,
++						purple_value_new(PURPLE_TYPE_SUBTYPE,
++										PURPLE_SUBTYPE_ACCOUNT),
++						purple_value_new(PURPLE_TYPE_STRING));
++
++	purple_signal_register(handle, "account-authorization-granted",
++						purple_marshal_VOID__POINTER_POINTER, NULL, 2,
++						purple_value_new(PURPLE_TYPE_SUBTYPE,
++										PURPLE_SUBTYPE_ACCOUNT),
++						purple_value_new(PURPLE_TYPE_STRING));
++
+ 	load_accounts();
+ 
+ }
+diff -Nru pidgin-mtn.orig/pidgin/gtkaccount.c pidgin-mtn/pidgin/gtkaccount.c
+--- pidgin-mtn.orig/pidgin/gtkaccount.c	2007-05-17 03:53:55.000000000 +0200
++++ pidgin-mtn/pidgin/gtkaccount.c	2007-05-17 04:03:30.000000000 +0200
+@@ -2500,6 +2500,8 @@
+ static void
+ authorize_and_add_cb(struct auth_and_add *aa)
+ {
++	purple_signal_emit(purple_accounts_get_handle(),
++		"account-authorization-granted", aa->account, &aa->username);
+ 	aa->auth_cb(aa->data);
+ 	purple_blist_request_add_buddy(aa->account, aa->username,
+ 	 	                    NULL, aa->alias);
+@@ -2510,8 +2512,22 @@
+ }
+ 
+ static void
++auth_no_add_cb(struct auth_and_add *aa)
++{
++	purple_signal_emit(purple_accounts_get_handle(),
++		"account-authorization-granted", aa->account, &aa->username);
++	aa->auth_cb(aa->data);
++
++	g_free(aa->username);
++	g_free(aa->alias);
++	g_free(aa);
++}
++
++static void
+ deny_no_add_cb(struct auth_and_add *aa)
+ {
++	purple_signal_emit(purple_accounts_get_handle(),
++		"account-authorization-denied", aa->account, &aa->username);
+ 	aa->deny_cb(aa->data);
+ 
+ 	g_free(aa->username);
+@@ -2527,6 +2543,8 @@
+ 	char *buffer;
+ 	PurpleConnection *gc;
+ 	GtkWidget *alert;
++	int plugin_return;
++	struct auth_and_add *aa;
+ 
+ 	gc = purple_account_get_connection(account);
+ 	if (message != NULL && *message == '\0')
+@@ -2545,15 +2563,24 @@
+ 		                (message != NULL ? ": " : "."),
+ 		                (message != NULL ? message  : ""));
+ 
++	plugin_return = GPOINTER_TO_INT(
++		purple_signal_emit_return_1(purple_accounts_get_handle(),
++		"account-request-authorization", account, &remote_user));
++
++	if (plugin_return) {
++		g_free(buffer);
++		return;
++	}
+ 
++	aa = g_new0(struct auth_and_add, 1);
++	aa->auth_cb = (PurpleAccountRequestAuthorizationCb)auth_cb;
++	aa->deny_cb = (PurpleAccountRequestAuthorizationCb)deny_cb;
++	aa->data = user_data;
++	aa->username = g_strdup(remote_user);
++	aa->alias = g_strdup(alias);
++	aa->account = account;
++	
+ 	if (!on_list) {
+-		struct auth_and_add *aa = g_new0(struct auth_and_add, 1);
+-		aa->auth_cb = (PurpleAccountRequestAuthorizationCb)auth_cb;
+-		aa->deny_cb = (PurpleAccountRequestAuthorizationCb)deny_cb;
+-		aa->data = user_data;
+-		aa->username = g_strdup(remote_user);
+-		aa->alias = g_strdup(alias);
+-		aa->account = account;
+ 		alert = pidgin_make_mini_dialog(gc, PIDGIN_STOCK_DIALOG_QUESTION,
+ 						  _("Authorize buddy?"), buffer, aa,
+ 						  _("Authorize"), authorize_and_add_cb,
+@@ -2561,9 +2588,9 @@
+ 						  NULL);
+ 	} else {
+ 		alert = pidgin_make_mini_dialog(gc, PIDGIN_STOCK_DIALOG_QUESTION,
+-						  _("Authorize buddy?"), buffer, user_data,
+-						  _("Authorize"), auth_cb,
+-						  _("Deny"), deny_cb,
++						  _("Authorize buddy?"), buffer, aa,
++						  _("Authorize"), auth_no_add_cb,
++						  _("Deny"), deny_no_add_cb,
+ 						  NULL);
+ 	}
+ 	pidgin_blist_add_alert(alert);

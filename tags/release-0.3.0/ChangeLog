@@ -1,0 +1,29 @@
+Get the latest version of this file at http://tools.desire.ch/pidgin-pp/
+===============================================================================
+
+v0.3.0 (17 May 2007)
+===================
+ * Renamed the plugin to pidgin-privacy-please
+ * Added feature to block repeated authorization requests (only for pidgin 2.0)
+ * Did some minor changes in order to get the plugin to accept the name change
+   from gaim to pidgin
+
+v0.2.1 (4 Nov 2006)
+===================
+ * Fixed includes to properly compile with gaim 2.0
+
+v0.2.0 (4 Nov 2006)
+===================
+ * Added option to ignore any messages from people who are not on your
+   contact list and to optionally auto-reply to them.
+ * Auto-reply ping-pong is no longer possible (after an auto-reply, no
+   other reply is sent to the same destination for 5 seconds).
+
+v0.1.1 (6 Jan 2006)
+===================
+ * gaim-blocky would segfault on incoming messages from contacts without
+   an alias set (fixed).
+
+v0.1.0 (31 Dec 2005)
+====================
+ * Initial release

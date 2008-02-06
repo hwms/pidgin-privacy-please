@@ -1,0 +1,11 @@
+Get the latest version of this file at http://tools.desire.ch/gaim-blocky/
+===============================================================================
+
+v0.1.1 (6 Jan 2006)
+===================
+ * gaim-blocky would segfault on incoming messages from contacts without
+   an alias set (fixed).
+
+v0.1.0 (31 Dec 2005)
+====================
+ * Initial release

@@ -1,0 +1,18 @@
+Get the latest version of this file at http://tools.desire.ch/gaim-blocky/
+===============================================================================
+
+v0.2.0 (4 Nov 2006)
+===================
+ * Added option to ignore any messages from people who are not on your
+   contact list and to optionally auto-reply to them.
+ * Auto-reply ping-pong is no longer possible (after an auto-reply, no
+   other reply is sent to the same destination for 5 seconds).
+
+v0.1.1 (6 Jan 2006)
+===================
+ * gaim-blocky would segfault on incoming messages from contacts without
+   an alias set (fixed).
+
+v0.1.0 (31 Dec 2005)
+====================
+ * Initial release

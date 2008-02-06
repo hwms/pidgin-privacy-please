@@ -1,0 +1,14 @@
+Get the latest version of this file at http://tools.desire.ch/gaim-blocky/
+===============================================================================
+
+gaim-blocky is a gaim plugin which lets you block messages from certain
+contacts in a protocol-independent way. Its code is based heavily on gaim-bs
+(http://gaim-bs.sourceforge.net/) by David Everly.
+
+To block a user, all you have to do is append "   " (three spaces) to their
+alias. Optionally you can have an auto-reply message sent to them whenever
+they try to bother you.
+
+Also, you can block any messages from people who are not on your contact list
+and optionally have an auto-reply sent, telling them to request your
+authorization first.
