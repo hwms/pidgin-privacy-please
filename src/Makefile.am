@@ -1,23 +1,23 @@
 pkgdir = \
-	$(PIDGIN_LIBDIR)/pidgin
+	$(GAIM_LIBDIR)/gaim
 
-PIDGIN_PP_SOURCES = \
-	auto-reply.c auto-reply.h pidgin-pp.c
+GAIM_BLOCKY_SOURCES = \
+	gaim-blocky.c
 
 AM_CFLAGS = \
 	$(st)
 
-libpidgin_pp_la_LDFLAGS = \
+libgaim_blocky_la_LDFLAGS = \
 	-module \
 	-avoid-version \
-	$(PIDGIN_LIBS)
+	$(GAIM_LIBS)
 
 pkg_LTLIBRARIES = \
-	libpidgin_pp.la
+	libgaim-blocky.la
 
-libpidgin_pp_la_SOURCES = \
-	$(PIDGIN_PP_SOURCES)
+libgaim_blocky_la_SOURCES = \
+	$(GAIM_BLOCKY_SOURCES)
 
 AM_CPPFLAGS = \
 	$(DEBUG_CFLAGS) \
-	$(PIDGIN_CFLAGS)
+	$(GAIM_CFLAGS)
