@@ -1,7 +1,7 @@
-diff -Naur pidgin-2.3.0.orig/libpurple/conversation.c pidgin-2.3.0/libpurple/conversation.c
---- pidgin-2.3.0.orig/libpurple/conversation.c	2007-11-24 20:05:52.000000000 +0100
-+++ pidgin-2.3.0/libpurple/conversation.c	2007-11-27 17:28:32.000000000 +0100
-@@ -2201,6 +2201,13 @@
+diff -Naur pidgin-2.4.1.orig/libpurple/conversation.c pidgin-2.4.1/libpurple/conversation.c
+--- pidgin-2.4.1.orig/libpurple/conversation.c	2008-03-31 19:21:23.000000000 +0200
++++ pidgin-2.4.1/libpurple/conversation.c	2008-04-03 00:35:55.081206555 +0200
+@@ -2208,6 +2208,13 @@
  										PURPLE_SUBTYPE_CONVERSATION),
  						 purple_value_new(PURPLE_TYPE_UINT));
  
@@ -15,12 +15,12 @@ diff -Naur pidgin-2.3.0.orig/libpurple/conversation.c pidgin-2.3.0/libpurple/con
  	purple_signal_register(handle, "writing-chat-msg",
  						 purple_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER_UINT,
  						 purple_value_new(PURPLE_TYPE_BOOLEAN), 5,
-diff -Naur pidgin-2.3.0.orig/libpurple/server.c pidgin-2.3.0/libpurple/server.c
---- pidgin-2.3.0.orig/libpurple/server.c	2007-11-24 20:06:01.000000000 +0100
-+++ pidgin-2.3.0/libpurple/server.c	2007-11-27 17:28:32.000000000 +0100
-@@ -554,8 +554,11 @@
+diff -Naur pidgin-2.4.1.orig/libpurple/server.c pidgin-2.4.1/libpurple/server.c
+--- pidgin-2.4.1.orig/libpurple/server.c	2008-03-31 19:21:24.000000000 +0200
++++ pidgin-2.4.1/libpurple/server.c	2008-04-03 00:35:55.101247632 +0200
+@@ -659,8 +659,11 @@
  
- 	if (PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->set_permit_deny == NULL) {
+ 	if (PURPLE_PLUGIN_PROTOCOL_INFO(purple_connection_get_prpl(gc))->set_permit_deny == NULL) {
  		/* protocol does not support privacy, handle it ourselves */
 -		if (!purple_privacy_check(account, who))
 +		if (!purple_privacy_check(account, who)) {
@@ -31,9 +31,9 @@ diff -Naur pidgin-2.3.0.orig/libpurple/server.c pidgin-2.3.0/libpurple/server.c
  	}
  
  	/*
-@@ -774,8 +777,11 @@
+@@ -879,8 +882,11 @@
  	account = purple_connection_get_account(gc);
- 	if (PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->set_permit_deny == NULL) {
+ 	if (PURPLE_PLUGIN_PROTOCOL_INFO(purple_connection_get_prpl(gc))->set_permit_deny == NULL) {
  		/* protocol does not support privacy, handle it ourselves */
 -		if (!purple_privacy_check(account, who))
 +		if (!purple_privacy_check(account, who)) {
