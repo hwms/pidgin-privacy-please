@@ -1,6 +1,13 @@
 #summary Changelog for pidgin-privacy-please
 #labels Featured
 
+= v0.4.1 (04 Apr 2008) =
+ * The "gaim 1.x is so 2006" release
+ * Some code cleanup
+ * Removed compatibility with gaim 1.x
+ * Updated the pidgin patch
+ * Moved the project website to Google Code
+
 = v0.4.0 (27 Nov 2007) =
  * The "yay, they included my patch" release
  * Added Makefile.mingw for Windows builds (thanks to Chris Lakitu7 Schwarz)
