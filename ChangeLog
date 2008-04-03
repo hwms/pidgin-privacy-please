@@ -2,8 +2,8 @@
 		http://code.google.com/p/pidgin-privacy-please/
 ===============================================================================
 
-v0.4.1 (04 Apr 2008)
-====================
+v0.4.1 (4 Apr 2008)
+===================
  * The "gaim 1.x is so 2006" release
  * Some code cleanup
  * Removed compatibility with gaim 1.x
@@ -23,7 +23,7 @@ v0.3.1 (07 Jun 2007)
  * Minor code cleanups
 
 v0.3.0 (17 May 2007)
-===================
+====================
  * Renamed the plugin to pidgin-privacy-please
  * Added feature to block repeated authorization requests (only for pidgin 2.0)
  * Did some minor changes in order to get the plugin to accept the name change
