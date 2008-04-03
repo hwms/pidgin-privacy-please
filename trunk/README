@@ -11,14 +11,6 @@ It offers the following features:
   - Suppress repeated authorization requests
 
 
-Blocking users (gaim 1.x only)
-------------------------------
-
-To block a user in gaim 1.x, all you have to do is append "   " (three spaces)
-to their alias. In pidgin 2.x this is no longer neccessary, since proper
-privacy features have been implemented.
-
-
 Auto-reply on blocked messages
 ------------------------------
 
@@ -35,9 +27,8 @@ optionally have an auto-reply sent, telling them to request your authorization
 first. Just check the corresponding options in the configuration dialog.
 
 
-Authorization requests (pidgin 2.0+ only)
------------------------------------------
-
+Authorization requests
+----------------------
 On recent pidgin versions, you can have repeated authorization requests
 suppressed by the pidgin privacy please plugin. After enabling that option,
 make sure to have "Block only the users below" selected in pidgin's privacy
@@ -47,7 +38,7 @@ automatically added to that list.
 
 Patches
 -------
-In order to use this plugin with pidgin 2.0.0, you'll need to apply the
+In order to use this plugin with pidgin 2.x you'll need to apply the
 corresponding patches from http://tools.desire.ch/pidgin-pp/ to pidgin.
 Otherwise you won't be able to have auto-replies sent to blocked messages and
 authorization requests won't be intercepted.

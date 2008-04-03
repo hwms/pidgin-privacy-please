@@ -3,6 +3,7 @@ Get the latest version of this file at http://tools.desire.ch/pidgin-pp/
 
 v0.4.1 (xx xxx 2008)
 ====================
+ * Removed compatibility with gaim 1.x
  * Updated the pidgin patch
 
 v0.4.0 (27 Nov 2007)
