@@ -1,6 +1,6 @@
 /*
  * pidgin privacy please
- * Copyright (C) 2005-2007 Stefan Ott
+ * Copyright (C) 2005-2008 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -167,12 +167,7 @@ auto_reply (PurpleAccount* account, const char *recipient, const char *message)
 	if (prpl_info && prpl_info->send_im)
 	{
 		prpl_info->send_im(gc, recipient, message,
-#if GAIM_MAJOR_VERSION < 2
-					GAIM_CONV_IM_AUTO_RESP
-#else
-					GAIM_MESSAGE_AUTO_RESP
-#endif
-		);
+						GAIM_MESSAGE_AUTO_RESP);
 		add_to_msg_list (recipient);
 	}
 

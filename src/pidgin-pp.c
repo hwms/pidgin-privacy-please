@@ -1,6 +1,6 @@
 /*
  * pidgin privacy please
- * Copyright (C) 2005-2007 Stefan Ott
+ * Copyright (C) 2005-2008 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -41,17 +41,12 @@
 #include "privacy.h"
 #include "blist.h"
 
-#if PURPLE_MAJOR_VERSION >= 2
+// gaim <-> pidgin compatibility
 #include "gaim-compat.h"
-#endif
 
 // gaim header needed for gettext
-#if GAIM_MAJOR_VERSION < 2
-#include "internal.h"
-#else
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
-#endif
 
 // our auto-reply functionality
 #include "auto-reply.h"
@@ -152,7 +147,6 @@ receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
 	return FALSE; // default: accept
 }
 
-#if GAIM_VERSION_CHECK (2, 0, 0)
 #if GAIM_VERSION_CHECK (2, 3, 0)
 static gboolean
 request_authorization_cb (GaimAccount* account, char *sender)
@@ -181,8 +175,7 @@ authorization_deny_cb (GaimAccount* account, char *sender)
 }
 
 #else
-// This is for compatibility with the old patches and will be removed
-// one fine day.
+// This is for compatibility with the old patches and will be removed soon
 
 static gboolean
 request_authorization_cb (GaimAccount* account, char **sender)
@@ -209,7 +202,6 @@ authorization_deny_cb (GaimAccount* account, char **sender)
 }
 #endif
 
-
 static void
 msg_blocked_cb (GaimAccount* account, char **sender)
 {
@@ -219,7 +211,6 @@ msg_blocked_cb (GaimAccount* account, char **sender)
 		auto_reply (account, *sender, msg);
 	}
 }
-#endif
 
 static GaimPluginPrefFrame *
 get_plugin_pref_frame (GaimPlugin* plugin)
@@ -255,14 +246,12 @@ get_plugin_pref_frame (GaimPlugin* plugin)
 				("/plugins/core/pidgin_pp/unknown_message");
 	gaim_plugin_pref_frame_add(frame, ppref);
 
-#if GAIM_VERSION_CHECK (2, 0, 0)
 	ppref = gaim_plugin_pref_new_with_label(_("Authorization"));
 	gaim_plugin_pref_frame_add(frame, ppref);
 
 	ppref = gaim_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/block_denied", _("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"));
 	gaim_plugin_pref_frame_add(frame, ppref);
-#endif
 	return frame;
 }
 
@@ -284,13 +273,11 @@ plugin_load (GaimPlugin * plugin)
 
 	gaim_signal_connect (conv_handle, "receiving-im-msg",
 			plugin, GAIM_CALLBACK (receiving_im_msg_cb), NULL);
-#if GAIM_VERSION_CHECK (2, 0, 0)
 #if GAIM_VERSION_CHECK (2, 3, 0)
 	gaim_signal_connect (acct_handle, "account-authorization-requested",
 			plugin, GAIM_CALLBACK (request_authorization_cb), NULL);
 #else
-// This is for compatibility with the old patches and will be removed
-// one fine day.
+// This is for compatibility with the old patches and will be removed soon
 	gaim_signal_connect (acct_handle, "account-request-authorization",
 			plugin, GAIM_CALLBACK (request_authorization_cb), NULL);
 #endif
@@ -298,8 +285,6 @@ plugin_load (GaimPlugin * plugin)
 			plugin, GAIM_CALLBACK (authorization_deny_cb), NULL);
 	gaim_signal_connect (conv_handle, "blocked-im-msg",
 			plugin, GAIM_CALLBACK (msg_blocked_cb), NULL);
-#endif
-
 	return TRUE;
 }
 
