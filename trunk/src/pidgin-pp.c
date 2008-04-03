@@ -52,7 +52,7 @@
 #include "auto-reply.h"
 
 static gboolean
-blocky_match (const char* s)
+pidgin_pp_match (const char* s)
 {
 	if (s == NULL) return FALSE;
 	char* tag = "   ";
@@ -62,32 +62,32 @@ blocky_match (const char* s)
 }
 
 static const char*
-blocky_get_unknown_msg ()
+conf_msg_unknown_autoreply ()
 {
 	return gaim_prefs_get_string
 				("/plugins/core/pidgin_pp/unknown_message");
 }
 
 static gboolean
-blocky_block_unknown ()
+conf_block_unknown ()
 {
 	return gaim_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_block");
 }
 
 static gboolean
-blocky_reply_unknown ()
+conf_reply_unknown ()
 {
 	return gaim_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_reply");
 }
 
 static const char*
-blocky_get_message ()
+conf_msg_blocked_autoreply ()
 {
 	return gaim_prefs_get_string ("/plugins/core/pidgin_pp/message");
 }
 
 static gboolean
-blocky_get_reply ()
+conf_reply_blocked ()
 {
 	return gaim_prefs_get_bool ("/plugins/core/pidgin_pp/reply");
 }
@@ -109,13 +109,13 @@ receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
 		gaim_debug_info ("pidgin-pp", "Got message from unknown "
 						"source: %s\n", *sender);
 
-		if (blocky_block_unknown ())
+		if (conf_block_unknown ())
 		{
 			gaim_debug_info ("pidgin-pp", "Blocked\n");
 
-			if (blocky_reply_unknown ())
+			if (conf_reply_unknown ())
 			{
-				const char* msg = blocky_get_unknown_msg ();
+				const char* msg = conf_msg_unknown_autoreply ();
 				auto_reply (account, *sender, msg);
 			}
 			return TRUE; // block
@@ -128,13 +128,13 @@ receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
 	else // Contact list entry exists
 	{
 		const char* alias = gaim_buddy_get_alias_only (buddy);
-		if (blocky_match (alias))
+		if (pidgin_pp_match (alias))
 		{
 			gaim_debug_info ("pidgin-pp", "Blocked %s\n", alias);
 
-			if (blocky_get_reply ())
+			if (conf_reply_blocked ())
 			{
-				const char* msg = blocky_get_message ();
+				const char* msg = conf_msg_blocked_autoreply ();
 				auto_reply (account, *sender, msg);
 			}
 			return TRUE; // block
@@ -205,9 +205,9 @@ authorization_deny_cb (GaimAccount* account, char **sender)
 static void
 msg_blocked_cb (GaimAccount* account, char **sender)
 {
-	if (blocky_get_reply ())
+	if (conf_reply_blocked ())
 	{
-		const char* msg = blocky_get_message ();
+		const char* msg = conf_msg_blocked_autoreply ();
 		auto_reply (account, *sender, msg);
 	}
 }
