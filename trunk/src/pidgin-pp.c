@@ -41,9 +41,6 @@
 #include "privacy.h"
 #include "blist.h"
 
-// gaim <-> pidgin compatibility
-#include "gaim-compat.h"
-
 // gaim header needed for gettext
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
@@ -64,32 +61,32 @@ pidgin_pp_match (const char* s)
 static const char*
 conf_msg_unknown_autoreply ()
 {
-	return gaim_prefs_get_string
+	return purple_prefs_get_string
 				("/plugins/core/pidgin_pp/unknown_message");
 }
 
 static gboolean
 conf_block_unknown ()
 {
-	return gaim_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_block");
+	return purple_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_block");
 }
 
 static gboolean
 conf_reply_unknown ()
 {
-	return gaim_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_reply");
+	return purple_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_reply");
 }
 
 static const char*
 conf_msg_blocked_autoreply ()
 {
-	return gaim_prefs_get_string ("/plugins/core/pidgin_pp/message");
+	return purple_prefs_get_string ("/plugins/core/pidgin_pp/message");
 }
 
 static gboolean
 conf_reply_blocked ()
 {
-	return gaim_prefs_get_bool ("/plugins/core/pidgin_pp/reply");
+	return purple_prefs_get_bool ("/plugins/core/pidgin_pp/reply");
 }
 
 /**
@@ -98,20 +95,20 @@ conf_reply_blocked ()
  * We return TRUE to block the IM, FALSE to accept the IM
  */
 static gboolean
-receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
+receiving_im_msg_cb(PurpleAccount* account, char **sender, char **buffer,
 						int *flags, void *data)
 {
-	gaim_debug_info ("pidgin-pp", "Got message from %s\n", *sender);
-	GaimBuddy* buddy = gaim_find_buddy(account, *sender);
+	purple_debug_info ("pidgin-pp", "Got message from %s\n", *sender);
+	PurpleBuddy* buddy = purple_find_buddy(account, *sender);
 
 	if (buddy == NULL) // No contact list entry
 	{
-		gaim_debug_info ("pidgin-pp", "Got message from unknown "
+		purple_debug_info ("pidgin-pp", "Got message from unknown "
 						"source: %s\n", *sender);
 
 		if (conf_block_unknown ())
 		{
-			gaim_debug_info ("pidgin-pp", "Blocked\n");
+			purple_debug_info ("pidgin-pp", "Blocked\n");
 
 			if (conf_reply_unknown ())
 			{
@@ -122,15 +119,15 @@ receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
 		}
 		else
 		{
-			gaim_debug_info ("pidgin-pp", "Allowed\n");
+			purple_debug_info ("pidgin-pp", "Allowed\n");
 		}
 	}
 	else // Contact list entry exists
 	{
-		const char* alias = gaim_buddy_get_alias_only (buddy);
+		const char* alias = purple_buddy_get_alias_only (buddy);
 		if (pidgin_pp_match (alias))
 		{
-			gaim_debug_info ("pidgin-pp", "Blocked %s\n", alias);
+			purple_debug_info ("pidgin-pp", "Blocked %s\n", alias);
 
 			if (conf_reply_blocked ())
 			{
@@ -141,69 +138,69 @@ receiving_im_msg_cb(GaimAccount* account, char **sender, char **buffer,
 		}
 		else
 		{
-			gaim_debug_info ("pidgin-pp", "Allowed %s\n", alias);
+			purple_debug_info ("pidgin-pp", "Allowed %s\n", alias);
 		}
 	}
 	return FALSE; // default: accept
 }
 
-#if GAIM_VERSION_CHECK (2, 3, 0)
+#if PURPLE_VERSION_CHECK (2, 3, 0)
 static gboolean
-request_authorization_cb (GaimAccount* account, char *sender)
+request_authorization_cb (PurpleAccount* account, char *sender)
 {
-	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
+	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
 		return 0; // prompt user
 
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing authorization "
+	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization "
 						"request from %s\n", sender);
 	// < 0: deny
 	// = 0: prompt user
 	// > 0: accept
-	return -!gaim_privacy_check (account, sender);
+	return -!purple_privacy_check (account, sender);
 }
 
 static void
-authorization_deny_cb (GaimAccount* account, char *sender)
+authorization_deny_cb (PurpleAccount* account, char *sender)
 {
-	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
+	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
 		return;
 
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing rejected "
+	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing rejected "
 				"authorization request from %s\n", sender);
-	if (gaim_privacy_check (account, sender))
-		gaim_privacy_deny_add (account, sender, FALSE);
+	if (purple_privacy_check (account, sender))
+		purple_privacy_deny_add (account, sender, FALSE);
 }
 
 #else
 // This is for compatibility with the old patches and will be removed soon
 
 static gboolean
-request_authorization_cb (GaimAccount* account, char **sender)
+request_authorization_cb (PurpleAccount* account, char **sender)
 {
-	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
+	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
 		return FALSE;
 
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing authorization "
+	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization "
 						"request from %s\n", *sender);
 	// FALSE -> accept
-	return !gaim_privacy_check (account, *sender);
+	return !purple_privacy_check (account, *sender);
 }
 
 static void
-authorization_deny_cb (GaimAccount* account, char **sender)
+authorization_deny_cb (PurpleAccount* account, char **sender)
 {
-	if (!gaim_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
+	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
 		return;
 
-	gaim_debug (GAIM_DEBUG_INFO, "pidgin-pp", "Processing rejected "
+	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing rejected "
 				"authorization request from %s\n", *sender);
-	if (gaim_privacy_check (account, *sender))
-		gaim_privacy_deny_add (account, *sender, FALSE);
+	if (purple_privacy_check (account, *sender))
+		purple_privacy_deny_add (account, *sender, FALSE);
 }
 #endif
 
 static void
-msg_blocked_cb (GaimAccount* account, char **sender)
+msg_blocked_cb (PurpleAccount* account, char **sender)
 {
 	if (conf_reply_blocked ())
 	{
@@ -212,103 +209,103 @@ msg_blocked_cb (GaimAccount* account, char **sender)
 	}
 }
 
-static GaimPluginPrefFrame *
-get_plugin_pref_frame (GaimPlugin* plugin)
+static PurplePluginPrefFrame *
+get_plugin_pref_frame (PurplePlugin* plugin)
 {
-	GaimPluginPrefFrame *frame;
-	GaimPluginPref *ppref;
+	PurplePluginPrefFrame *frame;
+	PurplePluginPref *ppref;
 
-	frame = gaim_plugin_pref_frame_new();
+	frame = purple_plugin_pref_frame_new();
 
-	ppref = gaim_plugin_pref_new_with_label(_("Blocked messages"));
-	gaim_plugin_pref_frame_add(frame, ppref);
+	ppref = purple_plugin_pref_new_with_label(_("Blocked messages"));
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_name_and_label
+	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/reply", _("Auto-reply on blocked messages with:"));
-	gaim_plugin_pref_frame_add(frame, ppref);
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_name
+	ppref = purple_plugin_pref_new_with_name
 				("/plugins/core/pidgin_pp/message");
-	gaim_plugin_pref_frame_add(frame, ppref);
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_label(_("Unknown people"));
-	gaim_plugin_pref_frame_add(frame, ppref);
+	ppref = purple_plugin_pref_new_with_label(_("Unknown people"));
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_name_and_label
+	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/unknown_block", _("Block messages from people not on your contact list"));
-	gaim_plugin_pref_frame_add(frame, ppref);
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_name_and_label
+	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/unknown_reply", _("Auto-reply on blocked messages with:"));
-	gaim_plugin_pref_frame_add(frame, ppref);
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_name
+	ppref = purple_plugin_pref_new_with_name
 				("/plugins/core/pidgin_pp/unknown_message");
-	gaim_plugin_pref_frame_add(frame, ppref);
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_label(_("Authorization"));
-	gaim_plugin_pref_frame_add(frame, ppref);
+	ppref = purple_plugin_pref_new_with_label(_("Authorization"));
+	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = gaim_plugin_pref_new_with_name_and_label
+	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/block_denied", _("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"));
-	gaim_plugin_pref_frame_add(frame, ppref);
+	purple_plugin_pref_frame_add(frame, ppref);
 	return frame;
 }
 
 static gboolean
-plugin_load (GaimPlugin * plugin)
+plugin_load (PurplePlugin * plugin)
 {
-	void *conv_handle = gaim_conversations_get_handle ();
-	void *acct_handle = gaim_accounts_get_handle ();
+	void *conv_handle = purple_conversations_get_handle ();
+	void *acct_handle = purple_accounts_get_handle ();
 
-	gaim_prefs_add_bool ("/plugins/core/pidgin_pp/reply", FALSE);
-	gaim_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_block", FALSE);
-	gaim_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_reply", FALSE);
-	gaim_prefs_add_string ("/plugins/core/pidgin_pp/message",
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/reply", FALSE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_block", FALSE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_reply", FALSE);
+	purple_prefs_add_string ("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
-	gaim_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
+	purple_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
 		_("I currently only accept messages from people on my contact"
 				" list - please request my authorization."));
-	gaim_prefs_add_bool ("/plugins/core/pidgin_pp/block_denied", FALSE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_denied", FALSE);
 
-	gaim_signal_connect (conv_handle, "receiving-im-msg",
-			plugin, GAIM_CALLBACK (receiving_im_msg_cb), NULL);
-#if GAIM_VERSION_CHECK (2, 3, 0)
-	gaim_signal_connect (acct_handle, "account-authorization-requested",
-			plugin, GAIM_CALLBACK (request_authorization_cb), NULL);
+	purple_signal_connect (conv_handle, "receiving-im-msg",
+			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
+#if PURPLE_VERSION_CHECK (2, 3, 0)
+	purple_signal_connect (acct_handle, "account-authorization-requested",
+			plugin, PURPLE_CALLBACK (request_authorization_cb), NULL);
 #else
 // This is for compatibility with the old patches and will be removed soon
-	gaim_signal_connect (acct_handle, "account-request-authorization",
-			plugin, GAIM_CALLBACK (request_authorization_cb), NULL);
+	purple_signal_connect (acct_handle, "account-request-authorization",
+			plugin, PURPLE_CALLBACK (request_authorization_cb), NULL);
 #endif
-	gaim_signal_connect (acct_handle, "account-authorization-denied",
-			plugin, GAIM_CALLBACK (authorization_deny_cb), NULL);
-	gaim_signal_connect (conv_handle, "blocked-im-msg",
-			plugin, GAIM_CALLBACK (msg_blocked_cb), NULL);
+	purple_signal_connect (acct_handle, "account-authorization-denied",
+			plugin, PURPLE_CALLBACK (authorization_deny_cb), NULL);
+	purple_signal_connect (conv_handle, "blocked-im-msg",
+			plugin, PURPLE_CALLBACK (msg_blocked_cb), NULL);
 	return TRUE;
 }
 
 static gboolean
-plugin_unload (GaimPlugin * plugin)
+plugin_unload (PurplePlugin * plugin)
 {
-	gaim_signals_disconnect_by_handle (plugin);
+	purple_signals_disconnect_by_handle (plugin);
 	destroy_msg_list ();
 
 	return TRUE;
 }
 
-static GaimPluginUiInfo prefs_info = { get_plugin_pref_frame };
+static PurplePluginUiInfo prefs_info = { get_plugin_pref_frame };
 
-static GaimPluginInfo info =
+static PurplePluginInfo info =
 {
-	GAIM_PLUGIN_MAGIC,
-	GAIM_MAJOR_VERSION,
-	GAIM_MINOR_VERSION,
-	GAIM_PLUGIN_STANDARD,				/**< type           */
+	PURPLE_PLUGIN_MAGIC,
+	PURPLE_MAJOR_VERSION,
+	PURPLE_MINOR_VERSION,
+	PURPLE_PLUGIN_STANDARD,				/**< type           */
 	NULL,						/**< ui_requirement */
 	0,						/**< flags          */
 	NULL,						/**< dependencies   */
-	GAIM_PRIORITY_DEFAULT,				/**< priority       */
+	PURPLE_PRIORITY_DEFAULT,				/**< priority       */
 
 	N_("core-pidgin_pp_"),				/**< id             */
 	N_("Privacy Please"),				/**< name           */
@@ -330,11 +327,11 @@ static GaimPluginInfo info =
 };
 
 static void
-init_plugin (GaimPlugin * plugin)
+init_plugin (PurplePlugin * plugin)
 {
-	gaim_prefs_add_none ("/plugins");
-	gaim_prefs_add_none ("/plugins/core");
-	gaim_prefs_add_none ("/plugins/core/pidgin_pp");
+	purple_prefs_add_none ("/plugins");
+	purple_prefs_add_none ("/plugins/core");
+	purple_prefs_add_none ("/plugins/core/pidgin_pp");
 }
 
-GAIM_INIT_PLUGIN(pidgin_pp, init_plugin, info)
+PURPLE_INIT_PLUGIN(pidgin_pp, init_plugin, info)

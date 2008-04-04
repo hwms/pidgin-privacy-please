@@ -23,8 +23,6 @@
 #define MAX_NAME_LENGTH 256
 #define MSG_LIST_TIMEOUT 5000
 
-#include "gaim-compat.h"
-
 typedef struct list_node {
 	char *sender;
 	guint timer;
@@ -37,5 +35,5 @@ void rm_from_msg_list (llnode *);
 gboolean is_in_msg_list (const char *);
 void timer_expired (void *);
 void add_to_msg_list (const char *sender);
-void auto_reply (GaimAccount*, const char *recipient, const char *message);
+void auto_reply (PurpleAccount*, const char *recipient, const char *message);
 #endif

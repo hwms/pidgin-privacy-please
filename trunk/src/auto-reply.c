@@ -42,7 +42,7 @@ llnode *head = NULL;
 void
 destroy_msg_list ()
 {
-	gaim_debug_info ("pidgin-pp", "Freeing message list\n");
+	purple_debug_info ("pidgin-pp", "Freeing message list\n");
 	llnode *node = head;
 
 	while (node != NULL)
@@ -55,24 +55,24 @@ destroy_msg_list ()
 void
 debug_msg_list ()
 {
-	gaim_debug_info ("pidgin-pp", ",----- Current message list -----\n");
+	purple_debug_info ("pidgin-pp", ",----- Current message list -----\n");
 
 	llnode *current = head;
 
 	while (current != NULL)
 	{
 		char *sender = current->sender;
-		gaim_debug_info ("pidgin-pp", "| %s\n", sender);
+		purple_debug_info ("pidgin-pp", "| %s\n", sender);
 		current = current->next;
 	}
 
-	gaim_debug_info ("pidgin-pp", "`--------------------------------\n");
+	purple_debug_info ("pidgin-pp", "`--------------------------------\n");
 }
 
 void
 rm_from_msg_list (llnode *node)
 {
-	gaim_debug_info ("pidgin-pp", "Removing %s from list\n",
+	purple_debug_info ("pidgin-pp", "Removing %s from list\n",
 								node->sender);
 	llnode *current = head, *prev = NULL;
 
@@ -113,7 +113,7 @@ timer_expired (void *data)
 {
 	llnode *node = (llnode *) data;
 
-	gaim_debug_info ("pidgin-pp", "Timer for %s expired\n", node->sender);
+	purple_debug_info ("pidgin-pp", "Timer for %s expired\n", node->sender);
 
 	g_source_remove (node->timer);
 
@@ -128,14 +128,14 @@ add_to_msg_list (const char *sender)
 
 	if ((node = malloc (sizeof (llnode))) == NULL)
 	{
-		gaim_debug_fatal ("pidgin-pp", "Malloc failed\n");
+		purple_debug_fatal ("pidgin-pp", "Malloc failed\n");
 		(void) exit (EXIT_FAILURE);
 	}
 
 	if ((node->sender = malloc (MAX_NAME_LENGTH + 1)) == NULL)
 	{
 		free (node);
-		gaim_debug_fatal ("pidgin-pp", "Malloc failed\n");
+		purple_debug_fatal ("pidgin-pp", "Malloc failed\n");
 		(void) exit (EXIT_FAILURE);
 	}
 	strncpy (node->sender, sender, MAX_NAME_LENGTH);
@@ -154,20 +154,20 @@ auto_reply (PurpleAccount* account, const char *recipient, const char *message)
 	// Don't send another message within MSG_LIST_TIMEOUT
 	if (is_in_msg_list (recipient)) return;
 
-	GaimConnection *gc = NULL;
-	GaimPluginProtocolInfo *prpl_info = NULL;
+	PurpleConnection *gc = NULL;
+	PurplePluginProtocolInfo *prpl_info = NULL;
 
-	gc = gaim_account_get_connection (account);
+	gc = purple_account_get_connection (account);
 
 	if (gc != NULL && gc->prpl != NULL)
 	{
-		prpl_info = GAIM_PLUGIN_PROTOCOL_INFO (gc->prpl);
+		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO (gc->prpl);
 	}
 
 	if (prpl_info && prpl_info->send_im)
 	{
 		prpl_info->send_im(gc, recipient, message,
-						GAIM_MESSAGE_AUTO_RESP);
+						PURPLE_MESSAGE_AUTO_RESP);
 		add_to_msg_list (recipient);
 	}
 
