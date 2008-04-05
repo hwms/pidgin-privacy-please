@@ -10,21 +10,21 @@ It offers the following features:
  * Suppress repeated authorization requests
 
 
-= Auto-reply on blocked messages =
+== Auto-reply on blocked messages ==
 
 Optionally you can have an auto-reply message sent to people when their
 messages have been blocked. You'll need to apply a special patch to pidgin for
 this to work, though (see below).
 
 
-= Messages from unknown people =
+== Messages from unknown people ==
 
 You can block any messages from people who are not on your contact list and
 optionally have an auto-reply sent, telling them to request your authorization
 first. Just check the corresponding options in the configuration dialog.
 
 
-= Authorization requests =
+== Authorization requests ==
 
 On recent pidgin versions, you can have repeated authorization requests
 suppressed by the pidgin privacy please plugin. After enabling that option,
@@ -33,7 +33,7 @@ dialog. Then, whenever you deny an authorization request, the sender is
 automatically added to that list.
 
 
-= Patches =
+== Patches ==
 
 In order to use this plugin with pidgin 2.x you'll need to apply the
 corresponding patches from http://tools.desire.ch/pidgin-pp/ to pidgin.
