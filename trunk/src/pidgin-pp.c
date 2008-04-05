@@ -30,18 +30,19 @@
 #include <glib.h>
 #include <string.h>
 
-// gaim headers for most plugins
+// pidgin headers for most plugins
 #include "plugin.h"
 #include "version.h"
 
-// gaim headers for this plugin
+// pidgin headers for this plugin
 #include "util.h"
 #include "debug.h"
 #include "account.h"
 #include "privacy.h"
 #include "blist.h"
+#include "gtkutils.h"
 
-// gaim header needed for gettext
+// pidgin header needed for gettext
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 
@@ -148,15 +149,29 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 static gboolean
 request_authorization_cb (PurpleAccount* account, char *sender)
 {
-	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
-		return 0; // prompt user
+	int retval;
 
-	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization "
-						"request from %s\n", sender);
+	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
+	{
+		return 0; // don't interfere, just prompt user
+	}
+
+	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization"
+						" request from %s\n", sender);
+
 	// < 0: deny
 	// = 0: prompt user
 	// > 0: accept
-	return -!purple_privacy_check (account, sender);
+	retval = -!purple_privacy_check (account, sender);
+
+	if (!retval && purple_prefs_get_bool 
+				("/plugins/core/pidgin_pp/auth_auto_info")) {
+		// Show the info dialog
+		PurpleConnection* con = purple_account_get_connection (account);
+		pidgin_retrieve_user_info (con, sender);
+	}
+
+	return retval;
 }
 
 static void
@@ -249,6 +264,11 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/block_denied", _("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"));
 	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/auth_auto_info", _("Automatically show user info on authorization requests"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
 	return frame;
 }
 
@@ -261,6 +281,7 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/reply", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_block", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_reply", FALSE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/auth_auto_info", FALSE);
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
