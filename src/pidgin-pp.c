@@ -49,16 +49,6 @@
 // our auto-reply functionality
 #include "auto-reply.h"
 
-static gboolean
-pidgin_pp_match (const char* s)
-{
-	if (s == NULL) return FALSE;
-	char* tag = "   ";
-	char* offset = strstr (s, tag);
-
-	return (offset != NULL && offset - s == strlen (s) - strlen (tag));
-}
-
 static const char*
 conf_msg_unknown_autoreply ()
 {
@@ -126,21 +116,7 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	else // Contact list entry exists
 	{
 		const char* alias = purple_buddy_get_alias_only (buddy);
-		if (pidgin_pp_match (alias))
-		{
-			purple_debug_info ("pidgin-pp", "Blocked %s\n", alias);
-
-			if (conf_reply_blocked ())
-			{
-				const char* msg = conf_msg_blocked_autoreply ();
-				auto_reply (account, *sender, msg);
-			}
-			return TRUE; // block
-		}
-		else
-		{
-			purple_debug_info ("pidgin-pp", "Allowed %s\n", alias);
-		}
+		purple_debug_info ("pidgin-pp", "Allowed %s\n", alias);
 	}
 	return FALSE; // default: accept
 }
