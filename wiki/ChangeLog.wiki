@@ -1,7 +1,7 @@
-#summary Changelog for pidgin-privacy-please
+﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
-= v0.4.1 (04 Apr 2008) =
+= v0.4.1 (4 Apr 2008) =
  * The "gaim 1.x is so 2006" release
  * Some code cleanup
  * Removed compatibility with gaim 1.x
@@ -13,7 +13,7 @@
  * Added Makefile.mingw for Windows builds (thanks to Chris Lakitu7 Schwarz)
  * Fixed compatibility with pidgin 2.3.0
 
-= v0.3.1 (07 Jun 2007) =
+= v0.3.1 (7 Jun 2007) =
  * Updated the auth-signals patch to prevent crashes with dbus (closes #44)
  * Removed some leftover references to gaim-blocky
  * Minor code cleanups
