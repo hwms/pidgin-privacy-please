@@ -121,7 +121,6 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	return FALSE; // default: accept
 }
 
-#if PURPLE_VERSION_CHECK (2, 3, 0)
 static gboolean
 request_authorization_cb (PurpleAccount* account, char *sender)
 {
@@ -161,34 +160,6 @@ authorization_deny_cb (PurpleAccount* account, char *sender)
 	if (purple_privacy_check (account, sender))
 		purple_privacy_deny_add (account, sender, FALSE);
 }
-
-#else
-// This is for compatibility with the old patches and will be removed soon
-
-static gboolean
-request_authorization_cb (PurpleAccount* account, char **sender)
-{
-	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
-		return FALSE;
-
-	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization "
-						"request from %s\n", *sender);
-	// FALSE -> accept
-	return !purple_privacy_check (account, *sender);
-}
-
-static void
-authorization_deny_cb (PurpleAccount* account, char **sender)
-{
-	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
-		return;
-
-	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing rejected "
-				"authorization request from %s\n", *sender);
-	if (purple_privacy_check (account, *sender))
-		purple_privacy_deny_add (account, *sender, FALSE);
-}
-#endif
 
 static void
 msg_blocked_cb (PurpleAccount* account, char **sender)
@@ -267,14 +238,8 @@ plugin_load (PurplePlugin * plugin)
 
 	purple_signal_connect (conv_handle, "receiving-im-msg",
 			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
-#if PURPLE_VERSION_CHECK (2, 3, 0)
 	purple_signal_connect (acct_handle, "account-authorization-requested",
 			plugin, PURPLE_CALLBACK (request_authorization_cb), NULL);
-#else
-// This is for compatibility with the old patches and will be removed soon
-	purple_signal_connect (acct_handle, "account-request-authorization",
-			plugin, PURPLE_CALLBACK (request_authorization_cb), NULL);
-#endif
 	purple_signal_connect (acct_handle, "account-authorization-denied",
 			plugin, PURPLE_CALLBACK (authorization_deny_cb), NULL);
 	purple_signal_connect (conv_handle, "blocked-im-msg",
