@@ -2,9 +2,10 @@
 		http://code.google.com/p/pidgin-privacy-please/
 ===============================================================================
 
-v0.4.2 (xx xxx 2008)
+v0.5.0 (xx xxx 2008)
 ====================
- * The "I guess it's called pidgin now" release
+ * The "who the hell is that?" release
+ * Can now automatically show the user info pop-up on authorization requests
  * Code cleanup
 
 v0.4.1 (04 Apr 2008)
