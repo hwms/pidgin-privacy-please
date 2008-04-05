@@ -95,7 +95,7 @@ conf_reply_blocked ()
  * We return TRUE to block the IM, FALSE to accept the IM
  */
 static gboolean
-receiving_im_msg_cb(PurpleAccount* account, char **sender, char **buffer,
+receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 						int *flags, void *data)
 {
 	purple_debug_info ("pidgin-pp", "Got message from %s\n", *sender);
