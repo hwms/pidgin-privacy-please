@@ -1,7 +1,7 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
-== v0.5.0 (07 Apr 2008) ==
+== v0.5.0 (7 Apr 2008) ==
  * The "who are you and what to you want from me?" release
  * Can now automatically show the user info pop-up on authorization requests
  * Removed legacy blocking feature (adding "   " to a contact's alias)
