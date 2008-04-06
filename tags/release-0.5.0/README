@@ -1,0 +1,53 @@
+===============================================================================
+		http://code.google.com/p/pidgin-privacy-please/
+===============================================================================
+
+pidgin privacy please is a pidgin plugin to stop spammers from annoying you.
+
+It offers the following features:
+
+  - Block certain users (with an optional auto-reply)
+  - Block messages from people who are not on your contact list
+    (with an optional auto-reply)
+  - Suppress repeated authorization requests
+
+
+Auto-reply on blocked messages
+------------------------------
+
+Optionally you can have an auto-reply message sent to people when their
+messages have been blocked. You'll need to apply a special patch to pidgin for
+this to work, though (see below).
+
+
+Messages from unknown people
+----------------------------
+
+You can block any messages from people who are not on your contact list and
+optionally have an auto-reply sent, telling them to request your authorization
+first. Just check the corresponding options in the configuration dialog.
+
+
+Authorization requests
+----------------------
+On recent pidgin versions, you can have repeated authorization requests
+suppressed by the pidgin privacy please plugin. After enabling that option,
+make sure to have "Block only the users below" selected in pidgin's privacy
+dialog. Then, whenever you deny an authorization request, the sender is
+automatically added to that list. For protocols where the user name does not
+tell you anything about the actual person behind it (eg. ICQ) there is also
+an option to have the user information pop-up automatically shown whenever
+somebody asks for your authorization.
+
+
+Patches
+-------
+In order to use this plugin with pidgin 2.x you'll need to apply the
+corresponding patches from http://tools.desire.ch/pidgin-pp/ to pidgin.
+Otherwise you won't be able to have auto-replies sent to blocked messages and
+authorization requests won't be intercepted.
+
+Since version 2.3.0, pidgin includes the auth-signals patch, thus you'll only
+need to apply the patch for blocked-signals. If you choose not to apply that
+patch, pidgin-privacy-please won't be able to send auto-replies when a message
+has been blocked.
