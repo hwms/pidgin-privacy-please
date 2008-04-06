@@ -30,8 +30,10 @@ On recent pidgin versions, you can have repeated authorization requests
 suppressed by the pidgin privacy please plugin. After enabling that option,
 make sure to have "Block only the users below" selected in pidgin's privacy
 dialog. Then, whenever you deny an authorization request, the sender is
-automatically added to that list.
-
+automatically added to that list. For protocols where the user name does not
+tell you anything about the actual person behind it (eg. ICQ) there is also
+an option to have the user information pop-up automatically shown whenever
+somebody asks for your authorization.
 
 == Patches ==
 
