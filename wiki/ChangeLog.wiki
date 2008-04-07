@@ -6,7 +6,7 @@
  * Can now automatically show the user info pop-up on authorization requests
  * Removed legacy blocking feature (adding "   " to a contact's alias)
  * Removed compatibility with pidgin patches from old releases
-* Code cleanup
+ * Code cleanup
 
 == v0.4.1 (4 Apr 2008) ==
  * The "gaim 1.x is so 2006" release
