@@ -171,6 +171,33 @@ msg_blocked_cb (PurpleAccount* account, char **sender)
 	}
 }
 
+static void
+jabber_xmlnode_cb (PurpleConnection *gc, xmlnode **packet, gpointer null)
+{
+	xmlnode *node = *packet;
+	char *node_name;
+
+	if (node == NULL)
+		return;
+
+	node_name = g_markup_escape_text (node->name, -1);
+
+	if (!strcmp (node_name, "message"))
+	{
+		const char *type;
+		type = xmlnode_get_attrib (node, "type");
+		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "JABBER XML: "
+				"name=%s, type=%s\n", node_name, type);
+
+		if (!strcmp(type, "headline")) {
+			purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp",
+					"Discarding jabber headline message\n");
+			*packet = NULL;
+		}
+	}
+	g_free (node_name);
+}
+
 static PurplePluginPrefFrame *
 get_plugin_pref_frame (PurplePlugin* plugin)
 {
@@ -225,6 +252,8 @@ plugin_load (PurplePlugin * plugin)
 	void *conv_handle = purple_conversations_get_handle ();
 	void *acct_handle = purple_accounts_get_handle ();
 
+	PurplePlugin *jabber = purple_find_prpl("prpl-jabber");
+
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/reply", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_block", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_reply", FALSE);
@@ -244,6 +273,17 @@ plugin_load (PurplePlugin * plugin)
 			plugin, PURPLE_CALLBACK (authorization_deny_cb), NULL);
 	purple_signal_connect (conv_handle, "blocked-im-msg",
 			plugin, PURPLE_CALLBACK (msg_blocked_cb), NULL);
+
+	if (jabber)
+	{
+		purple_signal_connect (jabber, "jabber-receiving-xmlnode",
+			plugin, PURPLE_CALLBACK (jabber_xmlnode_cb), NULL);
+	}
+	else
+	{
+		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Jabber not "
+								"found");
+	}
 	return TRUE;
 }
 
