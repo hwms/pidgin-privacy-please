@@ -192,6 +192,7 @@ jabber_xmlnode_cb (PurpleConnection *gc, xmlnode **packet, gpointer null)
 		if (!strcmp(type, "headline")) {
 			purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp",
 					"Discarding jabber headline message\n");
+			g_free(*packet);
 			*packet = NULL;
 		}
 	}
