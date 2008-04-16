@@ -174,6 +174,11 @@ msg_blocked_cb (PurpleAccount* account, char **sender)
 static void
 jabber_xmlnode_cb (PurpleConnection *gc, xmlnode **packet, gpointer null)
 {
+	// Immediately abort if we don't block headlines
+	if (!purple_prefs_get_bool
+			("/plugins/core/pidgin_pp/block_jabber_headlines"))
+		return;
+
 	xmlnode *node = *packet;
 	char *node_name;
 
@@ -244,6 +249,13 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 		("/plugins/core/pidgin_pp/auth_auto_info", _("Automatically show user info on authorization requests"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
+	ppref = purple_plugin_pref_new_with_label(_("Protocol specific"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/block_jabber_headlines", _("Block jabber headline messages\n(eg. MSN alerts, announcements etc.)"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
 	return frame;
 }
 
@@ -259,6 +271,7 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_block", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_reply", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/auth_auto_info", FALSE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_jabber_headlines", FALSE);
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
@@ -282,8 +295,8 @@ plugin_load (PurplePlugin * plugin)
 	}
 	else
 	{
-		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Jabber not "
-								"found");
+		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Jabber support "
+					"missing - disabled headline blocking");
 	}
 	return TRUE;
 }
