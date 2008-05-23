@@ -1,7 +1,7 @@
-diff -Naur pidgin-2.4.1.orig/libpurple/conversation.c pidgin-2.4.1/libpurple/conversation.c
---- pidgin-2.4.1.orig/libpurple/conversation.c	2008-03-31 19:21:23.000000000 +0200
-+++ pidgin-2.4.1/libpurple/conversation.c	2008-04-03 00:35:55.081206555 +0200
-@@ -2208,6 +2208,13 @@
+diff -Naur pidgin-2.4.2.orig/libpurple/conversation.c pidgin-2.4.2/libpurple/conversation.c
+--- pidgin-2.4.2.orig/libpurple/conversation.c	2008-05-06 14:04:00.000000000 +0200
++++ pidgin-2.4.2/libpurple/conversation.c	2008-05-23 02:05:59.110659560 +0200
+@@ -2221,6 +2221,13 @@
  										PURPLE_SUBTYPE_CONVERSATION),
  						 purple_value_new(PURPLE_TYPE_UINT));
  
@@ -15,9 +15,9 @@ diff -Naur pidgin-2.4.1.orig/libpurple/conversation.c pidgin-2.4.1/libpurple/con
  	purple_signal_register(handle, "writing-chat-msg",
  						 purple_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER_UINT,
  						 purple_value_new(PURPLE_TYPE_BOOLEAN), 5,
-diff -Naur pidgin-2.4.1.orig/libpurple/server.c pidgin-2.4.1/libpurple/server.c
---- pidgin-2.4.1.orig/libpurple/server.c	2008-03-31 19:21:24.000000000 +0200
-+++ pidgin-2.4.1/libpurple/server.c	2008-04-03 00:35:55.101247632 +0200
+diff -Naur pidgin-2.4.2.orig/libpurple/server.c pidgin-2.4.2/libpurple/server.c
+--- pidgin-2.4.2.orig/libpurple/server.c	2008-04-19 15:09:33.000000000 +0200
++++ pidgin-2.4.2/libpurple/server.c	2008-05-23 02:05:59.160597584 +0200
 @@ -659,8 +659,11 @@
  
  	if (PURPLE_PLUGIN_PROTOCOL_INFO(purple_connection_get_prpl(gc))->set_permit_deny == NULL) {
