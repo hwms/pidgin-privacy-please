@@ -2,10 +2,11 @@
 		http://code.google.com/p/pidgin-privacy-please/
 ===============================================================================
 
-v0.x.y (xx xxx 2008)
+v0.5.1 (01 Jul 2008)
 ====================
  * The "i don't freaking care about my hotmail inbox" release
  * Can now block jabber headline messages (eg. alerts from MSN transports)
+ * Fixed a bug which could cause a segfault on incoming messages
  * Updated the pidgin patch to version 2.4.2
 
 v0.5.0 (07 Apr 2008)
