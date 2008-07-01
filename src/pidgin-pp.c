@@ -125,6 +125,14 @@ static gboolean
 request_authorization_cb (PurpleAccount* account, char *sender)
 {
 	int retval;
+	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "request_authorization_cb");
+
+	if (purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_auth_all"))
+	{
+		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Blocking "
+				"authorization request from %s\n", sender);
+		return -1;
+	}
 
 	if (!purple_prefs_get_bool ("/plugins/core/pidgin_pp/block_denied"))
 	{
@@ -139,7 +147,7 @@ request_authorization_cb (PurpleAccount* account, char *sender)
 	// > 0: accept
 	retval = -!purple_privacy_check (account, sender);
 
-	if (!retval && purple_prefs_get_bool 
+	if (!retval && purple_prefs_get_bool
 				("/plugins/core/pidgin_pp/auth_auto_info")) {
 		// Show the info dialog
 		PurpleConnection* con = purple_account_get_connection (account);
@@ -182,7 +190,7 @@ jabber_xmlnode_cb (PurpleConnection *gc, xmlnode **packet, gpointer null)
 	xmlnode *node = *packet;
 	char *node_name;
 
-	if (node == NULL)
+	if ((node == NULL) || (node->name == NULL))
 		return;
 
 	node_name = g_markup_escape_text (node->name, -1);
@@ -193,6 +201,9 @@ jabber_xmlnode_cb (PurpleConnection *gc, xmlnode **packet, gpointer null)
 		type = xmlnode_get_attrib (node, "type");
 		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "JABBER XML: "
 				"name=%s, type=%s\n", node_name, type);
+
+		if (!type)
+			return;
 
 		if (!strcmp(type, "headline")) {
 			purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp",
@@ -246,6 +257,10 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/block_auth_all", _("Block all authorization requests"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/auth_auto_info", _("Automatically show user info on authorization requests"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
@@ -278,6 +293,7 @@ plugin_load (PurplePlugin * plugin)
 		_("I currently only accept messages from people on my contact"
 				" list - please request my authorization."));
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_denied", FALSE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_auth_all", FALSE);
 
 	purple_signal_connect (conv_handle, "receiving-im-msg",
 			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
