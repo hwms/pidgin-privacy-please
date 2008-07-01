@@ -346,7 +346,7 @@ static PurplePluginInfo info =
 							/**  description    */
 	N_("A simple plugin to stop unwanted messages and repeated authorization requests from spammers."),
 	"Stefan Ott <stefan@ott.net>",			/**< author         */
-	"http://tools.desire.ch/pidgin-pp/",		/**< homepage       */
+	"http://pidgin-privacy-please.googlecode.com/",	/**< homepage       */
 
 	plugin_load,					/**< load           */
 	plugin_unload,					/**< unload         */
