@@ -1,6 +1,12 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.5.1 (1 Jul 2008) ==
+ * The "i don't freaking care about my hotmail inbox" release
+ * Can now block jabber headline messages (eg. alerts from MSN transports)
+ * Fixed a bug which could cause a segfault on incoming messages
+ * Updated the pidgin patch to version 2.4.2
+
 == v0.5.0 (7 Apr 2008) ==
  * The "who are you and what to you want from me?" release
  * Can now automatically show the user info pop-up on authorization requests
