@@ -5,7 +5,7 @@
  * The "i don't freaking care about my hotmail inbox" release
  * Can now block jabber headline messages (eg. alerts from MSN transports)
  * Fixed a bug which could cause a segfault on incoming messages
- * Can now deny all authorization requests whatsoever (*missing from original changelog*)
+ * Can now deny all authorization requests whatsoever (*missing in release changelog*)
  * Updated the pidgin patch to version 2.4.2
 
 == v0.5.0 (7 Apr 2008) ==
