@@ -22,15 +22,12 @@
 #include "config.h"
 #endif
 
-#ifndef PURPLE_PLUGINS
-#define PURPLE_PLUGINS
-#endif
-
 // system headers
 #include <glib.h>
 #include <string.h>
 
 // pidgin headers for most plugins
+#include <purple.h>
 #include "plugin.h"
 #include "version.h"
 
@@ -86,11 +83,13 @@ conf_reply_blocked ()
  * We return TRUE to block the IM, FALSE to accept the IM
  */
 static gboolean
-receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
+receiving_im_msg_cb (PurpleAccount* account, char **sender, char **message,
 						int *flags, void *data)
 {
+	PurpleBuddy* buddy;
+
 	purple_debug_info ("pidgin-pp", "Got message from %s\n", *sender);
-	PurpleBuddy* buddy = purple_find_buddy(account, *sender);
+	buddy = purple_find_buddy (account, *sender);
 
 	if (buddy == NULL) // No contact list entry
 	{
@@ -182,13 +181,15 @@ msg_blocked_cb (PurpleAccount* account, char **sender)
 static void
 jabber_xmlnode_cb (PurpleConnection *gc, xmlnode **packet, gpointer null)
 {
+	xmlnode *node;
+	char *node_name;
+
 	// Immediately abort if we don't block headlines
 	if (!purple_prefs_get_bool
 			("/plugins/core/pidgin_pp/block_jabber_headlines"))
 		return;
 
-	xmlnode *node = *packet;
-	char *node_name;
+	node = *packet;
 
 	if ((node == NULL) || (node->name == NULL))
 		return;
