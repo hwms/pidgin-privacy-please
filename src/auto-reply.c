@@ -28,6 +28,7 @@
 #include <stdlib.h>
 
 // gaim headers for most plugins
+#include <purple.h>
 #include "plugin.h"
 #include "version.h"
 
@@ -42,8 +43,11 @@ llnode *head = NULL;
 void
 destroy_msg_list ()
 {
+	llnode *node;
+
 	purple_debug_info ("pidgin-pp", "Freeing message list\n");
-	llnode *node = head;
+
+	node = head;
 
 	while (node != NULL)
 	{
@@ -55,9 +59,11 @@ destroy_msg_list ()
 void
 debug_msg_list ()
 {
+	llnode *current;
+
 	purple_debug_info ("pidgin-pp", ",----- Current message list -----\n");
 
-	llnode *current = head;
+	current = head;
 
 	while (current != NULL)
 	{
@@ -72,9 +78,12 @@ debug_msg_list ()
 void
 rm_from_msg_list (llnode *node)
 {
+	llnode *current, *prev;
+
 	purple_debug_info ("pidgin-pp", "Removing %s from list\n",
 								node->sender);
-	llnode *current = head, *prev = NULL;
+	current = head;
+	prev = NULL;
 
 	while (current != NULL)
 	{
@@ -151,11 +160,14 @@ add_to_msg_list (const char *sender)
 void
 auto_reply (PurpleAccount* account, const char *recipient, const char *message)
 {
+	PurpleConnection *gc;
+	PurplePluginProtocolInfo *prpl_info;
+
 	// Don't send another message within MSG_LIST_TIMEOUT
 	if (is_in_msg_list (recipient)) return;
 
-	PurpleConnection *gc = NULL;
-	PurplePluginProtocolInfo *prpl_info = NULL;
+	gc = NULL;
+	prpl_info = NULL;
 
 	gc = purple_account_get_connection (account);
 
