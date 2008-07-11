@@ -1,0 +1,45 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 01_pidgin_privacy_please_no_auto_reply.dpatch by Stefan Ott <stefan@ott.net>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Disable auto-reply because debian's pidgin doesn't currently support it
+
+@DPATCH@
+
+diff -Naur pidgin-privacy-please-0.5.1.orig/src/pidgin-pp.c pidgin-privacy-please-0.5.1/src/pidgin-pp.c
+--- pidgin-privacy-please-0.5.1.orig/src/pidgin-pp.c	2008-07-01 02:44:50.000000000 +0200
++++ pidgin-privacy-please-0.5.1/src/pidgin-pp.c	2008-07-01 02:47:57.681247430 +0200
+@@ -223,7 +223,7 @@
+ 
+ 	frame = purple_plugin_pref_frame_new();
+ 
+-	ppref = purple_plugin_pref_new_with_label(_("Blocked messages"));
++/*	ppref = purple_plugin_pref_new_with_label(_("Blocked messages"));
+ 	purple_plugin_pref_frame_add(frame, ppref);
+ 
+ 	ppref = purple_plugin_pref_new_with_name_and_label
+@@ -232,7 +232,7 @@
+ 
+ 	ppref = purple_plugin_pref_new_with_name
+ 				("/plugins/core/pidgin_pp/message");
+-	purple_plugin_pref_frame_add(frame, ppref);
++	purple_plugin_pref_frame_add(frame, ppref);*/
+ 
+ 	ppref = purple_plugin_pref_new_with_label(_("Unknown people"));
+ 	purple_plugin_pref_frame_add(frame, ppref);
+@@ -241,13 +241,13 @@
+ 		("/plugins/core/pidgin_pp/unknown_block", _("Block messages from people not on your contact list"));
+ 	purple_plugin_pref_frame_add(frame, ppref);
+ 
+-	ppref = purple_plugin_pref_new_with_name_and_label
++/*	ppref = purple_plugin_pref_new_with_name_and_label
+ 		("/plugins/core/pidgin_pp/unknown_reply", _("Auto-reply on blocked messages with:"));
+ 	purple_plugin_pref_frame_add(frame, ppref);
+ 
+ 	ppref = purple_plugin_pref_new_with_name
+ 				("/plugins/core/pidgin_pp/unknown_message");
+-	purple_plugin_pref_frame_add(frame, ppref);
++	purple_plugin_pref_frame_add(frame, ppref);*/
+ 
+ 	ppref = purple_plugin_pref_new_with_label(_("Authorization"));
+ 	purple_plugin_pref_frame_add(frame, ppref);
