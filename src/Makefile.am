@@ -1,3 +1,6 @@
+EXTRA_DIST = \
+	Makefile.mingw
+
 pkgdir = \
 	$(PIDGIN_LIBDIR)/pidgin
 
