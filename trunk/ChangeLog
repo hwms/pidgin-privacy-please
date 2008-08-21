@@ -4,8 +4,10 @@
 
 v0.x.y (xx xxx 2008)
 ====================
+ * The "no more patches" release
  * Fixed Windows build issues
  * Fixed the homepage URL
+ * Removed patches subdir since no more patches are required for pidgin
 
 v0.5.1 (01 Jul 2008)
 ====================
