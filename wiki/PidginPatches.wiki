@@ -1,5 +1,5 @@
 #summary Patches for pidgin
-#labels Featured
+#labels Deprecated
 
 In order to use all the features pidgin-privacy-please offers you will have to patch your pidgin sources.
 
