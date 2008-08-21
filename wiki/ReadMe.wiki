@@ -12,7 +12,8 @@ It offers the following features:
 
 == Auto-reply on blocked messages ==
 
-On pidgin 2.5.0 (or newer) you can optionally have an auto-reply message sent to people when their messages have been blocked.
+On pidgin 2.5.0 (or newer) you can optionally have an auto-reply message sent
+to people when their messages have been blocked.
 
 
 == Messages from unknown people ==
