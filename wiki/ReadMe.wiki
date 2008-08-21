@@ -12,9 +12,7 @@ It offers the following features:
 
 == Auto-reply on blocked messages ==
 
-Optionally you can have an auto-reply message sent to people when their
-messages have been blocked. You'll need to apply a special patch to pidgin for
-this to work, though (see below).
+On pidgin 2.5.0 (or newer) you can optionally have an auto-reply message sent to people when their messages have been blocked.
 
 
 == Messages from unknown people ==
@@ -34,15 +32,3 @@ automatically added to that list. For protocols where the user name does not
 tell you anything about the actual person behind it (eg. ICQ) there is also
 an option to have the user information pop-up automatically shown whenever
 somebody asks for your authorization.
-
-== Patches ==
-
-In order to use this plugin with pidgin 2.x you'll need to apply the
-corresponding patches from http://tools.desire.ch/pidgin-pp/ to pidgin.
-Otherwise you won't be able to have auto-replies sent to blocked messages and
-authorization requests won't be intercepted.
-
-Since version 2.3.0, pidgin includes the auth-signals patch, thus you'll only
-need to apply the patch for blocked-signals. If you choose not to apply that
-patch, pidgin-privacy-please won't be able to send auto-replies when a message
-has been blocked.
