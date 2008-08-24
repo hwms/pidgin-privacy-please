@@ -1,8 +1,0 @@
-pidgin-privacy-please for Debian
-------------------------------------
-
-Since the current pidgin package for debian does not include the patches
-which would be required in order for this plugin to offer auto-replies on
-blocked messages, said feature was removed from this debian package.
-
-Stefan Ott <stefan@ott.net>, Fri, 04 Apr 2008 02:11:08 +0200
