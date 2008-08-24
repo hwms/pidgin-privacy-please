@@ -1,7 +1,9 @@
 pidgin-privacy-please (0.5.1-2) UNRELEASED; urgency=low
 
-  * debian/control: changed standards version to 3.8.0
-  * debian/control: moved homepage field to the source section
+  * debian/control:
+    - changed standards version to 3.8.0
+    - moved homepage field to the source section
+    - depend on pidgin 2.5.0 or greater
   * debian/copyright: corrected the years
   * Removed 01_pidgin_privacy_please_no_auto_reply.dpatch - no longer needed
   * Removed README.Debian
