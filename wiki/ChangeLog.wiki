@@ -1,6 +1,12 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.5.2 (17 Oct 2008) ==
+ * The "no more patches" release
+ * Fixed Windows build issues
+ * Fixed the homepage URL
+ * Removed patches subdir since no more patches are required for pidgin
+
 == v0.5.1 (1 Jul 2008) ==
  * The "i don't freaking care about my hotmail inbox" release
  * Can now block jabber headline messages (eg. alerts from MSN transports)
