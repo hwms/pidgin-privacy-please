@@ -1,0 +1,14 @@
+#summary This page explains how to cross-compile the plugin for Windows
+
+= Introduction =
+
+This page explains how to cross-compile the plugin for Windows. It was tested on Debian GNU/Linux "lenny".
+
+Most of the information comes from http://developer.pidgin.im/wiki/BuildingWinPidgin
+
+= Installing the required packages =
+
+  * 
+{{{
+  # apt-get install mingw32 mingw32-binutils mingw32-runtime nsis 
+}}}
