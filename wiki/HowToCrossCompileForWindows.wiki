@@ -50,7 +50,7 @@ $ tar xzvf ~/pidgin-privacy-please-0.5.2.tar.gz
 
 = Build the plugin =
 
-Create a `local.mak` file in the source directory root (`$BUILDDIR/pidgin-<version>/local.mak`)to override the Makefile variables - mine looks like this: 
+Create a `local.mak` file in the source directory root (`$BUILDDIR/pidgin-<version>/local.mak`) to override the Makefile variables - mine looks like this: 
 
 {{{
 CC := /usr/bin/i586-mingw32msvc-cc
