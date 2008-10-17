@@ -20,7 +20,7 @@ Run, as root:
 Choose a directory to build the plugin in. In this example, we'll use ~/tmp/build
 
 {{{
-  $ export BUILDDIR="~/tmp/build"
+  $ export BUILDDIR=~/tmp/build
   $ mkdir -p $BUILDDIR
   $ cd $BUILDDIR
 }}}
