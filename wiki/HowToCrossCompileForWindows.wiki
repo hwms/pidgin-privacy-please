@@ -12,7 +12,7 @@ Most of the information comes from http://developer.pidgin.im/wiki/BuildingWinPi
 Run, as root:
 
 {{{
-  # apt-get install mingw32 mingw32-binutils mingw32-runtime nsis 
+# apt-get install mingw32 mingw32-binutils mingw32-runtime nsis 
 }}}
 
 = Prepare the build environment =
@@ -20,37 +20,38 @@ Run, as root:
 Choose a directory to build the plugin in. In this example, we'll use ~/tmp/build
 
 {{{
-  $ export BUILDDIR=~/tmp/build
-  $ mkdir -p $BUILDDIR
-  $ cd $BUILDDIR
+$ export BUILDDIR=~/tmp/build
+$ mkdir -p $BUILDDIR
+$ cd $BUILDDIR
 }}}
 
 Now, get and the pidgin windows build fetcher script:
 
 {{{
-  $ wget http://gaim-extprefs.sf.net/winpidgin-build-fetcher.sh
-  $ sh winpidgin-build-fetcher.sh
+$ wget http://gaim-extprefs.sf.net/winpidgin-build-fetcher.sh
+$ sh winpidgin-build-fetcher.sh
 }}}
 
 The script might ask you a few questions, this is how you should answer (the suggested pidgin version might differ on your system):
 
 {{{
-  Do you want to prepare a Pidgin build environment in /tmp/build? [y/n] y
-  Do you want to download a source package? [p/n] p
-  What version of the Pidgin source would you like to download? [2.5.1] <enter>
-  Do you want to delete temp files used to set up the build environment? [y/n] n
+Do you want to prepare a Pidgin build environment in /tmp/build? [y/n] y
+Do you want to download a source package? [p/n] p
+What version of the Pidgin source would you like to download? [2.5.1] <enter>
+Do you want to delete temp files used to set up the build environment? [y/n] n
 }}}
 
 Now extract the plugin (again, pidgin and plugin versions might differ):
 
 {{{
-  $ cd pidgin-2.5.1/pidgin/plugins/
-  $ tar xzvf ~/pidgin-privacy-please-0.5.2.tar.gz
+$ cd pidgin-2.5.1/pidgin/plugins/
+$ tar xzvf ~/pidgin-privacy-please-0.5.2.tar.gz
 }}}
 
 = Build the plugin =
 
 Create a `local.mak` file in the source directory root (`$BUILDDIR/pidgin-<version>/local.mak`)to override the Makefile variables - mine looks like this: 
+
 {{{
 CC := /usr/bin/i586-mingw32msvc-cc
 GMSGFMT := msgfmt
@@ -67,18 +68,18 @@ LIB_PATHS := -L$(PIDGIN_TREE_TOP)/../win32-dev/w32api/lib
 There seems to be a problem compiling one of the pidgin files. Since we don't care, we'll just cripple it:
 
 {{{
-  $ sed -i /^PIDGIN_TRAY/d $BUILDDIR/pidgin-2.5.1/pidgin/win32/pidgin_dll_rc.rc
+$ sed -i /^PIDGIN_TRAY/d $BUILDDIR/pidgin-2.5.1/pidgin/win32/pidgin_dll_rc.rc
 }}}
 
 Now, build the plugin:
 
 {{{
-  $ cd pidgin-privacy-please-0.5.2/src
-  $ make -f Makefile.mingw
+$ cd pidgin-privacy-please-0.5.2/src
+$ make -f Makefile.mingw
 }}}
 
 Finally, create the Windows installer:
 {{{
-  $ cp ../win32/pidgin-privacy-please.nsi .
-  $ makensis pidgin-privacy-please.nsi
+$ cp ../win32/pidgin-privacy-please.nsi .
+$ makensis pidgin-privacy-please.nsi
 }}}
