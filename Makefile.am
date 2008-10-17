@@ -1,5 +1,6 @@
 EXTRA_DIST = \
-	README
+	README \
+	win32/pidgin-privacy-please.nsi
 
 SUBDIRS = \
 	src
