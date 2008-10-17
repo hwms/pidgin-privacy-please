@@ -68,7 +68,7 @@ LIB_PATHS := -L$(PIDGIN_TREE_TOP)/../win32-dev/w32api/lib
 There seems to be a problem compiling one of the pidgin files. Since we don't care, we'll just cripple it:
 
 {{{
-$ sed -i /^PIDGIN_TRAY/d $BUILDDIR/pidgin-2.5.1/pidgin/win32/pidgin_dll_rc.rc
+$ sed -i /^PIDGIN_TRAY/d $BUILDDIR/pidgin-2.5.1/pidgin/win32/pidgin_dll_rc.rc.in
 }}}
 
 Now, build the plugin:
