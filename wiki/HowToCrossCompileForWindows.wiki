@@ -1,4 +1,5 @@
 #summary This page explains how to cross-compile the plugin for Windows
+#labels Phase-Deploy
 
 = Introduction =
 
@@ -6,9 +7,40 @@ This page explains how to cross-compile the plugin for Windows. It was tested on
 
 Most of the information comes from http://developer.pidgin.im/wiki/BuildingWinPidgin
 
-= Installing the required packages =
+= Install the required packages =
 
-  * 
 {{{
   # apt-get install mingw32 mingw32-binutils mingw32-runtime nsis 
+}}}
+
+= Prepare the build environment =
+
+Choose a directory to build the plugin in. In this example, we'll use ~/tmp/build
+
+{{{
+  $ export BUILDDIR="~/tmp/build"
+  $ mkdir $BUILDDIR && cd $BUILDDIR
+}}}
+
+Now, get and the pidgin windows build fetcher script:
+
+{{{
+  $ wget http://gaim-extprefs.sf.net/winpidgin-build-fetcher.sh
+  $ sh winpidgin-build-fetcher.sh
+}}}
+
+The script might ask you a few questions, this is how you should answer (the suggested pidgin version might differ on your system):
+
+{{{
+  Do you want to prepare a Pidgin build environment in /tmp/build? [y/n] y
+  Do you want to download a source package? [p/n] p
+  What version of the Pidgin source would you like to download? [2.5.1] <enter>
+  Do you want to delete temp files used to set up the build environment? [y/n] n
+}}}
+
+Now extract the plugin (again, pidgin and plugin versions might differ):
+
+{{{
+  $ cd pidgin-2.5.1/pidgin/plugins/
+  $ tar xzvf ~/pidgin-privacy-please-0.5.2.tar.gz
 }}}
