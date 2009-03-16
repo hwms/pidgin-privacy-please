@@ -160,6 +160,7 @@ add_to_msg_list (const char *sender)
 void
 auto_reply (PurpleAccount* account, const char *recipient, const char *message)
 {
+	purple_debug_info ("pidgin-pp", "Auto-reply: '%s'\n", message);
 	PurpleConnection *gc;
 	PurplePluginProtocolInfo *prpl_info;
 
@@ -178,6 +179,7 @@ auto_reply (PurpleAccount* account, const char *recipient, const char *message)
 
 	if (prpl_info && prpl_info->send_im)
 	{
+		purple_debug_info ("pidgin-pp", "Sending to: %s\n", recipient);
 		prpl_info->send_im(gc, recipient, message,
 						PURPLE_MESSAGE_AUTO_RESP);
 		add_to_msg_list (recipient);

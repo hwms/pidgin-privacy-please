@@ -169,12 +169,14 @@ authorization_deny_cb (PurpleAccount* account, char *sender)
 }
 
 static void
-msg_blocked_cb (PurpleAccount* account, char **sender)
+msg_blocked_cb (PurpleAccount* account, char *sender)
 {
+	purple_debug_info ("pidgin-pp", "Message was blocked, reply?\n");
+
 	if (conf_reply_blocked ())
 	{
 		const char* msg = conf_msg_blocked_autoreply ();
-		auto_reply (account, *sender, msg);
+		auto_reply (account, sender, msg);
 	}
 }
 
