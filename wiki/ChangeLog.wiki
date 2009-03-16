@@ -1,6 +1,10 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.5.3 (16 Mar 2009) ==
+ * The "how did nobody notice that?" release
+ * Fixed a bug that could cause segfaults on auto-reply
+
 == v0.5.2 (17 Oct 2008) ==
  * The "no more patches" release
  * Fixed Windows build issues
