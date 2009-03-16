@@ -2,8 +2,8 @@ Source: pidgin-privacy-please
 Section: net
 Priority: optional
 Maintainer: Stefan Ott <stefan@ott.net>
-Build-Depends: cdbs, pidgin-dev, debhelper (>= 5), dpatch
-Standards-Version: 3.8.0
+Build-Depends: cdbs, pidgin-dev (>= 2.5.0), debhelper (>= 5)
+Standards-Version: 3.8.1
 Homepage: http://code.google.com/p/pidgin-privacy-please/
 
 Package: pidgin-privacy-please
