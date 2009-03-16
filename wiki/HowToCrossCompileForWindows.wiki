@@ -29,7 +29,7 @@ Now, get and the pidgin windows build fetcher script:
 
 {{{
 $ wget http://gaim-extprefs.sf.net/winpidgin-build-fetcher.sh
-$ sh winpidgin-build-fetcher.sh
+$ bash winpidgin-build-fetcher.sh
 }}}
 
 The script might ask you a few questions, this is how you should answer (the suggested pidgin version might differ on your system):
