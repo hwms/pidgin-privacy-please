@@ -1,0 +1,78 @@
+===============================================================================
+		http://code.google.com/p/pidgin-privacy-please/
+===============================================================================
+
+v0.5.3 (16 Mar 2009)
+====================
+ * The "how did nobody notice that?" release
+ * Fixed a bug that could cause segfaults on auto-reply
+
+v0.5.2 (17 Oct 2008)
+====================
+ * The "no more patches" release
+ * Fixed Windows build issues
+ * Fixed the homepage URL
+ * Removed patches subdir since no more patches are required for pidgin
+
+v0.5.1 (01 Jul 2008)
+====================
+ * The "i don't freaking care about my hotmail inbox" release
+ * Can now block jabber headline messages (eg. alerts from MSN transports)
+ * Fixed a bug which could cause a segfault on incoming messages
+ * Can now deny all authorization requests whatsoever
+ * Updated the pidgin patch to version 2.4.2
+
+v0.5.0 (07 Apr 2008)
+====================
+ * The "who are you and what to you want from me?" release
+ * Can now automatically show the user info pop-up on authorization requests
+ * Removed legacy blocking feature (adding "   " to a contact's alias)
+ * Removed compatibility with pidgin patches from old releases
+ * Code cleanup
+
+v0.4.1 (04 Apr 2008)
+====================
+ * The "gaim 1.x is so 2006" release
+ * Some code cleanup
+ * Removed compatibility with gaim 1.x
+ * Updated the pidgin patch
+ * Moved the project website to Google Code
+
+v0.4.0 (27 Nov 2007)
+====================
+ * The "yay, they included my patch" release
+ * Added Makefile.mingw for Windows builds (thanks to Chris Lakitu7 Schwarz)
+ * Fixed compatibility with pidgin 2.3.0
+
+v0.3.1 (07 Jun 2007)
+====================
+ * Updated the auth-signals patch to prevent crashes with dbus (closes #44)
+ * Removed some leftover references to gaim-blocky
+ * Minor code cleanups
+
+v0.3.0 (17 May 2007)
+====================
+ * Renamed the plugin to pidgin-privacy-please
+ * Added feature to block repeated authorization requests (only for pidgin 2.0)
+ * Did some minor changes in order to get the plugin to accept the name change
+   from gaim to pidgin
+
+v0.2.1 (04 Nov 2006)
+====================
+ * Fixed includes to properly compile with gaim 2.0
+
+v0.2.0 (04 Nov 2006)
+====================
+ * Added option to ignore any messages from people who are not on your
+   contact list and to optionally auto-reply to them.
+ * Auto-reply ping-pong is no longer possible (after an auto-reply, no
+   other reply is sent to the same destination for 5 seconds).
+
+v0.1.1 (06 Jan 2006)
+====================
+ * gaim-blocky would segfault on incoming messages from contacts without
+   an alias set (fixed).
+
+v0.1.0 (31 Dec 2005)
+====================
+ * Initial release
