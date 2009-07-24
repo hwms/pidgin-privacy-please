@@ -1,6 +1,13 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.5.4 (24 Jul 2009) ==
+ * Thanks to paul.aurich for his bug report
+ * Fixed a possible crash on win32 when blocking jabber headlines
+ * Use the right function to free received xmlnodes in blocked jabber headlines
+ * Added option to allow all messages on IRC
+ * Small code cleanup
+
 == v0.5.3 (16 Mar 2009) ==
  * The "how did nobody notice that?" release
  * Fixed a bug that could cause segfaults on auto-reply
