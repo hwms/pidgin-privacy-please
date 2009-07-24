@@ -138,16 +138,14 @@ add_to_msg_list (const char *sender)
 	if ((node = malloc (sizeof (llnode))) == NULL)
 	{
 		purple_debug_fatal ("pidgin-pp", "Malloc failed\n");
-		// TODO: remove exit
-		(void) exit (EXIT_FAILURE);
+		return;
 	}
 
 	if ((node->sender = malloc (MAX_NAME_LENGTH + 1)) == NULL)
 	{
 		free (node);
 		purple_debug_fatal ("pidgin-pp", "Malloc failed\n");
-		// TODO: remove exit
-		(void) exit (EXIT_FAILURE);
+		return;
 	}
 	strncpy (node->sender, sender, MAX_NAME_LENGTH);
 	node->next = head;
