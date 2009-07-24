@@ -4,6 +4,8 @@
 
 v0.5.4 (xx xxx xxxx)
 ====================
+ * Thanks to paul.aurich for his bug report
+ * Fixed a possible crash on win32 when blocking jabber headlines
  * Small code cleanup
 
 v0.5.3 (16 Mar 2009)
