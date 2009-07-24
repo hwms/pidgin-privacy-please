@@ -45,7 +45,7 @@ Now extract the plugin (again, pidgin and plugin versions might differ):
 
 {{{
 $ cd pidgin-2.5.1/pidgin/plugins/
-$ tar xzvf ~/pidgin-privacy-please-0.5.2.tar.gz
+$ tar xzvf ~/pidgin-privacy-please-0.5.4.tar.gz
 }}}
 
 = Build the plugin =
@@ -74,7 +74,7 @@ $ sed -i /^PIDGIN_TRAY/d $BUILDDIR/pidgin-2.5.1/pidgin/win32/pidgin_dll_rc.rc.in
 Now, build the plugin:
 
 {{{
-$ cd pidgin-privacy-please-0.5.2/src
+$ cd pidgin-privacy-please-0.5.4/src
 $ make -f Makefile.mingw
 }}}
 
