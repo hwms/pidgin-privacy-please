@@ -2,7 +2,7 @@
 		http://code.google.com/p/pidgin-privacy-please/
 ===============================================================================
 
-v0.5.4 (xx xxx xxxx)
+v0.5.4 (24 Jul 2009)
 ====================
  * Thanks to paul.aurich for his bug report
  * Fixed a possible crash on win32 when blocking jabber headlines
