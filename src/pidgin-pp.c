@@ -47,34 +47,40 @@
 #include "auto-reply.h"
 
 static const char*
-conf_msg_unknown_autoreply ()
+conf_msg_unknown_autoreply()
 {
 	return purple_prefs_get_string
 				("/plugins/core/pidgin_pp/unknown_message");
 }
 
 static gboolean
-conf_block_unknown ()
+conf_block_unknown()
 {
-	return purple_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_block");
+	return purple_prefs_get_bool("/plugins/core/pidgin_pp/unknown_block");
 }
 
 static gboolean
-conf_reply_unknown ()
+conf_reply_unknown()
 {
-	return purple_prefs_get_bool ("/plugins/core/pidgin_pp/unknown_reply");
+	return purple_prefs_get_bool("/plugins/core/pidgin_pp/unknown_reply");
 }
 
 static const char*
-conf_msg_blocked_autoreply ()
+conf_msg_blocked_autoreply()
 {
-	return purple_prefs_get_string ("/plugins/core/pidgin_pp/message");
+	return purple_prefs_get_string("/plugins/core/pidgin_pp/message");
 }
 
 static gboolean
-conf_reply_blocked ()
+conf_reply_blocked()
 {
-	return purple_prefs_get_bool ("/plugins/core/pidgin_pp/reply");
+	return purple_prefs_get_bool("/plugins/core/pidgin_pp/reply");
+}
+
+static gboolean
+conf_allow_all_irc()
+{
+	return purple_prefs_get_bool("/plugins/core/pidgin_pp/allow_all_irc");
 }
 
 /**
@@ -88,7 +94,13 @@ receiving_im_msg_cb (PurpleAccount* account, char **sender, char **message,
 {
 	PurpleBuddy* buddy;
 
-	purple_debug_info ("pidgin-pp", "Got message from %s\n", *sender);
+	purple_debug_info ("pidgin-pp", "Got message from %s, protocol=%s\n",
+			*sender, account->protocol_id);
+
+	// accept all IRC messages if configured accordingly
+	if ((!strcmp(account->protocol_id, "prpl-irc")) && conf_allow_all_irc())
+		return FALSE;
+
 	buddy = purple_find_buddy (account, *sender);
 
 	if (buddy == NULL) // No contact list entry
@@ -141,7 +153,7 @@ request_authorization_cb (PurpleAccount* account, char *sender)
 	purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization"
 						" request from %s\n", sender);
 
-	// < 0: deny
+// < 0: deny
 	// = 0: prompt user
 	// > 0: accept
 	retval = -!purple_privacy_check (account, sender);
@@ -278,6 +290,10 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 		("/plugins/core/pidgin_pp/block_jabber_headlines", _("Block jabber headline messages\n(eg. MSN alerts, announcements etc.)"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/allow_all_irc", _("Allow all messages on IRC"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
 	return frame;
 }
 
@@ -294,6 +310,7 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_reply", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/auth_auto_info", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_jabber_headlines", FALSE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/allow_all_irc", TRUE);
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
