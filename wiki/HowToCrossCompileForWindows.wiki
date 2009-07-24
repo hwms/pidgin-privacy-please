@@ -37,14 +37,14 @@ The script might ask you a few questions, this is how you should answer (the sug
 {{{
 Do you want to prepare a Pidgin build environment in /tmp/build? [y/n] y
 Do you want to download a source package? [p/n] p
-What version of the Pidgin source would you like to download? [2.5.1] <enter>
+What version of the Pidgin source would you like to download? [2.5.8] <enter>
 Do you want to delete temp files used to set up the build environment? [y/n] n
 }}}
 
 Now extract the plugin (again, pidgin and plugin versions might differ):
 
 {{{
-$ cd pidgin-2.5.1/pidgin/plugins/
+$ cd pidgin-2.5.8/pidgin/plugins/
 $ tar xzvf ~/pidgin-privacy-please-0.5.4.tar.gz
 }}}
 
@@ -68,7 +68,7 @@ LIB_PATHS := -L$(PIDGIN_TREE_TOP)/../win32-dev/w32api/lib
 There seems to be a problem compiling one of the pidgin files. Since we don't care, we'll just cripple it:
 
 {{{
-$ sed -i /^PIDGIN_TRAY/d $BUILDDIR/pidgin-2.5.1/pidgin/win32/pidgin_dll_rc.rc.in
+$ sed -i /^PIDGIN_TRAY/d $BUILDDIR/pidgin-2.5.8/pidgin/win32/pidgin_dll_rc.rc.in
 }}}
 
 Now, build the plugin:
