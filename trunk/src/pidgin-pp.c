@@ -202,11 +202,15 @@ jabber_xmlnode_cb (PurpleConnection *gc, xmlnode **packet, gpointer null)
 	{
 		const char *type;
 		type = xmlnode_get_attrib (node, "type");
+
+		if (!type) {
+			purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp",
+				"JABBER XML: name=%s, no type\n", node_name);
+			return;
+		}
+
 		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "JABBER XML: "
 				"name=%s, type=%s\n", node_name, type);
-
-		if (!type)
-			return;
 
 		if (!strcmp(type, "headline")) {
 			purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp",
