@@ -6,7 +6,8 @@ v0.5.4 (xx xxx xxxx)
 ====================
  * Thanks to paul.aurich for his bug report
  * Fixed a possible crash on win32 when blocking jabber headlines
- * Use the righT FUNCTIOn to free received xmlnodes in blocked jabber headlines
+ * Use the right function to free received xmlnodes in blocked jabber headlines
+ * Added option to allow all messages on IRC
  * Small code cleanup
 
 v0.5.3 (16 Mar 2009)
