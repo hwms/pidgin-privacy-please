@@ -60,6 +60,12 @@ conf_block_unknown()
 }
 
 static gboolean
+conf_block_aol_sysmsg()
+{
+	return purple_prefs_get_bool("/plugins/core/pidgin_pp/block_aol_sys");
+}
+
+static gboolean
 conf_reply_unknown()
 {
 	return purple_prefs_get_bool("/plugins/core/pidgin_pp/unknown_reply");
@@ -89,30 +95,36 @@ conf_allow_all_irc()
  * We return TRUE to block the IM, FALSE to accept the IM
  */
 static gboolean
-receiving_im_msg_cb (PurpleAccount* account, char **sender, char **message,
+receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 						int *flags, void *data)
 {
 	PurpleBuddy* buddy;
 
-	purple_debug_info ("pidgin-pp", "Got message from %s, protocol=%s\n",
+	purple_debug_info("pidgin-pp", "Got message from %s, protocol=%s\n",
 			*sender, account->protocol_id);
 
 	// accept all IRC messages if configured accordingly
 	if ((!strcmp(account->protocol_id, "prpl-irc")) && conf_allow_all_irc())
 		return FALSE;
 
+	if (conf_block_aol_sysmsg() && !strcmp(*sender, "AOL System Msg"))
+	{
+		purple_debug_info("pidgin-pp", "Blocking AOL system message");
+		return TRUE; // block
+	}
+
 	buddy = purple_find_buddy (account, *sender);
 
 	if (buddy == NULL) // No contact list entry
 	{
-		purple_debug_info ("pidgin-pp", "Got message from unknown "
+		purple_debug_info("pidgin-pp", "Got message from unknown "
 						"source: %s\n", *sender);
 
-		if (conf_block_unknown ())
+		if (conf_block_unknown())
 		{
-			purple_debug_info ("pidgin-pp", "Blocked\n");
+			purple_debug_info("pidgin-pp", "Blocked\n");
 
-			if (conf_reply_unknown ())
+			if (conf_reply_unknown())
 			{
 				const char* msg = conf_msg_unknown_autoreply ();
 				auto_reply (account, *sender, msg);
@@ -121,13 +133,13 @@ receiving_im_msg_cb (PurpleAccount* account, char **sender, char **message,
 		}
 		else
 		{
-			purple_debug_info ("pidgin-pp", "Allowed\n");
+			purple_debug_info("pidgin-pp", "Allowed\n");
 		}
 	}
 	else // Contact list entry exists
 	{
-		const char* alias = purple_buddy_get_alias_only (buddy);
-		purple_debug_info ("pidgin-pp", "Allowed %s\n", alias);
+		const char* alias = purple_buddy_get_alias_only(buddy);
+		purple_debug_info("pidgin-pp", "Allowed %s\n", alias);
 	}
 	return FALSE; // default: accept
 }
@@ -294,6 +306,10 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 		("/plugins/core/pidgin_pp/allow_all_irc", _("Allow all messages on IRC"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/block_aol_sys", _("Block AOL system messages"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
 	return frame;
 }
 
@@ -311,6 +327,7 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/auth_auto_info", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_jabber_headlines", FALSE);
 	purple_prefs_add_bool ("/plugins/core/pidgin_pp/allow_all_irc", TRUE);
+	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_aol_sys", FALSE);
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",

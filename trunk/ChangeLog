@@ -2,6 +2,10 @@
 		http://code.google.com/p/pidgin-privacy-please/
 ===============================================================================
 
+v0.5.5 (xx Aug 2009)
+====================
+ * Added support for blocking AOL system messages
+
 v0.5.4 (24 Jul 2009)
 ====================
  * Thanks to paul.aurich for his bug report
