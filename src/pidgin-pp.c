@@ -95,6 +95,18 @@ conf_get_block_list()
 	return purple_prefs_get_string_list("/plugins/core/pidgin_pp/block");
 }
 
+static void
+add_to_block_list(const gchar *name)
+{
+	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp",
+			"Adding %s to block list\n", name);
+
+	GList* blocklist = conf_get_block_list();
+	blocklist = g_list_append(blocklist, (gpointer) name);
+	purple_prefs_set_string_list("/plugins/core/pidgin_pp/block",
+			blocklist);
+}
+
 static gboolean
 contact_is_blocked(const gchar *name)
 {
@@ -192,10 +204,13 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	return FALSE; // default: accept
 }
 
-static gboolean
+static int
 request_authorization_cb (PurpleAccount* account, char *sender)
 {
-	int retval;
+	// < 0: deny
+	// = 0: prompt user
+	// > 0: accept
+
 	purple_debug_info("pidgin-pp", "request_authorization_cb");
 
 	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/block_auth_all"))
@@ -212,20 +227,16 @@ request_authorization_cb (PurpleAccount* account, char *sender)
 
 	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization"
 						" request from %s\n", sender);
+	if (contact_is_blocked(sender))
+		return -1;
 
-	// < 0: deny
-	// = 0: prompt user
-	// > 0: accept
-	retval = -!purple_privacy_check(account, sender);
-
-	if (!retval && purple_prefs_get_bool
-				("/plugins/core/pidgin_pp/auth_auto_info")) {
+	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/auth_auto_info"))
+	{
 		// Show the info dialog
-		PurpleConnection* con = purple_account_get_connection (account);
-		pidgin_retrieve_user_info (con, sender);
+		PurpleConnection* con = purple_account_get_connection(account);
+		pidgin_retrieve_user_info(con, sender);
 	}
-
-	return retval;
+	return 0;
 }
 
 static void
@@ -236,8 +247,9 @@ authorization_deny_cb(PurpleAccount* account, char *sender)
 
 	purple_debug_info("pidgin-pp", "Processing rejected "
 				"authorization request from %s\n", sender);
-	if (purple_privacy_check(account, sender))
-		purple_privacy_deny_add(account, sender, FALSE);
+
+	if (!contact_is_blocked(sender))
+		add_to_block_list(sender);
 }
 
 static void
@@ -286,13 +298,7 @@ static void
 block_contact_cb(PurpleBlistNode *node, gpointer data)
 {
 	const gchar* name = PURPLE_BLIST_NODE_NAME(node);
-	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp",
-			"Adding %s to block list\n", name);
-
-	GList* blocklist = conf_get_block_list();
-	blocklist = g_list_append(blocklist, (gpointer) name);
-	purple_prefs_set_string_list("/plugins/core/pidgin_pp/block",
-			blocklist);
+	add_to_block_list(name);
 }
 
 static void
@@ -315,7 +321,6 @@ unblock_contact_cb(PurpleBlistNode *node, gpointer data)
 	}
 	purple_prefs_set_string_list("/plugins/core/pidgin_pp/block",
 			blocklist);
-
 }
 
 static void
@@ -354,7 +359,8 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/reply", _("Auto-reply on blocked messages with:"));
+		("/plugins/core/pidgin_pp/reply",
+		_("Auto-reply on blocked messages with:"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name
@@ -365,11 +371,13 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/unknown_block", _("Block messages from people not on your contact list"));
+		("/plugins/core/pidgin_pp/unknown_block",
+		_("Block messages from people not on your contact list"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/unknown_reply", _("Auto-reply on blocked messages with:"));
+		("/plugins/core/pidgin_pp/unknown_reply",
+		_("Auto-reply on blocked messages with:"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name
@@ -380,30 +388,36 @@ get_plugin_pref_frame (PurplePlugin* plugin)
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_denied", _("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"));
+		("/plugins/core/pidgin_pp/block_denied",
+		_("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_auth_all", _("Block all authorization requests"));
+		("/plugins/core/pidgin_pp/block_auth_all",
+		_("Block all authorization requests"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/auth_auto_info", _("Automatically show user info on authorization requests"));
+		("/plugins/core/pidgin_pp/auth_auto_info",
+		_("Automatically show user info on authorization requests"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_label(_("Protocol specific"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_jabber_headlines", _("Block jabber headline messages\n(eg. MSN alerts, announcements etc.)"));
+		("/plugins/core/pidgin_pp/block_jabber_headlines",
+		_("Block jabber headline messages\n(eg. MSN alerts, announcements etc.)"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/allow_all_irc", _("Allow all messages on IRC"));
+		("/plugins/core/pidgin_pp/allow_all_irc",
+		_("Allow all messages on IRC"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_aol_sys", _("Block AOL system messages"));
+		("/plugins/core/pidgin_pp/block_aol_sys",
+		_("Block AOL system messages"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	return frame;
@@ -417,39 +431,41 @@ plugin_load (PurplePlugin * plugin)
 
 	PurplePlugin *jabber = purple_find_prpl("prpl-jabber");
 
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/reply", FALSE);
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_block", FALSE);
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/unknown_reply", FALSE);
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/auth_auto_info", FALSE);
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_jabber_headlines", FALSE);
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/allow_all_irc", TRUE);
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_aol_sys", FALSE);
-	purple_prefs_add_string ("/plugins/core/pidgin_pp/message",
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/reply", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/unknown_block", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/unknown_reply", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/auth_auto_info", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_jabber_headlines",
+			FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/allow_all_irc", TRUE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_aol_sys", FALSE);
+	purple_prefs_add_string("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
 	purple_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
 		_("I currently only accept messages from people on my contact"
 				" list - please request my authorization."));
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_denied", FALSE);
-	purple_prefs_add_bool ("/plugins/core/pidgin_pp/block_auth_all", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_denied", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_all", FALSE);
 	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
 
-	purple_signal_connect (conv_handle, "receiving-im-msg",
+	purple_signal_connect(conv_handle, "receiving-im-msg",
 			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
-	purple_signal_connect (acct_handle, "account-authorization-requested",
-			plugin, PURPLE_CALLBACK (request_authorization_cb), NULL);
-	purple_signal_connect (acct_handle, "account-authorization-denied",
+	purple_signal_connect(acct_handle, "account-authorization-requested",
+			plugin, PURPLE_CALLBACK (request_authorization_cb),
+			NULL);
+	purple_signal_connect(acct_handle, "account-authorization-denied",
 			plugin, PURPLE_CALLBACK (authorization_deny_cb), NULL);
-	purple_signal_connect (conv_handle, "blocked-im-msg",
+	purple_signal_connect(conv_handle, "blocked-im-msg",
 			plugin, PURPLE_CALLBACK (msg_blocked_cb), NULL);
 
 	if (jabber)
 	{
-		purple_signal_connect (jabber, "jabber-receiving-xmlnode",
+		purple_signal_connect(jabber, "jabber-receiving-xmlnode",
 			plugin, PURPLE_CALLBACK (jabber_xmlnode_cb), NULL);
 	}
 	else
 	{
-		purple_debug (PURPLE_DEBUG_INFO, "pidgin-pp", "Jabber support "
+		purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp", "Jabber support "
 					"missing - disabled headline blocking");
 	}
 
@@ -460,7 +476,7 @@ plugin_load (PurplePlugin * plugin)
 }
 
 static gboolean
-plugin_unload (PurplePlugin * plugin)
+plugin_unload(PurplePlugin * plugin)
 {
 	purple_signals_disconnect_by_handle (plugin);
 	destroy_msg_list ();
@@ -479,7 +495,7 @@ static PurplePluginInfo info =
 	NULL,						/**< ui_requirement */
 	0,						/**< flags          */
 	NULL,						/**< dependencies   */
-	PURPLE_PRIORITY_DEFAULT,				/**< priority       */
+	PURPLE_PRIORITY_DEFAULT,			/**< priority       */
 
 	N_("core-pidgin_pp_"),				/**< id             */
 	N_("Privacy Please"),				/**< name           */
