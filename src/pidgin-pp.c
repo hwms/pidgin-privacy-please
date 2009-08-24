@@ -101,7 +101,7 @@ contact_is_blocked(const gchar *name)
 	GList* blocklist = conf_get_block_list();
 
 	// we don't care about what's after the slash
-	gchar *clean_name = strtok(name, "/");
+	gchar *clean_name = strtok((gchar *) name, "/");
 
 	while (blocklist)
 	{
@@ -285,15 +285,14 @@ jabber_xmlnode_cb(PurpleConnection *gc, xmlnode **packet, gpointer null)
 static void
 block_contact_cb(PurpleBlistNode *node, gpointer data)
 {
+	const gchar* name = PURPLE_BLIST_NODE_NAME(node);
 	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp",
-			"Adding %s to block list\n",
-			PURPLE_BLIST_NODE_NAME(node));
+			"Adding %s to block list\n", name);
 
 	GList* blocklist = conf_get_block_list();
-	blocklist = g_list_append(blocklist, PURPLE_BLIST_NODE_NAME(node));
+	blocklist = g_list_append(blocklist, (gpointer) name);
 	purple_prefs_set_string_list("/plugins/core/pidgin_pp/block",
 			blocklist);
-
 }
 
 static void
