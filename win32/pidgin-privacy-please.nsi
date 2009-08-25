@@ -12,7 +12,7 @@
 
 ;Name and file
 Name "Pidgin Privacy Please Plugin"
-OutFile "pidgin-privacy-please-0.5.4.exe"
+OutFile "pidgin-privacy-please-0.6.0.exe"
 
 ;Default installation folder
 InstallDir "$PROGRAMFILES\Pidgin\plugins"
