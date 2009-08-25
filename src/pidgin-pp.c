@@ -107,6 +107,27 @@ add_to_block_list(const gchar *name)
 			blocklist);
 }
 
+static void
+remove_from_block_list(const gchar *name)
+{
+	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp",
+			"Removing %s from block list\n", name);
+
+	GList* blocklist = conf_get_block_list();
+	GList* tmp = blocklist;
+	while (tmp)
+	{
+		if (!strcmp(tmp->data, name))
+		{
+			blocklist = g_list_delete_link(blocklist, tmp);
+			break;
+		}
+		tmp = g_list_next(tmp);
+	}
+	purple_prefs_set_string_list("/plugins/core/pidgin_pp/block",
+			blocklist);
+}
+
 static gboolean
 contact_is_blocked(const gchar *name)
 {
@@ -305,22 +326,7 @@ static void
 unblock_contact_cb(PurpleBlistNode *node, gpointer data)
 {
 	const gchar *name = PURPLE_BLIST_NODE_NAME(node);
-	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp",
-			"Removing %s from block list\n", name);
-
-	GList* blocklist = conf_get_block_list();
-	GList* tmp = blocklist;
-	while (tmp)
-	{
-		if (!strcmp(tmp->data, name))
-		{
-			blocklist = g_list_delete_link(blocklist, tmp);
-			break;
-		}
-		tmp = g_list_next(tmp);
-	}
-	purple_prefs_set_string_list("/plugins/core/pidgin_pp/block",
-			blocklist);
+	remove_from_block_list(name);
 }
 
 static void
@@ -347,8 +353,107 @@ mouse_menu_cb(PurpleBlistNode *node, GList **menu)
 	*menu = g_list_append(*menu, action);
 }
 
+static void
+del_button_clicked_cb(GtkWidget *widget, GtkTreeSelection *selection)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GValue value;
+
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		gtk_tree_model_get_value(model, &iter, 0, &value);
+		gchar *name = (gchar *) g_value_get_string (&value);
+		remove_from_block_list(name);
+
+		if (gtk_list_store_remove(GTK_LIST_STORE(model), &iter))
+		{
+			gtk_tree_selection_select_iter(selection, &iter);
+		}
+	}
+}
+
+static void
+manage_blocked_users_cb(PurplePluginAction *action)
+{
+	GtkWidget *vbox, *window, *treeview;
+	GtkWidget *del_button;
+	GtkWidget *buttons;
+	GtkWidget *scrolled_window;
+	GtkListStore *store = gtk_list_store_new(1, G_TYPE_STRING);
+	GtkTreeIter iter;
+	GtkCellRenderer *cellrenderer;
+	GtkTreeViewColumn *list_column;
+	GtkTreeSelection *selection;
+	GList *blocklist;
+
+	blocklist = conf_get_block_list();
+
+	while (blocklist)
+	{
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, 0, blocklist->data, -1);
+		blocklist = g_list_next(blocklist);
+	}
+
+	window = pidgin_create_window(_("Privacy Please"),
+			PIDGIN_HIG_BORDER, NULL, TRUE);
+	gtk_window_set_default_size(GTK_WINDOW(window), 380, 200);
+
+	vbox = gtk_vbox_new(FALSE, 6);
+	gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+	gtk_widget_show(vbox);
+
+	treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	gtk_widget_set_size_request(treeview, 200, 150);
+
+	cellrenderer = gtk_cell_renderer_text_new();
+	list_column = gtk_tree_view_column_new_with_attributes
+			(_("Blocked users"), cellrenderer, "text", 0, NULL);
+	gtk_tree_view_column_set_min_width(list_column, 300);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), list_column);
+
+	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+	gtk_container_add(GTK_CONTAINER(scrolled_window), treeview);
+	gtk_scrolled_window_set_shadow_type(
+			GTK_SCROLLED_WINDOW(scrolled_window),
+			GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+			GTK_POLICY_AUTOMATIC,
+			GTK_POLICY_AUTOMATIC);
+
+	buttons = gtk_hbox_new(FALSE, 0);
+
+	del_button = gtk_button_new_from_stock(GTK_STOCK_DELETE);
+	gtk_box_pack_end(GTK_BOX(buttons), del_button, FALSE, FALSE, 0);
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+
+	gtk_container_add(GTK_CONTAINER(window), vbox);
+	gtk_container_add(GTK_CONTAINER(vbox), scrolled_window);
+	gtk_box_pack_start(GTK_BOX(vbox), buttons, FALSE, FALSE, 0);
+
+	gtk_widget_show_all(window);
+
+	g_signal_connect(GTK_OBJECT(del_button), "clicked",
+			GTK_SIGNAL_FUNC(del_button_clicked_cb), selection);
+}
+
+static GList *
+actions(PurplePlugin *plugin, gpointer context)
+{
+	GList *l = NULL;
+	PurplePluginAction *act = NULL;
+
+	act = purple_plugin_action_new(_("Manage blocked users"),
+			manage_blocked_users_cb);
+	l = g_list_append(l, act);
+
+	return l;
+}
+
 static PurplePluginPrefFrame *
-get_plugin_pref_frame (PurplePlugin* plugin)
+get_plugin_pref_frame(PurplePlugin* plugin)
 {
 	PurplePluginPrefFrame *frame;
 	PurplePluginPref *ppref;
@@ -513,7 +618,7 @@ static PurplePluginInfo info =
 	NULL,						/**< ui_info        */
 	NULL,						/**< extra_info     */
 	&prefs_info,					/**< prefs_info     */
-	NULL
+	actions
 };
 
 static void
