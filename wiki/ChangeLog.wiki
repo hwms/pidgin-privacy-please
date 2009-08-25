@@ -1,6 +1,11 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.6.0 (25 Aug 2009) ==
+ * The "return of the funny names" release
+ * We now block people ourselves instead of (ab)using pidgin's privacy options
+ * Added support for blocking AOL system messages
+
 == v0.5.4 (24 Jul 2009) ==
  * Thanks to paul.aurich for his bug report
  * Fixed a possible crash on win32 when blocking jabber headlines
