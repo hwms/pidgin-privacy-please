@@ -1,9 +1,11 @@
 ===============================================================================
-		http://code.google.com/p/pidgin-privacy-please/
+		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
-v0.5.5 (xx Aug 2009)
+v0.6.0 (25 Aug 2009)
 ====================
+ * The "return of the funny names" release
+ * We now block people ourselves instead of (ab)using pidgin's privacy options
  * Added support for blocking AOL system messages
 
 v0.5.4 (24 Jul 2009)
