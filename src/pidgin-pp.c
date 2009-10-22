@@ -98,8 +98,14 @@ conf_get_block_list()
 static void
 add_to_block_list(const gchar *name)
 {
-	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp",
-			"Adding %s to block list\n", name);
+	// abort when a category was clicked
+	if (!name)
+	{
+		purple_debug_info("pidgin-pp", "Not blocking (null)\n");
+		return;
+	}
+
+	purple_debug_info("pidgin-pp", "Adding %s to block list\n", name);
 
 	GList* blocklist = conf_get_block_list();
 	blocklist = g_list_append(blocklist, (gpointer) name);
@@ -135,6 +141,10 @@ contact_is_blocked(const gchar *name)
 
 	// we don't care about what's after the slash
 	gchar *clean_name = strtok((gchar *) name, "/");
+
+	// abort when a category was clicked
+	if (!clean_name)
+		return FALSE;
 
 	while (blocklist)
 	{
@@ -335,11 +345,19 @@ mouse_menu_cb(PurpleBlistNode *node, GList **menu)
 	if (purple_blist_node_get_flags(node) & PURPLE_BLIST_NODE_FLAG_NO_SAVE)
 		return;
 
+	const gchar *contact_name = PURPLE_BLIST_NODE_NAME(node);
+
+	// don't show the contect menu on things other than contacts
+	if (!contact_name)
+		return;
+
 	PurpleMenuAction *action = NULL;
 
 	*menu = g_list_append(*menu, action);
 
-	if (contact_is_blocked(PURPLE_BLIST_NODE_NAME(node)))
+	purple_debug_info("pidgin-pp", "CONTACT NAME IS %s\n", contact_name);
+
+	if (contact_is_blocked(contact_name))
 	{
 		action = purple_menu_action_new(_("Unblock (privacy please)"),
 			PURPLE_CALLBACK(unblock_contact_cb), NULL, NULL);
