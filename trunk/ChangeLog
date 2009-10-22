@@ -2,6 +2,11 @@
 		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
+v0.6.1 (xx Sep 2009)
+====================
+ * The "Say NULL to drugs" release
+ * Fixed an issue that caused a segfault when right-clicking contact gruops
+
 v0.6.0 (25 Aug 2009)
 ====================
  * The "return of the funny names" release
