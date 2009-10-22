@@ -1,6 +1,10 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.6.1 (22 Oct 2009) ==
+ * The "say NULL to drugs" release
+ * Fixed an issue that caused a segfault when right-clicking contact gruops
+
 == v0.6.0 (25 Aug 2009) ==
  * The "return of the funny names" release
  * We now block people ourselves instead of (ab)using pidgin's privacy options
