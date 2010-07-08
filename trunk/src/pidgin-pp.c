@@ -40,7 +40,6 @@
 #include "gtkutils.h"
 
 // pidgin header needed for gettext
-#define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 
 // our auto-reply functionality
@@ -621,11 +620,11 @@ static PurplePluginInfo info =
 	PURPLE_PRIORITY_DEFAULT,			/**< priority       */
 
 	N_("core-pidgin_pp_"),				/**< id             */
-	N_("Privacy Please"),				/**< name           */
+	NULL,						/**< name           */
 	VERSION,					/**< version        */
-	N_("Stops IM-spam"),				/**< summary	    */
+	NULL,						/**< summary	    */
 							/**  description    */
-	N_("A simple plugin to stop unwanted messages and repeated authorization requests from spammers."),
+	NULL,
 	"Stefan Ott <stefan@ott.net>",			/**< author         */
 	"http://pidgin-privacy-please.googlecode.com/",	/**< homepage       */
 
@@ -642,6 +641,14 @@ static PurplePluginInfo info =
 static void
 init_plugin(PurplePlugin * plugin)
 {
+#ifdef ENABLE_NLS
+	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+#endif /* ENABLE_NLS */
+	info.name        = _("Privacy Please");
+	info.summary     = _("Stops IM-spam");
+	info.description = _("A simple plugin to stop unwanted messages and repeated authorization requests from spammers.");
+
 	purple_prefs_add_none("/plugins");
 	purple_prefs_add_none("/plugins/core");
 	purple_prefs_add_none("/plugins/core/pidgin_pp");

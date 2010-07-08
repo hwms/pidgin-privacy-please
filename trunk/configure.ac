@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([pidgin-privacy-please],[0.6.1],[stefan@ott.net])
+AC_INIT([pidgin-privacy-please],[0.6.2],[stefan@ott.net])
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE([1.9.5])
 
@@ -25,6 +25,19 @@ AC_PROG_LIBTOOL
 LIBTOOL="$LIBTOOL --silent"
 AC_PROG_INSTALL
 AC_PATH_PROG(PKG_CONFIG, [pkg-config], [no])
+
+LIBPURPLE_DATADIR=`pkg-config --variable=datadir purple`
+AC_SUBST(LIBPURPLE_DATADIR)
+
+#
+# Setup gettext
+#
+AC_PROG_INTLTOOL
+GETTEXT_PACKAGE=pidgin-privacy-please
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, ["$GETTEXT_PACKAGE"], [Define the gettext package to be used])
+ALL_LINGUAS="de"
+AM_GLIB_GNU_GETTEXT
 
 if test x$PKG_CONFIG = xno ; then
   AC_MSG_ERROR([*** pkg-config not found])
@@ -78,7 +91,8 @@ AC_SUBST(CFLAGS)
 
 
 AC_CONFIG_FILES([Makefile
-                 src/Makefile])
+		src/Makefile
+		po/Makefile.in])
 AC_OUTPUT
 
 echo
