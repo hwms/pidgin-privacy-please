@@ -3,4 +3,5 @@ EXTRA_DIST = \
 	win32/pidgin-privacy-please.nsi
 
 SUBDIRS = \
-	src
+	src \
+	po

@@ -23,4 +23,5 @@ libpidgin_pp_la_SOURCES = \
 
 AM_CPPFLAGS = \
 	$(DEBUG_CFLAGS) \
-	$(PIDGIN_CFLAGS)
+	$(PIDGIN_CFLAGS) \
+	-DLOCALEDIR=\"$(LIBPURPLE_DATADIR)/locale\"
