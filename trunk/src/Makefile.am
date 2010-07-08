@@ -5,7 +5,7 @@ pkgdir = \
 	$(PIDGIN_LIBDIR)/pidgin
 
 PIDGIN_PP_SOURCES = \
-	auto-reply.c auto-reply.h pidgin-pp.c
+	auto-reply.c auto-reply.h botcheck.h botcheck.c pidgin-pp.c
 
 AM_CFLAGS = \
 	$(st)

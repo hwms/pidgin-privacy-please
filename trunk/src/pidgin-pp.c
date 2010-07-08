@@ -44,6 +44,7 @@
 
 // our auto-reply functionality
 #include "auto-reply.h"
+#include "botcheck.h"
 
 static const char*
 conf_msg_unknown_autoreply()
@@ -114,6 +115,12 @@ static gboolean
 conf_allow_all_irc()
 {
 	return purple_prefs_get_bool("/plugins/core/pidgin_pp/allow_all_irc");
+}
+
+static gboolean
+conf_botcheck_enabled()
+{
+	return purple_prefs_get_bool("/plugins/core/pidgin_pp/botcheck_enable");
 }
 
 static GList*
@@ -220,12 +227,20 @@ pp_match_msg_regex(char *message)
  */
 static gboolean
 receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
-						int *flags, void *data)
+//						int *flags, void *data)
+			PurpleConversation *conv, PurpleMessageFlags *flags)
 {
 	PurpleBuddy* buddy;
 
 	purple_debug_info("pidgin-pp", "Got message from %s, protocol=%s\n",
 			*sender, account->protocol_id);
+
+	if (conv)
+	{
+		purple_debug_info("pidgin-pp",
+			"Message from an existing converstation, accepting\n");
+		return FALSE; // accept
+	}
 
 	// accept all IRC messages if configured accordingly
 	if ((!strcmp(account->protocol_id, "prpl-irc")) && conf_allow_all_irc())
@@ -273,6 +288,31 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 		return TRUE; // block
 	}
 
+	// bot check
+	if (conf_botcheck_enabled())
+	{
+		if (botcheck_passed(*sender))
+		{
+			purple_debug_info("pidgin-pp",
+					"Botcheck: User already verified\n");
+			return FALSE; // accept
+		}
+		else if (botcheck_verify(*sender, *message))
+		{
+			botcheck_ok(account, *sender);
+
+			// we can safely block the message because the sender
+			// won't notice and we don't need to see the actual
+			// message
+			return TRUE; // block
+		}
+		else
+		{
+			botcheck_ask(account, *sender);
+			return TRUE; // block
+		}
+	}
+
 	buddy = purple_find_buddy (account, *sender);
 
 	if (buddy == NULL) // No contact list entry
@@ -301,6 +341,7 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 		const char* alias = purple_buddy_get_alias_only(buddy);
 		purple_debug_info("pidgin-pp", "Allowed %s\n", alias);
 	}
+
 	return FALSE; // default: accept
 }
 
@@ -626,6 +667,29 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 		_("Automatically show user info on authorization requests"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
+	ppref = purple_plugin_pref_new_with_label(_("Bot check"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/botcheck_enable",
+		_("Verify message sender by asking a question"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/botcheck_question",
+		_("Question:"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/botcheck_answer",
+		_("Answer:"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/botcheck_ok",
+		_("OK message:"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
 	ppref = purple_plugin_pref_new_with_label(_("Protocol specific"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
@@ -672,10 +736,18 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_all", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_oscar", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_account_with_regex", FALSE);
-	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex", "spam.*bot");
+	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex",
+			"spam.*bot");
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_message_with_regex", FALSE);
-	purple_prefs_add_string("/plugins/core/pidgin_pp/block_message_regex", "(leather jackets?|gold watch)");
+	purple_prefs_add_string("/plugins/core/pidgin_pp/block_message_regex",
+			"(leather jackets?|gold watch)");
 	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/botcheck_enable", FALSE);
+	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_question",
+		"To prove that you are human, please enter the result of 8+3");
+	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_answer","11");
+	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_ok",
+		"Very well then, you may speak");
 
 	purple_signal_connect(conv_handle, "receiving-im-msg",
 			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
