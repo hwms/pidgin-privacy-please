@@ -59,6 +59,20 @@ conf_block_unknown()
 }
 
 static gboolean
+conf_block_using_regex()
+{
+	return purple_prefs_get_bool(
+			"/plugins/core/pidgin_pp/block_account_with_regex");
+}
+
+static const gchar*
+conf_get_account_regex()
+{
+	return purple_prefs_get_string(
+			"/plugins/core/pidgin_pp/block_account_regex");
+}
+
+static gboolean
 conf_block_aol_sysmsg()
 {
 	return purple_prefs_get_bool("/plugins/core/pidgin_pp/block_aol_sys");
@@ -167,6 +181,15 @@ msg_blocked_cb(PurpleAccount* account, char *sender)
 	}
 }
 
+static gboolean
+pp_match_regex(char *sender)
+{
+	purple_debug_info("pidgin-pp", "Block '%s' using regex?\n", sender);
+	const gchar *pattern = conf_get_account_regex();
+
+	return g_regex_match_simple(pattern, sender, 0, 0);
+}
+
 /**
  * This is our callback for the receiving-im-msg signal.
  *
@@ -189,6 +212,17 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	if (conf_block_aol_sysmsg() && !strcmp(*sender, "AOL System Msg"))
 	{
 		purple_debug_info("pidgin-pp", "Blocking AOL system message\n");
+		return TRUE; // block
+	}
+
+	// block using regex
+	if (conf_block_using_regex() && pp_match_regex(*sender))
+	{
+		purple_debug_info("pidgin-pp", "Blocking using regex\n");
+
+		// TODO: pidgin should actually emit a signal when we block a
+		// message (but it doesn't). remember to file a bug report.
+		msg_blocked_cb(account, *sender);
 		return TRUE; // block
 	}
 
@@ -498,7 +532,7 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 				("/plugins/core/pidgin_pp/message");
 	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = purple_plugin_pref_new_with_label(_("Unknown people"));
+	ppref = purple_plugin_pref_new_with_label(_("Messages"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
@@ -513,6 +547,15 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 
 	ppref = purple_plugin_pref_new_with_name
 				("/plugins/core/pidgin_pp/unknown_message");
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/block_account_with_regex",
+		_("Block messages from accounts that match a regular expression:"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name
+				("/plugins/core/pidgin_pp/block_account_regex");
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_label(_("Authorization"));
@@ -532,7 +575,6 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 		("/plugins/core/pidgin_pp/block_auth_oscar",
 		_("Block authorization requests from OSCAR (ICQ/AIM)"));
 	purple_plugin_pref_frame_add(frame, ppref);
-
 
 	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/auth_auto_info",
@@ -578,12 +620,14 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_aol_sys", FALSE);
 	purple_prefs_add_string("/plugins/core/pidgin_pp/message",
 				_("Your message could not be delivered"));
-	purple_prefs_add_string ("/plugins/core/pidgin_pp/unknown_message",
+	purple_prefs_add_string("/plugins/core/pidgin_pp/unknown_message",
 		_("I currently only accept messages from people on my contact"
 				" list - please request my authorization."));
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_denied", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_all", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_oscar", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_account_with_regex", FALSE);
+	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex", "spam.*");
 	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
 
 	purple_signal_connect(conv_handle, "receiving-im-msg",
