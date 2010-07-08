@@ -250,6 +250,15 @@ request_authorization_cb (PurpleAccount* account, char *sender)
 		return -1;
 	}
 
+	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/block_auth_oscar") &&
+		(g_str_equal(account->protocol_id, "prpl-aim") ||
+		g_str_equal(account->protocol_id, "prpl-icq")))
+	{
+		purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp", "Blocking "
+				"OSCAR authorization request from %s\n", sender);
+		return -1;
+	}
+
 	if (!purple_prefs_get_bool("/plugins/core/pidgin_pp/block_denied"))
 	{
 		return 0; // don't interfere, just prompt user
@@ -520,6 +529,12 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/block_auth_oscar",
+		_("Block authorization requests from OSCAR (ICQ/AIM)"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+
+	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/auth_auto_info",
 		_("Automatically show user info on authorization requests"));
 	purple_plugin_pref_frame_add(frame, ppref);
@@ -568,6 +583,7 @@ plugin_load (PurplePlugin * plugin)
 				" list - please request my authorization."));
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_denied", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_all", FALSE);
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_oscar", FALSE);
 	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
 
 	purple_signal_connect(conv_handle, "receiving-im-msg",
