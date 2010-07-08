@@ -17,11 +17,6 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// config.h
-//#ifdef HAVE_CONFIG_H
-//#include "config.h"
-//#endif
-
 // system headers
 #include <glib.h>
 #include <string.h>
@@ -38,9 +33,6 @@
 
 #include "auto-reply.h"
 #include "botcheck.h"
-
-// pidgin header needed for gettext
-//#include <glib/gi18n-lib.h>
 
 llnode *botcheck_passed_senders = NULL;
 
