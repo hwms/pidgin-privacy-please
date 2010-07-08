@@ -672,7 +672,7 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_all", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_oscar", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_account_with_regex", FALSE);
-	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex", "spam.*");
+	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex", "spam.*bot");
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_message_with_regex", FALSE);
 	purple_prefs_add_string("/plugins/core/pidgin_pp/block_message_regex", "(leather jackets?|gold watch)");
 	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
