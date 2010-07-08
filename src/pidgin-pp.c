@@ -59,7 +59,7 @@ conf_block_unknown()
 }
 
 static gboolean
-conf_block_using_regex()
+conf_block_account_using_regex()
 {
 	return purple_prefs_get_bool(
 			"/plugins/core/pidgin_pp/block_account_with_regex");
@@ -70,6 +70,20 @@ conf_get_account_regex()
 {
 	return purple_prefs_get_string(
 			"/plugins/core/pidgin_pp/block_account_regex");
+}
+
+static gboolean
+conf_block_message_using_regex()
+{
+	return purple_prefs_get_bool(
+			"/plugins/core/pidgin_pp/block_message_with_regex");
+}
+
+static const gchar*
+conf_get_message_regex()
+{
+	return purple_prefs_get_string(
+			"/plugins/core/pidgin_pp/block_message_regex");
 }
 
 static gboolean
@@ -182,12 +196,21 @@ msg_blocked_cb(PurpleAccount* account, char *sender)
 }
 
 static gboolean
-pp_match_regex(char *sender)
+pp_match_sender_regex(char *sender)
 {
 	purple_debug_info("pidgin-pp", "Block '%s' using regex?\n", sender);
 	const gchar *pattern = conf_get_account_regex();
 
 	return g_regex_match_simple(pattern, sender, 0, 0);
+}
+
+static gboolean
+pp_match_msg_regex(char *message)
+{
+	purple_debug_info("pidgin-pp", "Block '%s' using regex?\n", message);
+	const gchar *pattern = conf_get_message_regex();
+
+	return g_regex_match_simple(pattern, message, 0, 0);
 }
 
 /**
@@ -215,10 +238,23 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 		return TRUE; // block
 	}
 
-	// block using regex
-	if (conf_block_using_regex() && pp_match_regex(*sender))
+	// block using account regex
+	if (conf_block_account_using_regex() && pp_match_sender_regex(*sender))
 	{
-		purple_debug_info("pidgin-pp", "Blocking using regex\n");
+		purple_debug_info(
+			"pidgin-pp", "Blocking account using regex\n");
+
+		// TODO: pidgin should actually emit a signal when we block a
+		// message (but it doesn't). remember to file a bug report.
+		msg_blocked_cb(account, *sender);
+		return TRUE; // block
+	}
+
+	// block using message regex
+	if (conf_block_message_using_regex() && pp_match_msg_regex(*message))
+	{
+		purple_debug_info(
+			"pidgin-pp", "Blocking message using regex\n");
 
 		// TODO: pidgin should actually emit a signal when we block a
 		// message (but it doesn't). remember to file a bug report.
@@ -558,6 +594,15 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 				("/plugins/core/pidgin_pp/block_account_regex");
 	purple_plugin_pref_frame_add(frame, ppref);
 
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/block_message_with_regex",
+		_("Block messages that match a regular expression:"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name
+				("/plugins/core/pidgin_pp/block_message_regex");
+	purple_plugin_pref_frame_add(frame, ppref);
+
 	ppref = purple_plugin_pref_new_with_label(_("Authorization"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
@@ -628,6 +673,8 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_oscar", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_account_with_regex", FALSE);
 	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex", "spam.*");
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_message_with_regex", FALSE);
+	purple_prefs_add_string("/plugins/core/pidgin_pp/block_message_regex", "(leather jackets?|gold watch)");
 	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
 
 	purple_signal_connect(conv_handle, "receiving-im-msg",
