@@ -39,12 +39,20 @@
 #include "blist.h"
 #include "gtkutils.h"
 
-// pidgin header needed for gettext
-#include <glib/gi18n-lib.h>
-
 // our auto-reply functionality
 #include "auto-reply.h"
 #include "botcheck.h"
+
+#ifdef WIN32
+#include "win32dep.h"
+#endif
+
+#ifdef ENABLE_NLS
+#include <glib/gi18n-lib.h>
+#else
+#define _(String) ((const char *) (String))
+#define N_(String) ((const char *) (String))
+#endif // ENABLE NLS
 
 static const char*
 conf_msg_unknown_autoreply()
@@ -202,6 +210,7 @@ msg_blocked_cb(PurpleAccount* account, char *sender)
 	}
 }
 
+#if GLIB_CHECK_VERSION(2,14,0)
 static gboolean
 pp_match_sender_regex(char *sender)
 {
@@ -219,6 +228,7 @@ pp_match_msg_regex(char *message)
 
 	return g_regex_match_simple(pattern, message, 0, 0);
 }
+#endif // GLIB_CHECK_VERSION
 
 /**
  * This is our callback for the receiving-im-msg signal.
@@ -253,6 +263,7 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 		return TRUE; // block
 	}
 
+#if GLIB_CHECK_VERSION(2,14,0)
 	// block using account regex
 	if (conf_block_account_using_regex() && pp_match_sender_regex(*sender))
 	{
@@ -276,6 +287,7 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 		msg_blocked_cb(account, *sender);
 		return TRUE; // block
 	}
+#endif // GLIB_CHECK_VERSION
 
 	// block blocked buddies
 	if (contact_is_blocked(*sender))
@@ -626,6 +638,7 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 				("/plugins/core/pidgin_pp/unknown_message");
 	purple_plugin_pref_frame_add(frame, ppref);
 
+#if GLIB_CHECK_VERSION(2,14,0)
 	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/block_account_with_regex",
 		_("Block messages from accounts that match a regular expression:"));
@@ -643,6 +656,7 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 	ppref = purple_plugin_pref_new_with_name
 				("/plugins/core/pidgin_pp/block_message_regex");
 	purple_plugin_pref_frame_add(frame, ppref);
+#endif // GLIB_CHECK_VERSION
 
 	ppref = purple_plugin_pref_new_with_label(_("Authorization"));
 	purple_plugin_pref_frame_add(frame, ppref);
