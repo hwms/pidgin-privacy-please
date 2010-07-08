@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pidgin-privacy-please\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-08 04:23+0200\n"
+"POT-Creation-Date: 2010-07-08 05:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,87 +16,91 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/pidgin-pp.c:370
+#: ../src/pidgin-pp.c:404
 msgid "Unblock (privacy please)"
 msgstr ""
 
-#: ../src/pidgin-pp.c:375
+#: ../src/pidgin-pp.c:409
 msgid "Block (privacy please)"
 msgstr ""
 
-#: ../src/pidgin-pp.c:425 ../src/pidgin-pp.c:664
+#: ../src/pidgin-pp.c:459 ../src/pidgin-pp.c:708
 msgid "Privacy Please"
 msgstr ""
 
-#: ../src/pidgin-pp.c:438
+#: ../src/pidgin-pp.c:472
 msgid "Blocked users"
 msgstr ""
 
-#: ../src/pidgin-pp.c:474
+#: ../src/pidgin-pp.c:508
 msgid "Manage blocked users"
 msgstr ""
 
-#: ../src/pidgin-pp.c:489
+#: ../src/pidgin-pp.c:523
 msgid "Blocked messages"
 msgstr ""
 
-#: ../src/pidgin-pp.c:494 ../src/pidgin-pp.c:511
+#: ../src/pidgin-pp.c:528 ../src/pidgin-pp.c:545
 msgid "Auto-reply on blocked messages with:"
 msgstr ""
 
-#: ../src/pidgin-pp.c:501
-msgid "Unknown people"
+#: ../src/pidgin-pp.c:535
+msgid "Messages"
 msgstr ""
 
-#: ../src/pidgin-pp.c:506
+#: ../src/pidgin-pp.c:540
 msgid "Block messages from people not on your contact list"
 msgstr ""
 
-#: ../src/pidgin-pp.c:518
+#: ../src/pidgin-pp.c:554
+msgid "Block messages from accounts that match a regular expression:"
+msgstr ""
+
+#: ../src/pidgin-pp.c:561
 msgid "Authorization"
 msgstr ""
 
-#: ../src/pidgin-pp.c:523
+#: ../src/pidgin-pp.c:566
 msgid ""
 "Suppress repeated authorization requests\n"
 "(requires privacy settings to block individual users)"
 msgstr ""
 
-#: ../src/pidgin-pp.c:528
+#: ../src/pidgin-pp.c:571
 msgid "Block all authorization requests"
 msgstr ""
 
-#: ../src/pidgin-pp.c:533
+#: ../src/pidgin-pp.c:576
 msgid "Block authorization requests from OSCAR (ICQ/AIM)"
 msgstr ""
 
-#: ../src/pidgin-pp.c:539
+#: ../src/pidgin-pp.c:581
 msgid "Automatically show user info on authorization requests"
 msgstr ""
 
-#: ../src/pidgin-pp.c:542
+#: ../src/pidgin-pp.c:584
 msgid "Protocol specific"
 msgstr ""
 
-#: ../src/pidgin-pp.c:547
+#: ../src/pidgin-pp.c:589
 msgid ""
 "Block jabber headline messages\n"
 "(eg. MSN alerts, announcements etc.)"
 msgstr ""
 
-#: ../src/pidgin-pp.c:552
+#: ../src/pidgin-pp.c:594
 msgid "Allow all messages on IRC"
 msgstr ""
 
-#: ../src/pidgin-pp.c:557
+#: ../src/pidgin-pp.c:599
 msgid "Block AOL system messages"
 msgstr ""
 
-#: ../src/pidgin-pp.c:580
+#: ../src/pidgin-pp.c:622
 msgid "Your message could not be delivered"
 msgstr ""
 
-#: ../src/pidgin-pp.c:582
+#: ../src/pidgin-pp.c:624
 msgid ""
 "I currently only accept messages from people on my contact list - please "
 "request my authorization."
@@ -107,15 +111,15 @@ msgstr ""
 #. *< flags
 #. *< dependencies
 #. *< priority
-#: ../src/pidgin-pp.c:638
+#: ../src/pidgin-pp.c:682
 msgid "core-pidgin_pp_"
 msgstr ""
 
-#: ../src/pidgin-pp.c:665
+#: ../src/pidgin-pp.c:709
 msgid "Stops IM-spam"
 msgstr "Stoppt IM-Spam"
 
-#: ../src/pidgin-pp.c:666
+#: ../src/pidgin-pp.c:710
 msgid ""
 "A simple plugin to stop unwanted messages and repeated authorization "
 "requests from spammers."

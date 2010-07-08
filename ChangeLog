@@ -4,9 +4,10 @@
 
 v0.6.2 (xx xxx 2010)
 ====================
- * The "Guten Tag" release
+ * The "Lassen Sie mich in Ruhe!" release
  * pidgin-privacy-please is now translatable
  * Added option to specifically block OSCAR (ICQ/AIM) authorization requests
+ * Added option to block people using a regular expression
 
 v0.6.1 (22 Oct 2009)
 ====================
