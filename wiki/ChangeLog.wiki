@@ -1,8 +1,7 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
-v0.6.2 (09 Jul 2010)
-====================
+== v0.6.2 (09 Jul 2010) ==
  * The "and we're back" release
  * pidgin-privacy-please is now translatable
  * Accept all messages that belong to existing conversations
