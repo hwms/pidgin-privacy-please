@@ -1,6 +1,8 @@
 #summary This page explains how to cross-compile the plugin for Windows
 #labels Phase-Deploy
 
+*Since this doesn't currently work with the latest pidgin version, see HowToCrossCompileForWindowsAgainstLatestPidgin*
+
 = Introduction =
 
 This page explains how to cross-compile the plugin for Windows. It was tested on Debian GNU/Linux "lenny".
