@@ -9,6 +9,7 @@ PIDGIN_TREE_TOP := ../../../..
 include $(PIDGIN_TREE_TOP)/libpurple/win32/global.mak
 
 TARGET = pidgin-pp
+DEFINES += -DGETTEXT_PACKAGE=\"pidgin-privacy-please\"
 
 ##
 ## INCLUDE PATHS
@@ -36,7 +37,8 @@ LIB_PATHS +=		-L$(GTK_TOP)/lib \
 ##  SOURCES, OBJECTS
 ##
 C_SRC =			pidgin-pp.c \
-			auto-reply.c
+			auto-reply.c \
+			botcheck.c
 
 OBJECTS = $(C_SRC:%.c=%.o)
 
