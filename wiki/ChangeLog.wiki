@@ -1,6 +1,16 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+v0.6.2 (09 Jul 2010)
+====================
+ * The "and we're back" release
+ * pidgin-privacy-please is now translatable
+ * Accept all messages that belong to existing conversations
+ * Added option to specifically block OSCAR (ICQ/AIM) authorization requests
+ * Added option to block people using a regular expression
+ * Added option to block messages using a regular expression
+ * Added challenge-response bot-check
+
 == v0.6.1 (22 Oct 2009) ==
  * The "say NULL to drugs" release
  * Fixed an issue that caused a segfault when right-clicking contact gruops
