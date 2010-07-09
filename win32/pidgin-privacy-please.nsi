@@ -12,7 +12,7 @@
 
 ;Name and file
 Name "Pidgin Privacy Please Plugin"
-OutFile "pidgin-privacy-please-0.6.1.exe"
+OutFile "pidgin-privacy-please-${VERSION}.exe"
 
 ;Default installation folder
 InstallDir "$PROGRAMFILES\Pidgin\plugins"
@@ -48,9 +48,9 @@ Section "PidginPrivacyPlease" SecPidginPP
 
 SetOutPath "$INSTDIR"
 
-File "pidgin-pp.dll"
+File "..\src\pidgin-pp.dll"
 
-;ADD YOUR OWN FILES HERE...
+!include po_install.nsi
 
 ;Store installation folder
 WriteRegStr HKCU "Software\Pidgin Privacy Please Plugin" "" $INSTDIR
