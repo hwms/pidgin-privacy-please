@@ -1,134 +1,139 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Copyright (C) 2010
+# This file is distributed under the same license as the Pidgin-Privacy-Please package.
+# Mario Siegmann <Mario_siegmann@web.de>, 2010
 #
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: pidgin-privacy-please\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-08 07:08+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-07-09 15:00+0100\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
 
 #: ../src/pidgin-pp.c:481
 msgid "Unblock (privacy please)"
-msgstr ""
+msgstr "Sperre aufheben (Privatsphäre bitte)"
 
 #: ../src/pidgin-pp.c:486
 msgid "Block (privacy please)"
-msgstr ""
+msgstr "Sperren (Privatsphäre bitte)"
 
-#: ../src/pidgin-pp.c:536 ../src/pidgin-pp.c:827
+#: ../src/pidgin-pp.c:536
+#: ../src/pidgin-pp.c:827
 msgid "Privacy Please"
-msgstr ""
+msgstr "Privatsphäre bitte"
 
 #: ../src/pidgin-pp.c:549
 msgid "Blocked users"
-msgstr ""
+msgstr "Gesperrte Nutzer"
 
 #: ../src/pidgin-pp.c:585
 msgid "Manage blocked users"
-msgstr ""
+msgstr "Gesperrte Nutzer verwalten"
 
 #: ../src/pidgin-pp.c:600
 msgid "Blocked messages"
-msgstr ""
+msgstr "Gesperrte Mitteilungen"
 
-#: ../src/pidgin-pp.c:605 ../src/pidgin-pp.c:622
+#: ../src/pidgin-pp.c:605
+#: ../src/pidgin-pp.c:622
 msgid "Auto-reply on blocked messages with:"
-msgstr ""
+msgstr "Auf gesperrte Mitteilungen automatisch antworten mit:"
 
 #: ../src/pidgin-pp.c:612
 msgid "Messages"
-msgstr ""
+msgstr "Mitteilungen"
 
 #: ../src/pidgin-pp.c:617
 msgid "Block messages from people not on your contact list"
-msgstr ""
+msgstr "Nachrichten von Leuten, die nicht in Ihrer Kontaktliste stehen, sperren"
 
 #: ../src/pidgin-pp.c:631
 msgid "Block messages from accounts that match a regular expression:"
-msgstr ""
+msgstr "Nachrichten von Konten mit folgendem passendem regulären Ausdruck sperren:"
 
 #: ../src/pidgin-pp.c:640
 msgid "Block messages that match a regular expression:"
-msgstr ""
+msgstr "Nachrichten mit folgendem passendem regulären Ausdruck sperren:"
 
 #: ../src/pidgin-pp.c:647
 msgid "Authorization"
-msgstr ""
+msgstr "Autorisierung"
 
 #: ../src/pidgin-pp.c:652
 msgid ""
 "Suppress repeated authorization requests\n"
 "(requires privacy settings to block individual users)"
 msgstr ""
+"Wiederholte Autorisierungsanfragen unterdrücken\n"
+"(Benötigt die Privatsphären-Einstellungen zum Sperren einzelner Nutzer)"
 
 #: ../src/pidgin-pp.c:657
 msgid "Block all authorization requests"
-msgstr ""
+msgstr "Sperre alle Autorisierungsanfragen"
 
 #: ../src/pidgin-pp.c:662
 msgid "Block authorization requests from OSCAR (ICQ/AIM)"
-msgstr ""
+msgstr "Sperre alle Autorisierungsanfragen von OSCAR (ICQ/AIM)"
 
 #: ../src/pidgin-pp.c:667
 msgid "Automatically show user info on authorization requests"
-msgstr ""
+msgstr "Nutzer-Informationen bei einer Autorisierungsanfrage automatisch anzeigen"
 
 #: ../src/pidgin-pp.c:670
 msgid "Bot check"
-msgstr ""
+msgstr "BOT-Prüfung"
 
 #: ../src/pidgin-pp.c:675
 msgid "Verify message sender by asking a question"
-msgstr ""
+msgstr "Überprüft den Absender einer Nachricht mit einer Frage"
 
 #: ../src/pidgin-pp.c:680
 msgid "Question:"
-msgstr ""
+msgstr "Frage:"
 
 #: ../src/pidgin-pp.c:685
 msgid "Answer:"
-msgstr ""
+msgstr "Antwort:"
 
 #: ../src/pidgin-pp.c:690
 msgid "OK message:"
-msgstr ""
+msgstr "OK Nachricht:"
 
 #: ../src/pidgin-pp.c:693
 msgid "Protocol specific"
-msgstr ""
+msgstr "Protokoll-spezifisch"
 
 #: ../src/pidgin-pp.c:698
 msgid ""
 "Block jabber headline messages\n"
 "(eg. MSN alerts, announcements etc.)"
 msgstr ""
+"Sperrt Jabber Schlagzeilen\n"
+"(zB. MSN Benachrichtigungen, Bekanntmachungen etc.)"
 
 #: ../src/pidgin-pp.c:703
 msgid "Allow all messages on IRC"
-msgstr ""
+msgstr "Erlaube alle Nachrichten im IRC"
 
 #: ../src/pidgin-pp.c:708
 msgid "Block AOL system messages"
-msgstr ""
+msgstr "Sperre AOL System-Nachrichten"
 
 #: ../src/pidgin-pp.c:731
 msgid "Your message could not be delivered"
-msgstr ""
+msgstr "Ihre Nachricht konnte nicht zugestellt werden"
 
 #: ../src/pidgin-pp.c:733
-msgid ""
-"I currently only accept messages from people on my contact list - please "
-"request my authorization."
-msgstr ""
+msgid "I currently only accept messages from people on my contact list - please request my authorization."
+msgstr "Ich akzeptiere aktuell nur Nachrichten von Leuten, die in meiner Kontaktliste stehen - Bitte fordern Sie eine Autorisierung an"
 
 #. *< type
 #. *< ui_requirement
@@ -137,14 +142,13 @@ msgstr ""
 #. *< priority
 #: ../src/pidgin-pp.c:801
 msgid "core-pidgin_pp_"
-msgstr ""
+msgstr "core-pidgin_pp_"
 
 #: ../src/pidgin-pp.c:828
 msgid "Stops IM-spam"
 msgstr "Stoppt IM-Spam"
 
 #: ../src/pidgin-pp.c:829
-msgid ""
-"A simple plugin to stop unwanted messages and repeated authorization "
-"requests from spammers."
-msgstr ""
+msgid "A simple plugin to stop unwanted messages and repeated authorization requests from spammers."
+msgstr "Ein einfaches Plugin, um unerwünschte Nachrichten und wiederholte Autorisierungsanfragen von Spammern zu stoppen"
+
