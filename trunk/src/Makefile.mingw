@@ -8,8 +8,11 @@
 PIDGIN_TREE_TOP := ../../../..
 include $(PIDGIN_TREE_TOP)/libpurple/win32/global.mak
 
+VERSION=`grep ^PACKAGE_VERSION= ../configure | cut -d "'" -f 2`
+
 TARGET = pidgin-pp
 DEFINES += -DGETTEXT_PACKAGE=\"pidgin-privacy-please\"
+DEFINES += -DPACKAGE_VERSION=\"$(VERSION)\"
 
 ##
 ## INCLUDE PATHS

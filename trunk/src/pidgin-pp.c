@@ -814,7 +814,7 @@ static PurplePluginInfo info =
 
 	N_("core-pidgin_pp_"),				/**< id             */
 	NULL,						/**< name           */
-	VERSION,					/**< version        */
+	PACKAGE_VERSION,				/**< version        */
 	NULL,						/**< summary	    */
 							/**  description    */
 	NULL,
