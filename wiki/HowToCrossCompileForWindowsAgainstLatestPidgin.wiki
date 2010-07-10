@@ -7,6 +7,8 @@ This is a very unexplained list of commands that will get the plugin built again
 = Commands =
 
 {{{
+sudo apt-get install mingw32 mingw32-binutils mingw32-runtime nsis
+
 export PIDGIN_DEV_ROOT=/tmp/build/
 export SOURCES_DIR=${PIDGIN_DEV_ROOT}/sources/
 export DEV_DIR=${PIDGIN_DEV_ROOT}/win32-dev
