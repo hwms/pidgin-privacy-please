@@ -609,7 +609,7 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 
 	frame = purple_plugin_pref_frame_new();
 
-	ppref = purple_plugin_pref_new_with_label(_("Blocked messages"));
+	ppref = purple_plugin_pref_new_with_label(_("Auto-reply"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
 	ppref = purple_plugin_pref_new_with_name_and_label
@@ -621,6 +621,15 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 				("/plugins/core/pidgin_pp/message");
 	purple_plugin_pref_frame_add(frame, ppref);
 
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/unknown_reply",
+		_("Auto-reply on blocked messages from unknown people with:"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name
+				("/plugins/core/pidgin_pp/unknown_message");
+	purple_plugin_pref_frame_add(frame, ppref);
+
 	ppref = purple_plugin_pref_new_with_label(_("Messages"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
@@ -629,25 +638,7 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 		_("Block messages from people not on your contact list"));
 	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/unknown_reply",
-		_("Auto-reply on blocked messages with:"));
-	purple_plugin_pref_frame_add(frame, ppref);
-
-	ppref = purple_plugin_pref_new_with_name
-				("/plugins/core/pidgin_pp/unknown_message");
-	purple_plugin_pref_frame_add(frame, ppref);
-
 #if GLIB_CHECK_VERSION(2,14,0)
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_account_with_regex",
-		_("Block messages from accounts that match a regular expression:"));
-	purple_plugin_pref_frame_add(frame, ppref);
-
-	ppref = purple_plugin_pref_new_with_name
-				("/plugins/core/pidgin_pp/block_account_regex");
-	purple_plugin_pref_frame_add(frame, ppref);
-
 	ppref = purple_plugin_pref_new_with_name_and_label
 		("/plugins/core/pidgin_pp/block_message_with_regex",
 		_("Block messages that match a regular expression:"));
@@ -655,6 +646,15 @@ get_plugin_pref_frame(PurplePlugin* plugin)
 
 	ppref = purple_plugin_pref_new_with_name
 				("/plugins/core/pidgin_pp/block_message_regex");
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name_and_label
+		("/plugins/core/pidgin_pp/block_account_with_regex",
+		_("Block messages from senders that match a regular expression:"));
+	purple_plugin_pref_frame_add(frame, ppref);
+
+	ppref = purple_plugin_pref_new_with_name
+				("/plugins/core/pidgin_pp/block_account_regex");
 	purple_plugin_pref_frame_add(frame, ppref);
 #endif // GLIB_CHECK_VERSION
 
