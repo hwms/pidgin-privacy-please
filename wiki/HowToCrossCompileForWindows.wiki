@@ -82,6 +82,5 @@ $ make -f Makefile.mingw
 
 Finally, create the Windows installer:
 {{{
-$ cp ../win32/pidgin-privacy-please.nsi .
-$ makensis pidgin-privacy-please.nsi
+$ make -f Makefile.mingw dist
 }}}
