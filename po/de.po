@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pidgin-privacy-please\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-10 17:52+0200\n"
-"PO-Revision-Date: 2010-07-09 15:00+0100\n"
+"PO-Revision-Date: 2010-07-10 17:55+0100\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -39,16 +39,15 @@ msgstr "Gesperrte Nutzer verwalten"
 
 #: ../src/pidgin-pp.c:612
 msgid "Auto-reply"
-msgstr ""
+msgstr "Automatisch antworten"
 
 #: ../src/pidgin-pp.c:617
 msgid "Auto-reply on blocked messages with:"
 msgstr "Auf gesperrte Mitteilungen automatisch antworten mit:"
 
 #: ../src/pidgin-pp.c:626
-#, fuzzy
 msgid "Auto-reply on blocked messages from unknown people with:"
-msgstr "Auf gesperrte Mitteilungen automatisch antworten mit:"
+msgstr "Automatisch auf gesperrte Mitteilungen von unbekannten Leuten antworten mit:"
 
 #: ../src/pidgin-pp.c:633
 msgid "Messages"
@@ -64,10 +63,9 @@ msgid "Block messages that match a regular expression:"
 msgstr "Nachrichten mit folgendem passendem regulären Ausdruck sperren:"
 
 #: ../src/pidgin-pp.c:653
-#, fuzzy
 msgid "Block messages from senders that match a regular expression:"
 msgstr ""
-"Nachrichten von Konten mit folgendem passendem regulären Ausdruck sperren:"
+"Nachrichten von Absendern mit passendem regulären Ausdruck sperren:"
 
 #: ../src/pidgin-pp.c:661
 msgid "Authorization"
