@@ -776,10 +776,11 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/botcheck_enable", FALSE);
 	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_question",
-		"To prove that you are human, please enter the result of 8+3");
-	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_answer","11");
+		_("To prove that you are human, please enter the result of 8+3"));
+	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_answer",
+		_("11"));
 	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_ok",
-		"Very well then, you may speak");
+		_("Very well then, you may speak"));
 
 	purple_signal_connect(conv_handle, "receiving-im-msg",
 			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
