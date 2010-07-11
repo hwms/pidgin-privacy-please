@@ -524,6 +524,8 @@ del_button_clicked_cb(GtkWidget *widget, GtkTreeSelection *selection)
 	GtkTreeModel *model;
 	GValue value;
 
+	memset(&value, 0, sizeof(GValue));
+
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gtk_tree_model_get_value(model, &iter, 0, &value);
@@ -534,6 +536,7 @@ del_button_clicked_cb(GtkWidget *widget, GtkTreeSelection *selection)
 		{
 			gtk_tree_selection_select_iter(selection, &iter);
 		}
+		g_value_unset(&value);
 	}
 }
 
