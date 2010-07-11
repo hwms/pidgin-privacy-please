@@ -2,9 +2,10 @@
 		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
-v0.6.3 (xx Jul 2010)
+v0.6.3 (11 Jul 2010)
 ====================
  * The "sprechen Sie deutsch?" release
+ * Thanks to the #pidgin-de community for suggestions and testing
  * Added German translation from Mario Siegmann
  * Re-arranged configuration options into tabs
  * Show the correct version number on Windows
