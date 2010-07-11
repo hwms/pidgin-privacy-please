@@ -38,6 +38,8 @@
 #include "privacy.h"
 #include "blist.h"
 #include "gtkutils.h"
+#include <gtkplugin.h>
+#include <gtkprefs.h>
 
 // our auto-reply functionality
 #include "auto-reply.h"
@@ -601,128 +603,128 @@ actions(PurplePlugin *plugin, gpointer context)
 	return l;
 }
 
-static PurplePluginPrefFrame *
-get_plugin_pref_frame(PurplePlugin* plugin)
+static GtkWidget *
+get_plugin_config_frame(PurplePlugin *plugin)
 {
-	PurplePluginPrefFrame *frame;
-	PurplePluginPref *ppref;
+	GtkWidget *notebook;
+	GtkWidget *config_vbox;
+	GtkWidget *tab_vbox;
+	GtkSizeGroup *sg;
 
-	frame = purple_plugin_pref_frame_new();
+	config_vbox = gtk_vbox_new(FALSE, 2);
+	gtk_container_set_border_width(GTK_CONTAINER(config_vbox), 12);
+	gtk_widget_show(config_vbox);
 
-	ppref = purple_plugin_pref_new_with_label(_("Auto-reply"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	notebook = gtk_notebook_new();
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
+	gtk_box_pack_start(GTK_BOX(config_vbox), notebook, 0, 0, 0);
+	gtk_widget_show(notebook);
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/reply",
-		_("Auto-reply on blocked messages with:"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	// Notebook page 1: Auto-reply
 
-	ppref = purple_plugin_pref_new_with_name
-				("/plugins/core/pidgin_pp/message");
-	purple_plugin_pref_frame_add(frame, ppref);
+	tab_vbox = gtk_vbox_new(FALSE, 5);
+	gtk_container_set_border_width(GTK_CONTAINER(tab_vbox), 5);
+	gtk_widget_show(tab_vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), tab_vbox,
+			gtk_label_new(_("Auto-reply")));
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/unknown_reply",
-		_("Auto-reply on blocked messages from unknown people with:"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	pidgin_prefs_checkbox(_("Auto-reply on blocked messages with:"),
+			"/plugins/core/pidgin_pp/reply", tab_vbox);
+	pidgin_prefs_labeled_entry(tab_vbox, "    ",
+			"/plugins/core/pidgin_pp/message", 0);
+	pidgin_prefs_checkbox(
+		_("Auto-reply on blocked messages from unknown people with:"),
+		"/plugins/core/pidgin_pp/unknown_reply", tab_vbox);
+	pidgin_prefs_labeled_entry(tab_vbox, "    ",
+			"/plugins/core/pidgin_pp/unknown_message", 0);
 
-	ppref = purple_plugin_pref_new_with_name
-				("/plugins/core/pidgin_pp/unknown_message");
-	purple_plugin_pref_frame_add(frame, ppref);
+	// Notebook page 2: Messages
 
-	ppref = purple_plugin_pref_new_with_label(_("Messages"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	tab_vbox = gtk_vbox_new(FALSE, 5);
+	gtk_container_set_border_width(GTK_CONTAINER(tab_vbox), 5);
+	gtk_widget_show(tab_vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), tab_vbox,
+			gtk_label_new(_("Messages")));
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/unknown_block",
-		_("Block messages from people not on your contact list"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	pidgin_prefs_checkbox(
+		_("Block messages from people not on your contact list"),
+		"/plugins/core/pidgin_pp/unknown_block", tab_vbox);
 
 #if GLIB_CHECK_VERSION(2,14,0)
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_message_with_regex",
-		_("Block messages that match a regular expression:"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	pidgin_prefs_checkbox(
+		_("Block messages that match a regular expression:"),
+		"/plugins/core/pidgin_pp/block_message_with_regex", tab_vbox);
+	pidgin_prefs_labeled_entry(tab_vbox, "    ",
+		"/plugins/core/pidgin_pp/block_message_regex", 0);
 
-	ppref = purple_plugin_pref_new_with_name
-				("/plugins/core/pidgin_pp/block_message_regex");
-	purple_plugin_pref_frame_add(frame, ppref);
-
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_account_with_regex",
-		_("Block messages from senders that match a regular expression:"));
-	purple_plugin_pref_frame_add(frame, ppref);
-
-	ppref = purple_plugin_pref_new_with_name
-				("/plugins/core/pidgin_pp/block_account_regex");
-	purple_plugin_pref_frame_add(frame, ppref);
+	pidgin_prefs_checkbox(_(
+		"Block messages from senders that match a regular expression:"),
+		"/plugins/core/pidgin_pp/block_account_with_regex", tab_vbox);
+	pidgin_prefs_labeled_entry(tab_vbox, "    ",
+		"/plugins/core/pidgin_pp/block_account_regex", 0);
 #endif // GLIB_CHECK_VERSION
 
-	ppref = purple_plugin_pref_new_with_label(_("Authorization"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	// Notebook page 3: Authorization
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_denied",
-		_("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	tab_vbox = gtk_vbox_new(FALSE, 5);
+	gtk_container_set_border_width(GTK_CONTAINER(tab_vbox), 5);
+	gtk_widget_show(tab_vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), tab_vbox,
+			gtk_label_new(_("Authorization")));
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_auth_all",
-		_("Block all authorization requests"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	pidgin_prefs_checkbox(
+		_("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"),
+		"/plugins/core/pidgin_pp/block_denied", tab_vbox);
+	pidgin_prefs_checkbox(
+		_("Block all authorization requests"),
+		"/plugins/core/pidgin_pp/block_auth_all", tab_vbox);
+	pidgin_prefs_checkbox(
+		_("Block authorization requests from OSCAR (ICQ/AIM)"),
+		"/plugins/core/pidgin_pp/block_auth_oscar", tab_vbox);
+	pidgin_prefs_checkbox(
+		_("Automatically show user info on authorization requests"),
+		"/plugins/core/pidgin_pp/auth_auto_info", tab_vbox);
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_auth_oscar",
-		_("Block authorization requests from OSCAR (ICQ/AIM)"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	// Notebook page 4: Bot check
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/auth_auto_info",
-		_("Automatically show user info on authorization requests"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	tab_vbox = gtk_vbox_new(FALSE, 5);
+	gtk_container_set_border_width(GTK_CONTAINER(tab_vbox), 5);
+	gtk_widget_show(tab_vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), tab_vbox,
+			gtk_label_new(_("Bot check")));
 
-	ppref = purple_plugin_pref_new_with_label(_("Bot check"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	sg = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/botcheck_enable",
-		_("Verify message sender by asking a question"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	pidgin_prefs_checkbox(
+		_("Verify message sender by asking a question"),
+		"/plugins/core/pidgin_pp/botcheck_enable", tab_vbox);
+	pidgin_prefs_labeled_entry(tab_vbox, _("Question:"),
+		"/plugins/core/pidgin_pp/botcheck_question", sg);
+	pidgin_prefs_labeled_entry(tab_vbox, _("Answer:"),
+		"/plugins/core/pidgin_pp/botcheck_answer", sg);
+	pidgin_prefs_labeled_entry(tab_vbox, _("OK message:"),
+		"/plugins/core/pidgin_pp/botcheck_ok", sg);
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/botcheck_question",
-		_("Question:"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	// Notebook page 5: Protocol specific
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/botcheck_answer",
-		_("Answer:"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	tab_vbox = gtk_vbox_new(FALSE, 5);
+	gtk_container_set_border_width(GTK_CONTAINER(tab_vbox), 5);
+	gtk_widget_show(tab_vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), tab_vbox,
+			gtk_label_new(_("Protocol specific")));
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/botcheck_ok",
-		_("OK message:"));
-	purple_plugin_pref_frame_add(frame, ppref);
 
-	ppref = purple_plugin_pref_new_with_label(_("Protocol specific"));
-	purple_plugin_pref_frame_add(frame, ppref);
+	pidgin_prefs_checkbox(
+		_("Block jabber headline messages (MSN alerts, announcements etc.)"),
+		"/plugins/core/pidgin_pp/block_jabber_headlines", tab_vbox);
+	pidgin_prefs_checkbox(
+		_("Allow all messages on IRC"),
+		"/plugins/core/pidgin_pp/allow_all_irc", tab_vbox);
+	pidgin_prefs_checkbox(
+		_("Block AOL system messages"),
+		"/plugins/core/pidgin_pp/block_aol_sys", tab_vbox);
 
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_jabber_headlines",
-		_("Block jabber headline messages\n(eg. MSN alerts, announcements etc.)"));
-	purple_plugin_pref_frame_add(frame, ppref);
-
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/allow_all_irc",
-		_("Allow all messages on IRC"));
-	purple_plugin_pref_frame_add(frame, ppref);
-
-	ppref = purple_plugin_pref_new_with_name_and_label
-		("/plugins/core/pidgin_pp/block_aol_sys",
-		_("Block AOL system messages"));
-	purple_plugin_pref_frame_add(frame, ppref);
-
-	return frame;
+	return config_vbox;
 }
 
 static gboolean
@@ -799,7 +801,17 @@ plugin_unload(PurplePlugin * plugin)
 	return TRUE;
 }
 
-static PurplePluginUiInfo prefs_info = { get_plugin_pref_frame };
+static PidginPluginUiInfo ui_info =
+{
+	get_plugin_config_frame,
+	0, // page_num (reserved)
+
+	// padding
+	NULL,
+	NULL,
+	NULL,
+	NULL
+};
 
 static PurplePluginInfo info =
 {
@@ -807,7 +819,7 @@ static PurplePluginInfo info =
 	PURPLE_MAJOR_VERSION,
 	PURPLE_MINOR_VERSION,
 	PURPLE_PLUGIN_STANDARD,				/**< type           */
-	NULL,						/**< ui_requirement */
+	PIDGIN_PLUGIN_TYPE,				/**< ui_requirement */
 	0,						/**< flags          */
 	NULL,						/**< dependencies   */
 	PURPLE_PRIORITY_DEFAULT,			/**< priority       */
@@ -825,10 +837,16 @@ static PurplePluginInfo info =
 	plugin_unload,					/**< unload         */
 	NULL,						/**< destroy        */
 
-	NULL,						/**< ui_info        */
+	&ui_info,					/**< ui_info        */
 	NULL,						/**< extra_info     */
-	&prefs_info,					/**< prefs_info     */
-	actions
+	NULL,                                           /**< prefs_info     */
+	actions,
+
+	// padding
+	NULL,
+	NULL,
+	NULL,
+	NULL
 };
 
 static void
