@@ -360,13 +360,26 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 }
 
 static int
-request_authorization_cb (PurpleAccount* account, char *sender)
+request_authorization_cb (PurpleAccount* account, char *sender, char *msg)
 {
 	// < 0: deny
 	// = 0: prompt user
 	// > 0: accept
 
-	purple_debug_info("pidgin-pp", "request_authorization_cb");
+	if (msg != NULL)
+	{
+		purple_debug_info("pidgin-pp", "message: %s\n", msg);
+		const gchar *pattern = "test pattern";
+
+		gboolean match = g_regex_match_simple(pattern, msg, 0, 0);
+		purple_debug_info("pidgin-pp", "match: %d\n", match);
+	}
+	else
+	{
+		purple_debug_info("pidgin-pp", "NO MESSAGE\n");
+	}
+
+	purple_debug_info("pidgin-pp", "request_authorization_cb\n");
 
 	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/block_auth_all"))
 	{
