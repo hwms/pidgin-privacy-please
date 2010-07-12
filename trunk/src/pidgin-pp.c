@@ -360,54 +360,56 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 }
 
 static int
-//request_authorization_cb (PurpleAccount* account, char *sender, char *msg)
-request_authorization_cb (PurpleAccount* account, char *sender)
+#if PURPLE_VERSION_CHECK(2, 8, 0)
+request_authorization_cb(PurpleAccount* account, char *sender, char *msg)
+#else
+request_authorization_cb(PurpleAccount* account, char *sender)
+#endif // PURPLE_VERSION_CHECK
 {
 	// < 0: deny
 	// = 0: prompt user
 	// > 0: accept
 
-/*	// this code was intentionally left here for future use
-	if (msg != NULL)
-	{
-		purple_debug_info("pidgin-pp", "message: %s\n", msg);
-		const gchar *pattern = "test pattern";
-
-		gboolean match = g_regex_match_simple(pattern, msg, 0, 0);
-		purple_debug_info("pidgin-pp", "match: %d\n", match);
-	}
-	else
-	{
-		purple_debug_info("pidgin-pp", "NO MESSAGE\n");
-	}*/
-
-	purple_debug_info("pidgin-pp", "request_authorization_cb\n");
+	//purple_debug_info("pidgin-pp", "request_authorization_cb\n");
+	purple_debug_info("pidgin-pp", "Processing authorization"
+						" request from %s\n", sender);
 
 	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/block_auth_all"))
 	{
-		purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp", "Blocking "
+		purple_debug_info("pidgin-pp", "Blocking "
 				"authorization request from %s\n", sender);
-		return -1;
+		return -1; // deny
 	}
 
 	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/block_auth_oscar") &&
 		(g_str_equal(account->protocol_id, "prpl-aim") ||
 		g_str_equal(account->protocol_id, "prpl-icq")))
 	{
-		purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp", "Blocking "
+		purple_debug_info("pidgin-pp", "Blocking "
 				"OSCAR authorization request from %s\n", sender);
-		return -1;
+		return -1; // deny
 	}
 
-	if (!purple_prefs_get_bool("/plugins/core/pidgin_pp/block_denied"))
+#if PURPLE_VERSION_CHECK(2, 8, 0)
+	if (purple_prefs_get_bool(
+			"/plugins/core/pidgin_pp/block_auth_with_url") &&
+			(msg != NULL))
 	{
-		return 0; // don't interfere, just prompt user
-	}
+		//purple_debug_info("pidgin-pp", "message: %s\n", msg);
+		const gchar *pattern = "http:\\/\\/";
+		gboolean match = g_regex_match_simple(pattern, msg, 0, 0);
+		//purple_debug_info("pidgin-pp", "match: %d\n", match);
 
-	purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp", "Processing authorization"
-						" request from %s\n", sender);
-	if (contact_is_blocked(sender))
-		return -1;
+		if (match)
+			return -1; // deny
+	}
+#endif // PURPLE_VERSION_CHECK
+
+	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/block_denied") &&
+			contact_is_blocked(sender))
+	{
+		return -1; // deny
+	}
 
 	if (purple_prefs_get_bool("/plugins/core/pidgin_pp/auth_auto_info"))
 	{
@@ -415,7 +417,8 @@ request_authorization_cb (PurpleAccount* account, char *sender)
 		PurpleConnection* con = purple_account_get_connection(account);
 		pidgin_retrieve_user_info(con, sender);
 	}
-	return 0;
+
+	return 0; // don't interfere, just prompt user
 }
 
 static void
@@ -503,7 +506,7 @@ mouse_menu_cb(PurpleBlistNode *node, GList **menu)
 
 	*menu = g_list_append(*menu, action);
 
-	purple_debug_info("pidgin-pp", "CONTACT NAME IS %s\n", contact_name);
+	//purple_debug_info("pidgin-pp", "Clicked on %s\n", contact_name);
 
 	if (contact_is_blocked(contact_name))
 	{
@@ -699,6 +702,11 @@ get_plugin_config_frame(PurplePlugin *plugin)
 	pidgin_prefs_checkbox(
 		_("Block authorization requests from OSCAR (ICQ/AIM)"),
 		"/plugins/core/pidgin_pp/block_auth_oscar", tab_vbox);
+#if PURPLE_VERSION_CHECK(2, 8, 0)
+	pidgin_prefs_checkbox(
+		_("Block authorization requests with hyperlinks"),
+		"/plugins/core/pidgin_pp/block_auth_with_url", tab_vbox);
+#endif // PURPLE_VERSION_CHECK
 	pidgin_prefs_checkbox(
 		_("Automatically show user info on authorization requests"),
 		"/plugins/core/pidgin_pp/auth_auto_info", tab_vbox);
@@ -769,6 +777,9 @@ plugin_load (PurplePlugin * plugin)
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_denied", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_all", FALSE);
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_oscar", FALSE);
+#if PURPLE_VERSION_CHECK(2, 8, 0)
+	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_with_url", FALSE);
+#endif // PURPLE_VERSION_CHECK
 	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_account_with_regex", FALSE);
 	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex",
 			"spam.*bot");
@@ -786,9 +797,16 @@ plugin_load (PurplePlugin * plugin)
 
 	purple_signal_connect(conv_handle, "receiving-im-msg",
 			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
+#if PURPLE_VERSION_CHECK(2, 8, 0)
+	purple_signal_connect(acct_handle,
+			"account-authorization-requested-with-message",
+			plugin, PURPLE_CALLBACK (request_authorization_cb),
+			NULL);
+#else
 	purple_signal_connect(acct_handle, "account-authorization-requested",
 			plugin, PURPLE_CALLBACK (request_authorization_cb),
 			NULL);
+#endif // PURPLE_VERSION_CHECK
 	purple_signal_connect(acct_handle, "account-authorization-denied",
 			plugin, PURPLE_CALLBACK (authorization_deny_cb), NULL);
 	purple_signal_connect(conv_handle, "blocked-im-msg",
