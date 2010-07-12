@@ -360,12 +360,14 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 }
 
 static int
-request_authorization_cb (PurpleAccount* account, char *sender, char *msg)
+//request_authorization_cb (PurpleAccount* account, char *sender, char *msg)
+request_authorization_cb (PurpleAccount* account, char *sender)
 {
 	// < 0: deny
 	// = 0: prompt user
 	// > 0: accept
 
+/*	// this code was intentionally left here for future use
 	if (msg != NULL)
 	{
 		purple_debug_info("pidgin-pp", "message: %s\n", msg);
@@ -377,7 +379,7 @@ request_authorization_cb (PurpleAccount* account, char *sender, char *msg)
 	else
 	{
 		purple_debug_info("pidgin-pp", "NO MESSAGE\n");
-	}
+	}*/
 
 	purple_debug_info("pidgin-pp", "request_authorization_cb\n");
 
