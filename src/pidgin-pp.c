@@ -239,7 +239,6 @@ pp_match_msg_regex(char *message)
  */
 static gboolean
 receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
-//						int *flags, void *data)
 			PurpleConversation *conv, PurpleMessageFlags *flags)
 {
 	PurpleBuddy* buddy;
@@ -694,7 +693,7 @@ get_plugin_config_frame(PurplePlugin *plugin)
 			gtk_label_new(_("Authorization")));
 
 	pidgin_prefs_checkbox(
-		_("Suppress repeated authorization requests\n(requires privacy settings to block individual users)"),
+		_("Suppress repeated authorization requests"),
 		"/plugins/core/pidgin_pp/block_denied", tab_vbox);
 	pidgin_prefs_checkbox(
 		_("Block all authorization requests"),
