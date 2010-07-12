@@ -1,6 +1,14 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.6.3 (11 Jul 2010) ==
+ * The "sprechen Sie deutsch?" release
+ * Thanks to the #pidgin-de community for suggestions and testing
+ * Added German translation from Mario Siegmann
+ * Re-arranged configuration options into tabs
+ * Show the correct version number on Windows
+ * Fixed a segfault when removing users from the plugin's block list
+
 == v0.6.2 (09 Jul 2010) ==
  * The "and we're back" release
  * pidgin-privacy-please is now translatable
