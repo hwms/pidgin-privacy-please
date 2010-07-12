@@ -7,7 +7,7 @@ pidgin privacy please is a pidgin plugin to stop spammers from annoying you.
 It offers the following features:
 
   - Block individual users
-  - Auto-reply to to blocked messages
+  - Auto-reply to blocked messages
   - Block messages from people who are not on your contact list
     (with an optional auto-reply)
   - Block messages using regular expressions, either against the message
