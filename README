@@ -14,6 +14,7 @@ It offers the following features:
     sender, the message content, or both
   - Suppress repeated/all authorization requests
   - Suppress OSCAR (ICQ/AIM) authorization requests
+  - Suppress authorization requests that contain hyperlinks (needs pidgin 2.8.0)
   - Automatically show user info on authorization requests
   - Block jabber headline messages (eg. alerts from the MSN transport)
   - Block AOL system messages

@@ -2,6 +2,12 @@
 		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
+v0.6.4 (xx xxx 2010)
+====================
+ * Fixed a logic error that would prevent the user info dialog to be shown
+   automatically when suppression of repeated auth requests was disabled
+ * Added option to block authorization requests that contain hyperlinks
+
 v0.6.3 (11 Jul 2010)
 ====================
  * The "sprechen Sie deutsch?" release
