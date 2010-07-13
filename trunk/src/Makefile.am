@@ -6,6 +6,7 @@ pkgdir = \
 
 PIDGIN_PP_SOURCES = \
 	auto-reply.c auto-reply.h \
+	blocklist.h blocklist.c \
 	botcheck.h botcheck.c \
 	pp-prefs.h pp-prefs.c \
 	pidgin-pp.c
