@@ -27,4 +27,5 @@ gboolean botcheck_passed(const char *sender);
 gboolean botcheck_verify(const char *sender, const char *message);
 void botcheck_ask(PurpleAccount* account, const char *sender);
 void botcheck_ok(PurpleAccount* account, const char *sender);
+void botcheck_cleanup();
 #endif

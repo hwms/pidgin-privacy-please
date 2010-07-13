@@ -33,6 +33,22 @@
 
 llnode *botcheck_passed_senders = NULL;
 
+void
+botcheck_cleanup()
+{
+	llnode *node;
+
+	purple_debug_info("pidgin-pp", "Freeing botcheck list\n");
+
+	node = botcheck_passed_senders;
+
+	while (node != NULL)
+	{
+		free(node);
+		node = node->next;
+	}
+}
+
 gboolean
 botcheck_passed(const char *sender)
 {
@@ -67,7 +83,7 @@ botcheck_verify(const char *sender, const char *message)
 	}
 }
 
-void
+static void
 botcheck_send(PurpleAccount* account, const char *recipient, const char *msg)
 {
 	PurpleConnection *gc = purple_account_get_connection(account);
@@ -89,7 +105,7 @@ botcheck_send(PurpleAccount* account, const char *recipient, const char *msg)
 	}
 }
 
-void
+static void
 botcheck_add_to_list(const char *sender)
 {
 	llnode *node;

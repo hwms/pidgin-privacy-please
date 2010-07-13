@@ -1,6 +1,6 @@
 /*
  * pidgin privacy please
- * Copyright (C) 2005-2009 Stefan Ott
+ * Copyright (C) 2005-2010 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -31,11 +31,6 @@ typedef struct list_node {
 	struct list_node *next;
 } llnode;
 
-void destroy_msg_list ();
-void debug_msg_list ();
-void rm_from_msg_list (llnode *);
-gboolean is_in_msg_list (const char *);
-void timer_expired (void *);
-void add_to_msg_list (const char *sender);
-void auto_reply (PurpleAccount*, const char *recipient, const char *message);
+void autoreply_cleanup();
+void auto_reply(PurpleAccount*, const char *recipient, const char *message);
 #endif
