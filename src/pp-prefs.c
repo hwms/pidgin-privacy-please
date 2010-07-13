@@ -40,19 +40,23 @@
 #define pref_boolean(name, key) \
 gboolean prefs_##name() \
 { \
-	return purple_prefs_get_bool("/plugins/core/pidgin_pp/##key"); \
+	char path[128]; \
+	sprintf(path, "/plugins/core/pidgin_pp/%s", key); \
+	return purple_prefs_get_bool(path); \
 }
 
 #define pref_string(name, key) \
 const char* prefs_##name() \
 { \
-	return purple_prefs_get_string("/plugins/core/pidgin_pp/##key"); \
+	char path[128]; \
+	sprintf(path, "/plugins/core/pidgin_pp/%s", key); \
+	return purple_prefs_get_string(path); \
 }
 
 // Auto-reply prefs
 
-pref_boolean(reply_blocked, "reply");
-pref_boolean(reply_unknown, "unknown_reply");
+pref_boolean(autoreply_blocked, "reply");
+pref_boolean(autoreply_unknown, "unknown_reply");
 pref_string(autoreply_blocked_msg, "message");
 pref_string(autoreply_unknown_msg, "unknown_message");
 
