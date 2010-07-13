@@ -8,6 +8,7 @@ v0.6.4 (xx xxx 2010)
    automatically when suppression of repeated auth requests was disabled
  * Added option to block authorization requests that contain hyperlinks
  * Corrected text for the "Suppress repeated authorization requests" option
+ * Changed license to GPLv3
  * Code cleanup
 
 v0.6.3 (11 Jul 2010)
