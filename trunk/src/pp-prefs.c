@@ -223,7 +223,8 @@ get_plugin_config_frame(PurplePlugin *plugin)
 
 
 	pidgin_prefs_checkbox(
-		_("Block jabber headline messages (MSN alerts, announcements etc.)"),
+		_("Block jabber headline messages (MSN alerts, "
+			"announcements etc.)"),
 		"/plugins/core/pidgin_pp/block_jabber_headlines", tab_vbox);
 	pidgin_prefs_checkbox(
 		_("Allow all messages on IRC"),
@@ -246,37 +247,58 @@ prefs_init()
 void
 prefs_load()
 {
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/reply", FALSE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/unknown_block", FALSE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/unknown_reply", FALSE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/auth_auto_info", FALSE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_jabber_headlines",
-			FALSE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/allow_all_irc", TRUE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_aol_sys", FALSE);
-	purple_prefs_add_string("/plugins/core/pidgin_pp/message",
-				_("Your message could not be delivered"));
-	purple_prefs_add_string("/plugins/core/pidgin_pp/unknown_message",
-		_("I currently only accept messages from people on my contact"
-				" list - please request my authorization."));
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_denied", FALSE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_all", FALSE);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_oscar", FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/reply",			FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/unknown_block",		FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/unknown_reply",		FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/auth_auto_info",		FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_jabber_headlines",	FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/allow_all_irc",		TRUE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_aol_sys",		FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_denied",			FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_auth_all",		FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_auth_oscar",		FALSE);
 #if PURPLE_VERSION_CHECK(2, 8, 0)
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_auth_with_url", FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_auth_with_url",		FALSE);
 #endif // PURPLE_VERSION_CHECK
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_account_with_regex", FALSE);
-	purple_prefs_add_string("/plugins/core/pidgin_pp/block_account_regex",
-			"spam.*bot");
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/block_message_with_regex", FALSE);
-	purple_prefs_add_string("/plugins/core/pidgin_pp/block_message_regex",
-			"(leather jackets?|gold watch)");
-	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
-	purple_prefs_add_bool("/plugins/core/pidgin_pp/botcheck_enable", FALSE);
-	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_question",
-		_("To prove that you are human, please enter the result of 8+3"));
-	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_answer",
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_account_with_regex", 	FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/block_message_with_regex",	FALSE);
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/botcheck_enable",		FALSE);
+	purple_prefs_add_string(
+		"/plugins/core/pidgin_pp/block_account_regex",
+		"spam.*bot");
+	purple_prefs_add_string(
+		"/plugins/core/pidgin_pp/message",
+		_("Your message could not be delivered"));
+	purple_prefs_add_string(
+		"/plugins/core/pidgin_pp/block_message_regex",
+		"(leather jackets?|gold watch)");
+	purple_prefs_add_string(
+		"/plugins/core/pidgin_pp/botcheck_answer",
 		_("11"));
-	purple_prefs_add_string("/plugins/core/pidgin_pp/botcheck_ok",
+	purple_prefs_add_string(
+		"/plugins/core/pidgin_pp/botcheck_ok",
 		_("Very well then, you may speak"));
+	purple_prefs_add_string(
+		"/plugins/core/pidgin_pp/botcheck_question",
+		_("To prove that you are human, please enter the result of "
+			"8+3"));
+	purple_prefs_add_string(
+		"/plugins/core/pidgin_pp/unknown_message",
+		_("I currently only accept messages from people on my contact "
+				"list - please request my authorization."));
+	purple_prefs_add_string_list("/plugins/core/pidgin_pp/block", NULL);
 }

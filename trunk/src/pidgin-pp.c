@@ -1,6 +1,6 @@
 /*
  * pidgin privacy please
- * Copyright (C) 2005-2009 Stefan Ott
+ * Copyright (C) 2005-2010 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -28,20 +28,10 @@
 
 // pidgin headers for most plugins
 #include <purple.h>
-#include "plugin.h"
-#include "version.h"
+#include <pidgin/gtkutils.h>
+#include <pidgin/gtkplugin.h>
 
-// pidgin headers for this plugin
-#include "util.h"
-#include "debug.h"
-#include "account.h"
-#include "privacy.h"
-#include "blist.h"
-#include "gtkutils.h"
-#include <gtkplugin.h>
-//#include <gtkprefs.h>
-
-// our auto-reply functionality
+// pidgin-pp headers
 #include "pp-prefs.h"
 #include "auto-reply.h"
 #include "botcheck.h"
@@ -352,7 +342,7 @@ actions(PurplePlugin *plugin, gpointer context)
 }
 
 static gboolean
-plugin_load (PurplePlugin * plugin)
+plugin_load(PurplePlugin * plugin)
 {
 	void *conv_handle = purple_conversations_get_handle ();
 	void *acct_handle = purple_accounts_get_handle ();
@@ -385,8 +375,8 @@ plugin_load (PurplePlugin * plugin)
 	}
 	else
 	{
-		purple_debug(PURPLE_DEBUG_INFO, "pidgin-pp", "Jabber support "
-					"missing - disabled headline blocking");
+		purple_debug_info("pidgin-pp",
+			"Jabber support missing - disabled headline blocking");
 	}
 
 	purple_signal_connect(purple_blist_get_handle(),
@@ -398,8 +388,9 @@ plugin_load (PurplePlugin * plugin)
 static gboolean
 plugin_unload(PurplePlugin * plugin)
 {
-	purple_signals_disconnect_by_handle (plugin);
-	destroy_msg_list ();
+	purple_signals_disconnect_by_handle(plugin);
+	autoreply_cleanup();
+	botcheck_cleanup();
 
 	return TRUE;
 }

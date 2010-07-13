@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pidgin-privacy-please\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-13 04:12+0200\n"
+"POT-Creation-Date: 2010-07-13 04:43+0200\n"
 "PO-Revision-Date: 2010-07-11 16:30+0100\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 
-#: ../src/pidgin-pp.c:348
+#: ../src/pidgin-pp.c:338
 msgid "Manage blocked users"
 msgstr "Gesperrte Nutzer verwalten"
 
@@ -26,19 +26,19 @@ msgstr "Gesperrte Nutzer verwalten"
 #. *< flags
 #. *< dependencies
 #. *< priority
-#: ../src/pidgin-pp.c:430
+#: ../src/pidgin-pp.c:421
 msgid "core-pidgin_pp_"
 msgstr "core-pidgin_pp_"
 
-#: ../src/pidgin-pp.c:462 ../src/blocklist.c:208
+#: ../src/pidgin-pp.c:453 ../src/blocklist.c:208
 msgid "Privacy Please"
 msgstr "Privatsphäre bitte"
 
-#: ../src/pidgin-pp.c:463
+#: ../src/pidgin-pp.c:454
 msgid "Stops IM-spam"
 msgstr "Stoppt IM-Spam"
 
-#: ../src/pidgin-pp.c:464
+#: ../src/pidgin-pp.c:455
 msgid ""
 "A simple plugin to stop unwanted messages and repeated authorization "
 "requests from spammers."
@@ -130,39 +130,39 @@ msgid "Block jabber headline messages (MSN alerts, announcements etc.)"
 msgstr ""
 "Sperrt Jabber Schlagzeilen (MSN Benachrichtigungen, Bekanntmachungen etc.)"
 
-#: ../src/pp-prefs.c:229
+#: ../src/pp-prefs.c:230
 msgid "Allow all messages on IRC"
 msgstr "Erlaube alle Nachrichten im IRC"
 
-#: ../src/pp-prefs.c:232
+#: ../src/pp-prefs.c:233
 msgid "Block AOL system messages"
 msgstr "Sperre AOL System-Nachrichten"
 
-#: ../src/pp-prefs.c:258
+#: ../src/pp-prefs.c:285
 msgid "Your message could not be delivered"
 msgstr "Ihre Nachricht konnte nicht zugestellt werden"
 
-#: ../src/pp-prefs.c:260
+#: ../src/pp-prefs.c:291
+msgid "11"
+msgstr "11"
+
+#: ../src/pp-prefs.c:294
+msgid "Very well then, you may speak"
+msgstr "Sehr gut, dann können Sie sprechen"
+
+#: ../src/pp-prefs.c:297
+msgid "To prove that you are human, please enter the result of 8+3"
+msgstr ""
+"Um zu beweisen, dass Sie ein Mensch sind, geben Sie bitte das Ergebnis von 8 "
+"+3 ein"
+
+#: ../src/pp-prefs.c:301
 msgid ""
 "I currently only accept messages from people on my contact list - please "
 "request my authorization."
 msgstr ""
 "Ich akzeptiere aktuell nur Nachrichten von Leuten, die in meiner "
 "Kontaktliste stehen - Bitte fordern Sie eine Autorisierung an"
-
-#: ../src/pp-prefs.c:277
-msgid "To prove that you are human, please enter the result of 8+3"
-msgstr ""
-"Um zu beweisen, dass Sie ein Mensch sind, geben Sie bitte das Ergebnis von 8 "
-"+3 ein"
-
-#: ../src/pp-prefs.c:279
-msgid "11"
-msgstr "11"
-
-#: ../src/pp-prefs.c:281
-msgid "Very well then, you may speak"
-msgstr "Sehr gut, dann können Sie sprechen"
 
 #: ../src/blocklist.c:150
 msgid "Unblock (privacy please)"

@@ -1,6 +1,6 @@
 /*
  * pidgin privacy please
- * Copyright (C) 2005-2009 Stefan Ott
+ * Copyright (C) 2005-2010 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -27,60 +27,56 @@
 #include <string.h>
 #include <stdlib.h>
 
-// gaim headers for most plugins
+// pidgin headers
 #include <purple.h>
-#include "plugin.h"
-#include "version.h"
 
-// gaim headers for this plugin
-#include "util.h"
-#include "debug.h"
-
+// pidgin-pp headers
 #include "auto-reply.h"
 
 llnode *head = NULL;
 
 void
-destroy_msg_list ()
+autoreply_cleanup()
 {
 	llnode *node;
 
-	purple_debug_info ("pidgin-pp", "Freeing message list\n");
+	purple_debug_info("pidgin-pp", "Freeing message list\n");
 
 	node = head;
 
 	while (node != NULL)
 	{
-		free (node);
+		free(node);
 		node = node->next;
 	}
 }
 
-void
-debug_msg_list ()
+static void
+debug_msg_list()
 {
 	llnode *current;
+	char *sender;
 
-	purple_debug_info ("pidgin-pp", ",----- Current message list -----\n");
+	purple_debug_info("pidgin-pp", ",----- Current message list -----\n");
 
 	current = head;
 
 	while (current != NULL)
 	{
-		char *sender = current->sender;
-		purple_debug_info ("pidgin-pp", "| %s\n", sender);
+		sender = current->sender;
+		purple_debug_info("pidgin-pp", "| %s\n", sender);
 		current = current->next;
 	}
 
-	purple_debug_info ("pidgin-pp", "`--------------------------------\n");
+	purple_debug_info("pidgin-pp", "`--------------------------------\n");
 }
 
-void
-rm_from_msg_list (llnode *node)
+static void
+rm_from_msg_list(llnode *node)
 {
 	llnode *current, *prev;
 
-	purple_debug_info ("pidgin-pp", "Removing %s from list\n",
+	purple_debug_info("pidgin-pp", "Removing %s from list\n",
 								node->sender);
 	current = head;
 	prev = NULL;
@@ -104,85 +100,85 @@ rm_from_msg_list (llnode *node)
 	}
 }
 
-gboolean
-is_in_msg_list (const char *sender)
+static gboolean
+is_in_msg_list(const char *sender)
 {
 	llnode *node = head;
 
 	while (node != NULL)
 	{
-		if (strcmp (sender, node->sender) == 0) return TRUE;
+		if (strcmp(sender, node->sender) == 0) return TRUE;
 		node = node->next;
 	}
 	return FALSE;
 }
 
-void
-timer_expired (void *data)
+static void
+timer_expired(void *data)
 {
 	llnode *node = (llnode *) data;
 
-	purple_debug_info ("pidgin-pp", "Timer for %s expired\n", node->sender);
+	purple_debug_info("pidgin-pp", "Timer for %s expired\n", node->sender);
 
-	g_source_remove (node->timer);
+	g_source_remove(node->timer);
 
-	rm_from_msg_list (node);
+	rm_from_msg_list(node);
 	debug_msg_list ();
 }
 
-void
-add_to_msg_list (const char *sender)
+static void
+add_to_msg_list(const char *sender)
 {
 	llnode *node;
 
-	if ((node = malloc (sizeof (llnode))) == NULL)
+	if ((node = malloc(sizeof(llnode))) == NULL)
 	{
-		purple_debug_fatal ("pidgin-pp", "Malloc failed\n");
+		purple_debug_fatal("pidgin-pp", "Malloc failed\n");
 		return;
 	}
 
-	if ((node->sender = malloc (MAX_NAME_LENGTH + 1)) == NULL)
+	if ((node->sender = malloc(MAX_NAME_LENGTH + 1)) == NULL)
 	{
-		free (node);
-		purple_debug_fatal ("pidgin-pp", "Malloc failed\n");
+		free(node);
+		purple_debug_fatal("pidgin-pp", "Malloc failed\n");
 		return;
 	}
-	strncpy (node->sender, sender, MAX_NAME_LENGTH);
+	strncpy(node->sender, sender, MAX_NAME_LENGTH);
 	node->next = head;
 	head = node;
 
 	node->timer = g_timeout_add(MSG_LIST_TIMEOUT,
 					(GSourceFunc) timer_expired, node);
-
-	debug_msg_list ();
+	debug_msg_list();
 }
 
 void
 auto_reply (PurpleAccount* account, const char *recipient, const char *message)
 {
-	purple_debug_info ("pidgin-pp", "Auto-reply: '%s'\n", message);
 	PurpleConnection *gc;
 	PurplePluginProtocolInfo *prpl_info;
 
+	purple_debug_info("pidgin-pp", "Auto-reply: '%s'\n", message);
+
 	// Don't send another message within MSG_LIST_TIMEOUT
-	if (is_in_msg_list (recipient)) return;
+	if (is_in_msg_list(recipient)) return;
 
 	gc = NULL;
 	prpl_info = NULL;
 
-	gc = purple_account_get_connection (account);
+	gc = purple_account_get_connection(account);
 
 	if (gc != NULL && gc->prpl != NULL)
 	{
-		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO (gc->prpl);
+		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl);
 	}
 
 	if (prpl_info && prpl_info->send_im)
 	{
-		purple_debug_info ("pidgin-pp", "Sending to: %s\n", recipient);
+		purple_debug_info("pidgin-pp", "Sending to: %s\n", recipient);
 		prpl_info->send_im(gc, recipient, message,
 						PURPLE_MESSAGE_AUTO_RESP);
-		add_to_msg_list (recipient);
+		add_to_msg_list(recipient);
 	}
 
 	return;
