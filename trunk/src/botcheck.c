@@ -27,7 +27,7 @@
 #include <plugin.h>
 
 // pidgin-pp headers
-#include "auto-reply.h"
+#include "autoreply.h"
 #include "botcheck.h"
 #include "pp-prefs.h"
 
