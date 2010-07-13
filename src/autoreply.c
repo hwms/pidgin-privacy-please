@@ -31,7 +31,7 @@
 #include <purple.h>
 
 // pidgin-pp headers
-#include "auto-reply.h"
+#include "autoreply.h"
 
 llnode *head = NULL;
 

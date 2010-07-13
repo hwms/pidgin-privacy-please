@@ -40,7 +40,7 @@ LIB_PATHS +=		-L$(GTK_TOP)/lib \
 ##  SOURCES, OBJECTS
 ##
 C_SRC =			pidgin-pp.c \
-			auto-reply.c \
+			autoreply.c \
 			botcheck.c \
 			blocklist.c \
 			pp-prefs.c

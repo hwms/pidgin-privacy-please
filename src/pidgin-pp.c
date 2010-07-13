@@ -33,7 +33,7 @@
 
 // pidgin-pp headers
 #include "pp-prefs.h"
-#include "auto-reply.h"
+#include "autoreply.h"
 #include "botcheck.h"
 #include "blocklist.h"
 
