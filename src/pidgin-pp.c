@@ -220,6 +220,14 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 	// = 0: prompt user
 	// > 0: accept
 
+	int deny = -1;
+
+	if (g_str_equal(account->protocol_id, "prpl-aim") ||
+		g_str_equal(account->protocol_id, "prpl-icq"))
+	{
+		deny = -2; // silently drop ICQ requests
+	}
+
 	//purple_debug_info("pidgin-pp", "request_authorization_cb\n");
 	purple_debug_info("pidgin-pp",
 			"Processing authorization request from %s\n", sender);
@@ -228,7 +236,7 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 	{
 		purple_debug_info("pidgin-pp",
 			"Blocking authorization request from %s\n", sender);
-		return -1; // deny
+		return deny;
 	}
 
 	if (prefs_auth_block_oscar() &&
@@ -238,9 +246,8 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 		))
 	{
 		purple_debug_info("pidgin-pp",
-			"Blocking OSCAR authorization request from %s\n",
-			sender);
-		return -1; // deny
+			"Blocking OSCAR auth request from %s\n", sender);
+		return deny;
 	}
 
 #if PURPLE_VERSION_CHECK(2, 8, 0)
@@ -254,14 +261,16 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 			purple_debug_info("pidgin-pp",
 				"Blocking auth request with url from %s\n"
 				sender);
-			return -1; // deny
+			return deny;
 		}
 	}
 #endif // PURPLE_VERSION_CHECK
 
 	if (prefs_auth_block_repeated() && blocklist_contains(sender))
 	{
-		return -1; // deny
+		purple_debug_info("pidgin-pp",
+			"Blocking repeated auth request from %s\n", sender);
+		return deny;
 	}
 
 	if (prefs_auth_auto_info())
@@ -302,7 +311,7 @@ jabber_xmlnode_cb(PurpleConnection *gc, xmlnode **packet, gpointer null)
 	if ((node == NULL) || (node->name == NULL))
 		return;
 
-	node_name = g_markup_escape_text (node->name, -1);
+	node_name = g_markup_escape_text(node->name, -1);
 
 	if (!strcmp(node_name, "message"))
 	{
