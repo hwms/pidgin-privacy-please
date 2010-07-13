@@ -22,17 +22,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-// gaim headers for most plugins
+// pidgin headers
 #include <purple.h>
-#include "plugin.h"
-#include "version.h"
+#include <plugin.h>
 
-// gaim headers for this plugin
-#include "util.h"
-#include "debug.h"
-
+// pidgin-pp headers
 #include "auto-reply.h"
 #include "botcheck.h"
+#include "pp-prefs.h"
 
 llnode *botcheck_passed_senders = NULL;
 
@@ -53,8 +50,7 @@ botcheck_passed(const char *sender)
 gboolean
 botcheck_verify(const char *sender, const char *message)
 {
-	const char *correct = purple_prefs_get_string(
-			"/plugins/core/pidgin_pp/botcheck_answer");
+	const char *correct = prefs_botcheck_answer();
 
 	// we only want the correct string to be part of the message,
 	// the body may contain other stuff, too
@@ -65,8 +61,8 @@ botcheck_verify(const char *sender, const char *message)
 	}
 	else
 	{
-		purple_debug_info("pidgin-pp", "Botcheck: Wrong answer or "
-				"initial message\n");
+		purple_debug_info("pidgin-pp",
+			"Botcheck: Wrong answer or initial message\n");
 		return FALSE;
 	}
 }
@@ -79,7 +75,7 @@ botcheck_send(PurpleAccount* account, const char *recipient, const char *msg)
 
 	if (gc != NULL && gc->prpl != NULL)
 	{
-		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO (gc->prpl);
+		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl);
 	}
 
 	if (prpl_info && prpl_info->send_im)
@@ -119,8 +115,7 @@ void
 botcheck_ask(PurpleAccount* account, const char *sender)
 {
 	purple_debug_info("pidgin-pp", "Botcheck: asking question\n");
-	const char *message = purple_prefs_get_string(
-				"/plugins/core/pidgin_pp/botcheck_question");
+	const char *message = prefs_botcheck_question();
 	botcheck_send(account, sender, message);
 }
 
@@ -129,7 +124,6 @@ botcheck_ok(PurpleAccount* account, const char *sender)
 {
 	botcheck_add_to_list(sender);
 	purple_debug_info("pidgin-pp", "Botcheck: confirming answer\n");
-	const char *message = purple_prefs_get_string(
-				"/plugins/core/pidgin_pp/botcheck_ok");
+	const char *message = prefs_botcheck_ok();
 	botcheck_send(account, sender, message);
 }
