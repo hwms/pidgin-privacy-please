@@ -2,19 +2,18 @@
  * pidgin privacy please
  * Copyright (C) 2005-2010 Stefan Ott
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 2 of the License, or (at your option)
- * any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- * more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // config.h
@@ -80,11 +79,11 @@ pp_match_msg_regex(char *message)
 }
 #endif // GLIB_CHECK_VERSION
 
-/**
- * This is our callback for the receiving-im-msg signal.
- *
- * We return TRUE to block the IM, FALSE to accept the IM
- */
+//
+// This is our callback for the receiving-im-msg signal.
+//
+// We return TRUE to block the IM, FALSE to accept the IM
+//
 static gboolean
 receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 			PurpleConversation *conv, PurpleMessageFlags *flags)
@@ -105,7 +104,8 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	if ((!strcmp(account->protocol_id, "prpl-irc")) &&
 			prefs_allow_all_irc())
 	{
-		return FALSE;
+		purple_debug_info("pidgin-pp", "Accepting IRC message\n");
+		return FALSE; // accept
 	}
 
 	// block AOL system messages
@@ -119,11 +119,7 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	// block using account regex
 	if (prefs_block_account_using_regex() && pp_match_sender_regex(*sender))
 	{
-		purple_debug_info(
-			"pidgin-pp", "Blocking account using regex\n");
-
-		// TODO: pidgin should actually emit a signal when we block a
-		// message (but it doesn't). remember to file a bug report.
+		purple_debug_info("pidgin-pp", "Blocking account with regex\n");
 		msg_blocked_cb(account, *sender);
 		return TRUE; // block
 	}
@@ -131,11 +127,7 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	// block using message regex
 	if (prefs_block_message_using_regex() && pp_match_msg_regex(*message))
 	{
-		purple_debug_info(
-			"pidgin-pp", "Blocking message using regex\n");
-
-		// TODO: pidgin should actually emit a signal when we block a
-		// message (but it doesn't). remember to file a bug report.
+		purple_debug_info("pidgin-pp", "Blocking message with regex\n");
 		msg_blocked_cb(account, *sender);
 		return TRUE; // block
 	}
@@ -144,10 +136,8 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 	// block blocked buddies
 	if (blocklist_contains(*sender))
 	{
-		purple_debug_info("pidgin-pp", "Blocking %s\n", *sender);
-
-		// TODO: pidgin should actually emit a signal when we block a
-		// message (but it doesn't). remember to file a bug report.
+		purple_debug_info("pidgin-pp", "%s on blocklist, blocking\n",
+				*sender);
 		msg_blocked_cb(account, *sender);
 		return TRUE; // block
 	}
@@ -228,14 +218,13 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 		deny = -2; // silently drop ICQ requests
 	}
 
-	//purple_debug_info("pidgin-pp", "request_authorization_cb\n");
 	purple_debug_info("pidgin-pp",
 			"Processing authorization request from %s\n", sender);
 
 	if (prefs_auth_block_all())
 	{
 		purple_debug_info("pidgin-pp",
-			"Blocking authorization request from %s\n", sender);
+			"Blocking authorization request (blocking all)\n");
 		return deny;
 	}
 
@@ -245,8 +234,7 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 			g_str_equal(account->protocol_id, "prpl-icq")
 		))
 	{
-		purple_debug_info("pidgin-pp",
-			"Blocking OSCAR auth request from %s\n", sender);
+		purple_debug_info("pidgin-pp", "Blocking OSCAR auth request\n");
 		return deny;
 	}
 
@@ -259,8 +247,7 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 		if (match)
 		{
 			purple_debug_info("pidgin-pp",
-				"Blocking auth request with url from %s\n"
-				sender);
+					"Blocking auth request with url\n");
 			return deny;
 		}
 	}
@@ -268,8 +255,7 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 
 	if (prefs_auth_block_repeated() && blocklist_contains(sender))
 	{
-		purple_debug_info("pidgin-pp",
-			"Blocking repeated auth request from %s\n", sender);
+		purple_debug_info("pidgin-pp", "Blocking repeated request\n");
 		return deny;
 	}
 
@@ -340,14 +326,14 @@ jabber_xmlnode_cb(PurpleConnection *gc, xmlnode **packet, gpointer null)
 static GList *
 actions(PurplePlugin *plugin, gpointer context)
 {
-	GList *l = NULL;
-	PurplePluginAction *act = NULL;
+	GList *actions = NULL;
+	PurplePluginAction *action = NULL;
 
-	act = purple_plugin_action_new(
+	action = purple_plugin_action_new(
 				_("Manage blocked users"), blocklist_manage);
-	l = g_list_append(l, act);
+	actions = g_list_append(actions, action);
 
-	return l;
+	return actions;
 }
 
 static gboolean
@@ -361,26 +347,26 @@ plugin_load(PurplePlugin * plugin)
 	prefs_load();
 
 	purple_signal_connect(conv_handle, "receiving-im-msg",
-			plugin, PURPLE_CALLBACK (receiving_im_msg_cb), NULL);
+			plugin, PURPLE_CALLBACK(receiving_im_msg_cb), NULL);
 #if PURPLE_VERSION_CHECK(2, 8, 0)
 	purple_signal_connect(acct_handle,
 			"account-authorization-requested-with-message",
-			plugin, PURPLE_CALLBACK (request_authorization_cb),
+			plugin, PURPLE_CALLBACK(request_authorization_cb),
 			NULL);
 #else
 	purple_signal_connect(acct_handle, "account-authorization-requested",
-			plugin, PURPLE_CALLBACK (request_authorization_cb),
+			plugin, PURPLE_CALLBACK(request_authorization_cb),
 			NULL);
 #endif // PURPLE_VERSION_CHECK
 	purple_signal_connect(acct_handle, "account-authorization-denied",
-			plugin, PURPLE_CALLBACK (authorization_deny_cb), NULL);
+			plugin, PURPLE_CALLBACK(authorization_deny_cb), NULL);
 	purple_signal_connect(conv_handle, "blocked-im-msg",
-			plugin, PURPLE_CALLBACK (msg_blocked_cb), NULL);
+			plugin, PURPLE_CALLBACK(msg_blocked_cb), NULL);
 
 	if (jabber)
 	{
 		purple_signal_connect(jabber, "jabber-receiving-xmlnode",
-			plugin, PURPLE_CALLBACK (jabber_xmlnode_cb), NULL);
+			plugin, PURPLE_CALLBACK(jabber_xmlnode_cb), NULL);
 	}
 	else
 	{
