@@ -41,7 +41,8 @@ LIB_PATHS +=		-L$(GTK_TOP)/lib \
 ##
 C_SRC =			pidgin-pp.c \
 			auto-reply.c \
-			botcheck.c
+			botcheck.c \
+			pp-prefs.c
 
 OBJECTS = $(C_SRC:%.c=%.o)
 
