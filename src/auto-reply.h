@@ -1,6 +1,6 @@
 /*
  * pidgin privacy please
- * Copyright (C) 2005-2010 Stefan Ott
+ * Copyright (C) 2005-2009 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -17,14 +17,23 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef BOTCHECK_H
-#define BOTCHECK_H
+#ifndef AUTO_REPLY_H
+#define AUTO_REPLY_H
 
-//#define MAX_NAME_LENGTH 256
-//#define MSG_LIST_TIMEOUT 5000
+#define MAX_NAME_LENGTH 256
+#define MSG_LIST_TIMEOUT 5000
 
-gboolean botcheck_passed(const char *sender);
-gboolean botcheck_verify(const char *sender, const char *message);
-void botcheck_ask(PurpleAccount* account, const char *sender);
-void botcheck_ok(PurpleAccount* account, const char *sender);
+typedef struct list_node {
+	char *sender;
+	guint timer;
+	struct list_node *next;
+} llnode;
+
+void destroy_msg_list ();
+void debug_msg_list ();
+void rm_from_msg_list (llnode *);
+gboolean is_in_msg_list (const char *);
+void timer_expired (void *);
+void add_to_msg_list (const char *sender);
+void auto_reply (PurpleAccount*, const char *recipient, const char *message);
 #endif
