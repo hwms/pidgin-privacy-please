@@ -14,7 +14,7 @@ export PIDGIN_DEV_ROOT=/tmp/build/
 export SOURCES_DIR=${PIDGIN_DEV_ROOT}/sources/
 export DEV_DIR=${PIDGIN_DEV_ROOT}/win32-dev
 export MINGW_DIR=${DEV_DIR}/mingw
-export PIDGIN_DIR=${PIDGIN_DEV_ROOT}/${PIDGIN_VERSION}
+export PIDGIN_DIR=${PIDGIN_DEV_ROOT}/pidgin-${PIDGIN_VERSION}
 
 mkdir -p ${SOURCES_DIR}
 mkdir -p ${MINGW_DIR}
