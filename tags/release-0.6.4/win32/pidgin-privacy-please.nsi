@@ -15,10 +15,13 @@ Name "Pidgin Privacy Please Plugin"
 OutFile "pidgin-privacy-please-${VERSION}.exe"
 
 ;Default installation folder
-InstallDir "$PROGRAMFILES\Pidgin\plugins"
+InstallDir "$PROGRAMFILES\Pidgin"
 
 ;Get installation folder from registry if available
 InstallDirRegKey HKCU "Software\Pidgin Privacy Please Plugin" ""
+
+;Request application privileges for Windows Vista
+RequestExecutionLevel user
 
 ;--------------------------------
 ;Interface Settings
@@ -37,6 +40,10 @@ InstallDirRegKey HKCU "Software\Pidgin Privacy Please Plugin" ""
 !insertmacro MUI_UNPAGE_INSTFILES
 
 ;--------------------------------
+;Other stuff
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\pidgin-privacy-please"
+
+;--------------------------------
 ;Languages
 
 !insertmacro MUI_LANGUAGE "English"
@@ -46,17 +53,23 @@ InstallDirRegKey HKCU "Software\Pidgin Privacy Please Plugin" ""
 
 Section "PidginPrivacyPlease" SecPidginPP
 
-SetOutPath "$INSTDIR"
+SetOutPath "$INSTDIR\plugins"
 
 File "..\src\pidgin-pp.dll"
 
 !include po_install.nsi
 
 ;Store installation folder
-WriteRegStr HKCU "Software\Pidgin Privacy Please Plugin" "" $INSTDIR
+WriteRegStr HKCU "Software\Pidgin Privacy Please Plugin" "" "$INSTDIR"
+
+;Add uninstall information to the registry
+WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayName" "Pidgin Privacy Please Plugin"
+WriteRegStr HKLM "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall-pidgin-pp.exe"
 
 ;Create uninstaller
+SetOverWrite on
 WriteUninstaller "$INSTDIR\Uninstall-pidgin-pp.exe"
+SetOverWrite off
 
 SectionEnd
 
@@ -79,8 +92,11 @@ Section "Uninstall"
 ;ADD YOUR OWN FILES HERE...
 
 Delete "$INSTDIR\Uninstall-pidgin-pp.exe"
-Delete "$INSTDIR\pidgin-pp.dll"
+Delete "$INSTDIR\plugins\pidgin-pp.dll"
+
+!include po_uninstall.nsi
 
 DeleteRegKey /ifempty HKCU "Software\Pidgin Privacy Please Plugin"
+DeleteRegKey HKLM "${UNINSTALL_KEY}"
 
 SectionEnd
