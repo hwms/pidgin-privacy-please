@@ -142,8 +142,10 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 		return TRUE; // block
 	}
 
-	// bot check
-	if (prefs_botcheck_enabled())
+	buddy = purple_find_buddy (account, *sender);
+
+	// bot check (only if no contact list entry)
+	if (buddy == NULL && prefs_botcheck_enabled())
 	{
 		if (botcheck_passed(*sender))
 		{
@@ -166,8 +168,6 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 			return TRUE; // block
 		}
 	}
-
-	buddy = purple_find_buddy (account, *sender);
 
 	if (buddy == NULL) // No contact list entry
 	{
