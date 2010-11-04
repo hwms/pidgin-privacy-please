@@ -13,22 +13,23 @@ export PIDGIN_DEV_ROOT=/tmp/build/
 export SOURCES_DIR=${PIDGIN_DEV_ROOT}/sources/
 export DEV_DIR=${PIDGIN_DEV_ROOT}/win32-dev
 export MINGW_DIR=${DEV_DIR}/mingw
-export PIDGIN_DIR=${PIDGIN_DEV_ROOT}/pidgin-2.7.1
+export PIDGIN_DIR=${PIDGIN_DEV_ROOT}/pidgin-2.7.5
 
 mkdir -p ${SOURCES_DIR}
 mkdir -p ${MINGW_DIR}
 
 cd ${SOURCES_DIR}
-wget http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GNU-Binutils/binutils-2.20/binutils-2.20-1-mingw32-bin.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/MinGW-RT/mingwrt-3.17/mingwrt-3.17-mingw32-dev.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/MinGW-RT/mingwrt-3.17/mingwrt-3.17-mingw32-dll.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/Win32-API/w32api-3.14/w32api-3.14-mingw32-dev.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/GCC%20Version%204/gmp-4.2.4-mingw32-dll.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/MinGW%20libiconv/libiconv-1.13.1-1-mingw32-dll-2.tar.lzma/download
-wget http://sourceforge.net/projects/mingw/files/GCC%20Version%204/mpfr-2.4.1-mingw32-dll.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/GCC%20Version%204/pthreads-w32-2.8.0-mingw32-dll.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/GCC%20Version%204/gcc-core-4.4.0-mingw32-bin.tar.gz/download
-wget http://sourceforge.net/projects/mingw/files/GCC%20Version%204/gcc-core-4.4.0-mingw32-dll.tar.gz/download
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GNU-Binutils/binutils-2.20/binutils-2.20-1-mingw32-bin.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/MinGW-RT/mingwrt-3.17/mingwrt-3.17-mingw32-dev.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/MinGW-RT/mingwrt-3.17/mingwrt-3.17-mingw32-dll.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/Win32-API/w32api-3.14/w32api-3.14-mingw32-dev.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/gmp-4.2.4-mingw32-dll.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW%20libiconv/libiconv-1.13.1-1-mingw32-dll-2.tar.lzma
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/libiconv/libiconv-1.13.1-1/libiconv-1.13.1-1-mingw32-dll-2.tar.lzma
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/mpfr-2.4.1-mingw32-dll.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/pthreads-w32-2.8.0-mingw32-dll.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/gcc-core-4.4.0-mingw32-bin.tar.gz
+wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/gcc-core-4.4.0-mingw32-dll.tar.gz
 
 cd ${MINGW_DIR}
 for file in ${SOURCES_DIR}/*tar.gz ; do tar xzvf ${file} ; done
