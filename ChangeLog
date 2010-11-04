@@ -2,6 +2,11 @@
 		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
+v0.6.4 (04 Nov 2010)
+====================
+ * The "hey, i *know* you" release
+ * Fixed an issue where known buddies would be bot checked
+
 v0.6.3 (11 Jul 2010)
 ====================
  * The "sprechen Sie deutsch?" release
