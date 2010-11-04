@@ -1,6 +1,6 @@
 /*
  * pidgin privacy please
- * Copyright (C) 2005-2009 Stefan Ott
+ * Copyright (C) 2005-2010 Stefan Ott
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -302,8 +302,10 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 		return TRUE; // block
 	}
 
-	// bot check
-	if (conf_botcheck_enabled())
+	buddy = purple_find_buddy (account, *sender);
+
+	// bot check (only if no contact list entry
+	if (buddy == NULL && conf_botcheck_enabled())
 	{
 		if (botcheck_passed(*sender))
 		{
@@ -326,8 +328,6 @@ receiving_im_msg_cb(PurpleAccount* account, char **sender, char **message,
 			return TRUE; // block
 		}
 	}
-
-	buddy = purple_find_buddy (account, *sender);
 
 	if (buddy == NULL) // No contact list entry
 	{
