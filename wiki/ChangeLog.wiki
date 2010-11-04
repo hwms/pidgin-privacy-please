@@ -1,8 +1,7 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
-v0.6.4 (04 Nov 2010)
-====================
+== v0.6.4 (04 Nov 2010) ==
  * The "hey, i *know* you" release
  * Fixed an issue where known buddies would be bot checked
  * Fixed the Windows installer
