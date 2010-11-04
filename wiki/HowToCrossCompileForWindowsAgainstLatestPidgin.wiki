@@ -25,7 +25,6 @@ wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLib
 wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/MinGW-RT/mingwrt-3.17/mingwrt-3.17-mingw32-dll.tar.gz
 wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/RuntimeLibrary/Win32-API/w32api-3.14/w32api-3.14-mingw32-dev.tar.gz
 wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/gmp-4.2.4-mingw32-dll.tar.gz
-wget -nv http://sourceforge.net/projects/mingw/files/MinGW%20libiconv/libiconv-1.13.1-1-mingw32-dll-2.tar.lzma
 wget -nv http://sourceforge.net/projects/mingw/files/MinGW/libiconv/libiconv-1.13.1-1/libiconv-1.13.1-1-mingw32-dll-2.tar.lzma
 wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/mpfr-2.4.1-mingw32-dll.tar.gz
 wget -nv http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GCC/Version4/Previous%20Release%20gcc-4.4.0/pthreads-w32-2.8.0-mingw32-dll.tar.gz
