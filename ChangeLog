@@ -2,14 +2,21 @@
 		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
-v0.6.4 (xx xxx 2010)
+v0.7.0 (xx xxx 2010)
 ====================
+ * Needs pidgin 2.8.0 or greater
  * Fixed a logic error that would cause the user info dialog not to be shown
    automatically when suppression of repeated auth requests was disabled
  * Added option to block authorization requests that contain hyperlinks
  * Corrected text for the "Suppress repeated authorization requests" option
  * Changed license to GPLv3
  * Code cleanup
+
+v0.6.4 (04 Nov 2010)
+====================
+ * The "hey, i *know* you" release
+ * Fixed an issue where known buddies would be bot checked
+ * Fixed the Windows installed
 
 v0.6.3 (11 Jul 2010)
 ====================
