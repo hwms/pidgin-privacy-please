@@ -18,7 +18,9 @@ OutFile "pidgin-privacy-please-${VERSION}.exe"
 InstallDir "$PROGRAMFILES\Pidgin"
 
 ;Get installation folder from registry if available
-InstallDirRegKey HKCU "Software\Pidgin Privacy Please Plugin" ""
+;TODO: re-enable this at >0.6.4 (had to be disabled as a work-around because
+;older versions might have stored Pidgin\plugins in there
+;InstallDirRegKey HKCU "Software\Pidgin Privacy Please Plugin" ""
 
 ;Abort if some files cannot be written
 AllowSkipFiles off
