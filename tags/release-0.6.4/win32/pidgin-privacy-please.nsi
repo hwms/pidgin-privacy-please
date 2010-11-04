@@ -20,6 +20,9 @@ InstallDir "$PROGRAMFILES\Pidgin"
 ;Get installation folder from registry if available
 InstallDirRegKey HKCU "Software\Pidgin Privacy Please Plugin" ""
 
+;Abort if some files cannot be written
+AllowSkipFiles off
+
 ;Request application privileges for Windows Vista
 RequestExecutionLevel user
 
@@ -65,11 +68,14 @@ WriteRegStr HKCU "Software\Pidgin Privacy Please Plugin" "" "$INSTDIR"
 ;Add uninstall information to the registry
 WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayName" "Pidgin Privacy Please Plugin"
 WriteRegStr HKLM "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall-pidgin-pp.exe"
+WriteRegStr HKLM "${UNINSTALL_KEY}" "HelpLink" "http://pidgin-privacy-please.googlecode.com/"
+WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayVersion" "${VERSION}"
+WriteRegStr HKLM "${UNINSTALL_KEY}" "Publisher" "Stefan Ott"
+WriteRegDWORD HKLM "${UNINSTALL_KEY}" "NoModify" 1
+WriteRegDWORD HKLM "${UNINSTALL_KEY}" "NoRepair" 1
 
 ;Create uninstaller
-SetOverWrite on
 WriteUninstaller "$INSTDIR\Uninstall-pidgin-pp.exe"
-SetOverWrite off
 
 SectionEnd
 
