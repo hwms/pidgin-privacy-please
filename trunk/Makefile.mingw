@@ -28,7 +28,7 @@ $(PO_INSTALL_SCRIPT):
 		file=$${file/po\//} ; \
 		lang=$${file/.gmo/} ; \
 		echo 'SetOutPath "$$INSTDIR"' >> $(PO_INSTALL_SCRIPT) ; \
-		echo "CreateDirectory locale\\$$lang\\LC_MESSAGES" >>$(PO_INSTALL_SCRIPT) ; \
+		echo "CreateDirectory \$$INSTDIR\locale\\$$lang\\LC_MESSAGES" >>$(PO_INSTALL_SCRIPT) ; \
 		echo  "File /oname=locale\\$$lang\\LC_MESSAGES\\pidgin-privacy-please.mo ..\\po\\$$file" >>$(PO_INSTALL_SCRIPT) ; \
 	done
 
@@ -39,6 +39,8 @@ $(PO_UNINSTALL_SCRIPT):
 		lang=$${file/.gmo/} ; \
 		echo 'SetOutPath "$$INSTDIR"' >> $(PO_INSTALL_SCRIPT) ; \
 		echo "Delete \"\$$INSTDIR\locale\\$$lang\\LC_MESSAGES\\pidgin-privacy-please.mo\"" >>$(PO_UNINSTALL_SCRIPT) ; \
+		echo "RMDir \$$INSTDIR\locale\\$$lang\\LC_MESSAGES" >>$(PO_UNINSTALL_SCRIPT) ; \
+		echo "RMDir \$$INSTDIR\locale\\$$lang" >>$(PO_UNINSTALL_SCRIPT) ; \
 	done
 
 dist: $(PO_INSTALL_SCRIPT) $(PO_UNINSTALL_SCRIPT)

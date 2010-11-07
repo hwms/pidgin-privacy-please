@@ -26,7 +26,7 @@ InstallDir "$PROGRAMFILES\Pidgin"
 AllowSkipFiles off
 
 ;Request application privileges for Windows Vista
-RequestExecutionLevel user
+RequestExecutionLevel highest
 
 ;--------------------------------
 ;Interface Settings
@@ -97,12 +97,12 @@ LangString DESC_SecPidginPP ${LANG_ENGLISH} "The Pidgin Privacy Please Plugin."
 
 Section "Uninstall"
 
-;ADD YOUR OWN FILES HERE...
-
 Delete "$INSTDIR\Uninstall-pidgin-pp.exe"
 Delete "$INSTDIR\plugins\pidgin-pp.dll"
 
 !include po_uninstall.nsi
+
+RMDir "$INSTDIR\locale"
 
 DeleteRegKey /ifempty HKCU "Software\Pidgin Privacy Please Plugin"
 DeleteRegKey HKLM "${UNINSTALL_KEY}"
