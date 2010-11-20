@@ -1,0 +1,171 @@
+# Copyright (C) 2010
+# This file is distributed under the same license as the Pidgin-Privacy-Please package.
+# Anatoliy Kozlov <tolik-x@yandex.ru>, 2010
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pidgin-privacy-please\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-18 7:59+0300\n"
+"PO-Revision-Date: 2010-10-18 7:59+0300\n"
+"Last-Translator: Anatoliy Kozlov <tolik-x@yandex.ru>\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIA\n"
+
+#: ../src/pidgin-pp.c:338
+msgid "Manage blocked users"
+msgstr "Управление заблокированными пользователями"
+
+#. *< type
+#. *< ui_requirement
+#. *< flags
+#. *< dependencies
+#. *< priority
+#: ../src/pidgin-pp.c:421
+msgid "core-pidgin_pp_"
+msgstr "core-pidgin_pp_"
+
+#: ../src/pidgin-pp.c:453 ../src/blocklist.c:208
+msgid "Privacy Please"
+msgstr "Privacy Please"
+
+#: ../src/pidgin-pp.c:454
+msgid "Stops IM-spam"
+msgstr "Остановка IM-спама"
+
+#: ../src/pidgin-pp.c:455
+msgid ""
+"A simple plugin to stop unwanted messages and repeated authorization "
+"requests from spammers."
+msgstr ""
+"Простой плагин для блокировки нежелательных сообщений и повторных запросов авторизации "
+"от спамеров."
+
+#: ../src/pp-prefs.c:132
+msgid "Auto-reply"
+msgstr "Авто-ответ"
+
+#: ../src/pp-prefs.c:134
+msgid "Auto-reply on blocked messages with:"
+msgstr "Авто-ответ на блокированное сообщение:"
+
+#: ../src/pp-prefs.c:139
+msgid "Auto-reply on blocked messages from unknown people with:"
+msgstr "Авто-ответ на блокированное сообщение от неизвестных людей:"
+
+#: ../src/pp-prefs.c:150
+msgid "Messages"
+msgstr "Сообщение"
+
+#: ../src/pp-prefs.c:153
+msgid "Block messages from people not on your contact list"
+msgstr "Блокировать сообщения от людей не из Вашего контакт листа"
+
+#: ../src/pp-prefs.c:158
+msgid "Block messages that match a regular expression:"
+msgstr "Блокировать сообщения, которые соответствуют регулярным выражением:"
+
+#: ../src/pp-prefs.c:164
+msgid "Block messages from senders that match a regular expression:"
+msgstr "Блокировать сообщения от отправителей, которые соответствуют регулярным выражением:"
+
+#: ../src/pp-prefs.c:176
+msgid "Authorization"
+msgstr "Авторизация"
+
+#: ../src/pp-prefs.c:179
+msgid "Suppress repeated authorization requests"
+msgstr "Подавлять повторные запросы на авторизации"
+
+#: ../src/pp-prefs.c:182
+msgid "Block all authorization requests"
+msgstr "Блокировать все запросы на авторизацию"
+
+#: ../src/pp-prefs.c:185
+msgid "Block authorization requests from OSCAR (ICQ/AIM)"
+msgstr "Блокировать запросы на авторизацию от OSCAR (ICQ/AIM)"
+
+#: ../src/pp-prefs.c:189
+msgid "Block authorization requests with hyperlinks"
+msgstr "Блокировать запросы авторизации с гиперссылками"
+
+#: ../src/pp-prefs.c:193
+msgid "Automatically show user info on authorization requests"
+msgstr "Автоматически показывать информацию о пользователе, отправившего запрос на авторизацию"
+
+#: ../src/pp-prefs.c:202
+msgid "Bot check"
+msgstr "Бот проверка"
+
+#: ../src/pp-prefs.c:207
+msgid "Verify message sender by asking a question"
+msgstr "Проверка отправителя сообщения вопросом"
+
+#: ../src/pp-prefs.c:209
+msgid "Question:"
+msgstr "Вопрос:"
+
+#: ../src/pp-prefs.c:211
+msgid "Answer:"
+msgstr "Ответ:"
+
+#: ../src/pp-prefs.c:213
+msgid "OK message:"
+msgstr "OK сообщение:"
+
+#: ../src/pp-prefs.c:222
+msgid "Protocol specific"
+msgstr "Протокол"
+
+#: ../src/pp-prefs.c:226
+msgid "Block jabber headline messages (MSN alerts, announcements etc.)"
+msgstr "Блокировать jabber headline messages (MSN предупреждения, объявления и т.д.)"
+
+#: ../src/pp-prefs.c:230
+msgid "Allow all messages on IRC"
+msgstr "Разрешить все сообщения на IRC"
+
+#: ../src/pp-prefs.c:233
+msgid "Block AOL system messages"
+msgstr "Блокировать системные сообщения AOL"
+
+#: ../src/pp-prefs.c:285
+msgid "Your message could not be delivered"
+msgstr "Ваше сообщение не может быть доставлено"
+
+#: ../src/pp-prefs.c:291
+msgid "11"
+msgstr "11"
+
+#: ../src/pp-prefs.c:294
+msgid "Very well then, you may speak"
+msgstr "Очень хорошо, Вы можете говорить"
+
+#: ../src/pp-prefs.c:297
+msgid "To prove that you are human, please enter the result of 8+3"
+msgstr "Чтобы доказать, что Вы человек, укажите результат 8+3"
+
+#: ../src/pp-prefs.c:301
+msgid ""
+"I currently only accept messages from people on my contact list - please "
+"request my authorization."
+msgstr ""
+"В настоящее время я принимаю сообщения только от людей из списка контактов - пожалуйста,"
+"запросите у меня авторизацию."
+
+#: ../src/blocklist.c:150
+msgid "Unblock (privacy please)"
+msgstr "Разблокировать (privacy please)"
+
+#: ../src/blocklist.c:155
+msgid "Block (privacy please)"
+msgstr "Блокировать (privacy please)"
+
+#: ../src/blocklist.c:221
+msgid "Blocked users"
+msgstr "Заблокированные пользователи"

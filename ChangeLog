@@ -10,6 +10,7 @@ v0.7.0 (xx xxx 2010)
  * Added option to block authorization requests that contain hyperlinks
  * Corrected text for the "Suppress repeated authorization requests" option
  * Changed license to GPLv3
+ * Added Russian translation (thanks to Anatoliy Kozlov)
  * Code cleanup
 
 v0.6.4 (04 Nov 2010)
