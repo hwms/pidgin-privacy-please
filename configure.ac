@@ -36,7 +36,7 @@ AC_PROG_INTLTOOL
 GETTEXT_PACKAGE=pidgin-privacy-please
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, ["$GETTEXT_PACKAGE"], [Define the gettext package to be used])
-ALL_LINGUAS="de"
+ALL_LINGUAS="de ru"
 AM_GLIB_GNU_GETTEXT
 
 if test x$PKG_CONFIG = xno ; then
