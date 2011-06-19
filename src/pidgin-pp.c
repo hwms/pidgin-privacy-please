@@ -63,8 +63,9 @@ msg_blocked_cb(PurpleAccount* account, char *sender)
 static gboolean
 pp_match_sender_regex(char *sender)
 {
+	const gchar *pattern;
 	purple_debug_info("pidgin-pp", "Block '%s' using regex?\n", sender);
-	const gchar *pattern = prefs_block_account_regex();
+	pattern = prefs_block_account_regex();
 
 	return g_regex_match_simple(pattern, sender, 0, 0);
 }
@@ -72,8 +73,9 @@ pp_match_sender_regex(char *sender)
 static gboolean
 pp_match_msg_regex(char *message)
 {
+	const gchar *pattern;
 	purple_debug_info("pidgin-pp", "Block '%s' using regex?\n", message);
-	const gchar *pattern = prefs_block_message_regex();
+	pattern = prefs_block_message_regex();
 
 	return g_regex_match_simple(pattern, message, 0, 0);
 }
@@ -81,8 +83,9 @@ pp_match_msg_regex(char *message)
 static gboolean
 pp_match_auth_regex(char *sender)
 {
+	const gchar *pattern;
 	purple_debug_info("pidgin-pp", "Block '%s' using regex?\n", sender);
-	const gchar *pattern = prefs_deny_auth_regex();
+	pattern = prefs_deny_auth_regex();
 
 	return g_regex_match_simple(pattern, sender, 0, 0);
 }
