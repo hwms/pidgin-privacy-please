@@ -1,15 +1,16 @@
-#summary One-sentence summary of this page.
+#summary Quick list of commands to cross-compile against pidgin 2.8.0
 
 = Introduction =
 
-This is a very unexplained list of commands that will get the plugin built against pidgin 2.7.5
+This is a very unexplained list of commands that will get the plugin built against pidgin 2.8.0
 
 = Commands =
 
 {{{
 sudo apt-get install mingw32 mingw32-binutils mingw32-runtime nsis
 
-export PIDGIN_VERSION=2.7.5
+export PIDGIN_VERSION=2.8.0
+export PIDGIN_PP_VERSION=0.7.0
 export PIDGIN_DEV_ROOT=/tmp/build/
 export SOURCES_DIR=${PIDGIN_DEV_ROOT}/sources/
 export DEV_DIR=${PIDGIN_DEV_ROOT}/win32-dev
@@ -90,8 +91,8 @@ And continue:
 sed -i /^PIDGIN_TRAY/d ${PIDGIN_DIR}/pidgin/win32/pidgin_dll_rc.rc.in
 
 cd ${PIDGIN_DIR}/pidgin/plugins/
-tar xzvf ~/pidgin-privacy-please-0.6.4.tar.gz
-cd pidgin-privacy-please-0.6.4
+tar xzvf ~/pidgin-privacy-please-${PIDGIN_PP_VERSION}.tar.gz
+cd pidgin-privacy-please-${PIDGIN_PP_VERSION}
 make -f Makefile.mingw
 make -f Makefile.mingw dist
 }}}
