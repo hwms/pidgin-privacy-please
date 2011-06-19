@@ -64,8 +64,10 @@ pref_string(autoreply_unknown_msg, "unknown_message");
 pref_boolean(block_unknown, "unknown_block");
 pref_boolean(block_account_using_regex, "block_account_with_regex");
 pref_boolean(block_message_using_regex, "block_message_with_regex");
+pref_boolean(deny_auth_using_regex, "deny_auth_with_regex");
 pref_string(block_account_regex, "block_account_regex");
 pref_string(block_message_regex, "block_message_regex");
+pref_string(deny_auth_regex, "deny_auth_regex");
 
 // Authorization prefs
 
@@ -191,6 +193,13 @@ get_plugin_config_frame(PurplePlugin *plugin)
 	pidgin_prefs_checkbox(
 		_("Automatically show user info on authorization requests"),
 		"/plugins/core/pidgin_pp/auth_auto_info", tab_vbox);
+#if GLIB_CHECK_VERSION(2,14,0)
+	pidgin_prefs_checkbox(_(
+		"Deny authorization from senders that match a regular expression:"),
+		"/plugins/core/pidgin_pp/deny_auth_with_regex", tab_vbox);
+	pidgin_prefs_labeled_entry(tab_vbox, "    ",
+		"/plugins/core/pidgin_pp/deny_auth_regex", 0);
+#endif // GLIB_CHECK_VERSION
 
 	// Notebook page 4: Bot check
 
@@ -285,6 +294,10 @@ prefs_load()
 	purple_prefs_add_string(
 		"/plugins/core/pidgin_pp/block_message_regex",
 		"(leather jackets?|gold watch)");
+	purple_prefs_add_bool(
+		"/plugins/core/pidgin_pp/deny_auth_with_regex",		FALSE);
+	purple_prefs_add_string("/plugins/core/pidgin_pp/deny_auth_regex",
+		".*[0-9]{4}");
 	purple_prefs_add_string(
 		"/plugins/core/pidgin_pp/botcheck_answer",
 		_("11"));
