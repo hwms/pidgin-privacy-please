@@ -77,6 +77,15 @@ pp_match_msg_regex(char *message)
 
 	return g_regex_match_simple(pattern, message, 0, 0);
 }
+
+static gboolean
+pp_match_auth_regex(char *sender)
+{
+	purple_debug_info("pidgin-pp", "Block '%s' using regex?\n", sender);
+	const gchar *pattern = prefs_deny_auth_regex();
+
+	return g_regex_match_simple(pattern, sender, 0, 0);
+}
 #endif // GLIB_CHECK_VERSION
 
 //
@@ -227,6 +236,15 @@ request_authorization_cb(PurpleAccount* account, char *sender)
 			"Blocking authorization request (blocking all)\n");
 		return deny;
 	}
+
+#if GLIB_CHECK_VERSION(2,14,0)
+	if (prefs_deny_auth_using_regex() && pp_match_auth_regex(sender))
+	{
+		purple_debug_info(
+			"pidgin-pp", "Denying authorization using regex\n");
+		return deny;
+	}
+#endif
 
 	if (prefs_auth_block_oscar() &&
 		(
