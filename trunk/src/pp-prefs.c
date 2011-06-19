@@ -195,7 +195,7 @@ get_plugin_config_frame(PurplePlugin *plugin)
 		"/plugins/core/pidgin_pp/auth_auto_info", tab_vbox);
 #if GLIB_CHECK_VERSION(2,14,0)
 	pidgin_prefs_checkbox(_(
-		"Deny authorization from senders that match a regular expression:"),
+		"Deny authorization requests from senders that match a regular expression:"),
 		"/plugins/core/pidgin_pp/deny_auth_with_regex", tab_vbox);
 	pidgin_prefs_labeled_entry(tab_vbox, "    ",
 		"/plugins/core/pidgin_pp/deny_auth_regex", 0);

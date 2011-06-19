@@ -30,9 +30,11 @@ const char* prefs_autoreply_blocked_msg();
 // msg
 const char* prefs_block_account_regex();
 const char* prefs_block_message_regex();
+const char* prefs_deny_auth_regex();
 gboolean prefs_block_unknown();
 gboolean prefs_block_account_using_regex();
 gboolean prefs_block_message_using_regex();
+gboolean prefs_deny_auth_using_regex();
 
 // auth
 gboolean prefs_auth_block_all();
