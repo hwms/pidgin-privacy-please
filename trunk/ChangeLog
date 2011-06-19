@@ -2,9 +2,10 @@
 		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
-v0.7.0 (xx xxx 2010)
+v0.7.0 (19 Jun 2011)
 ====================
- * Needs pidgin 2.8.0 or greater
+ * The "we can use ICQ again!" release
+ * Blocked ICQ auth requests no longer lead to popup windows (pidgin >= 2.8.0)
  * Fixed a logic error that would cause the user info dialog not to be shown
    automatically when suppression of repeated auth requests was disabled
  * Added option to block authorization requests that contain hyperlinks
@@ -17,7 +18,7 @@ v0.6.4 (04 Nov 2010)
 ====================
  * The "hey, i *know* you" release
  * Fixed an issue where known buddies would be bot checked
- * Fixed the Windows installed
+ * Fixed the Windows installer
 
 v0.6.3 (11 Jul 2010)
 ====================
