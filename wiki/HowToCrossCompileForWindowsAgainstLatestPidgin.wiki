@@ -96,3 +96,14 @@ cd pidgin-privacy-please-${PIDGIN_PP_VERSION}
 make -f Makefile.mingw
 make -f Makefile.mingw dist
 }}}
+
+Or, as xaminmo points out, until pidgin-privacy-please 0.7.0 is actually released:
+{{{
+sed -i /^PIDGIN_TRAY/d ${PIDGIN_DIR}/pidgin/win32/pidgin_dll_rc.rc.in
+
+cd ${PIDGIN_DIR}/pidgin/plugins/
+svn checkout http://pidgin-privacy-please.googlecode.com/svn/trunk/ pidgin-privacy-please-read-only
+cd pidgin-privacy-please-read-only
+make -f Makefile.mingw
+make -f Makefile.mingw dist
+}}}
