@@ -10,9 +10,11 @@ v0.7.0 (19 Jun 2011)
    automatically when suppression of repeated auth requests was disabled
  * Added option to block authorization requests that contain hyperlinks
  * Added option to deny authorization requests using a regular expression
+   (thanks to Daniel Borca)
  * Corrected text for the "Suppress repeated authorization requests" option
  * Changed license to GPLv3
  * Added Russian translation (thanks to Anatoliy Kozlov)
+ * Updated German translation (thanks to Mario Siegmann)
  * Code cleanup
 
 v0.6.4 (04 Nov 2010)
