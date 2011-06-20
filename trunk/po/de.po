@@ -1,23 +1,23 @@
-# Copyright (C) 2010
+# Copyright (C) 2011
 # This file is distributed under the same license as the Pidgin-Privacy-Please package.
-# Mario Siegmann <Mario_siegmann@web.de>, 2010
+# Mario Siegmann <Mario_siegmann@web.de>, 2011
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pidgin-privacy-please\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-13 04:43+0200\n"
-"PO-Revision-Date: 2010-07-11 16:30+0100\n"
+"POT-Creation-Date: 2011-06-19 17:52+0200\n"
+"PO-Revision-Date: 2011-06-19 18:54+0100\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 
-#: ../src/pidgin-pp.c:338
+#: ../src/pidgin-pp.c:354
 msgid "Manage blocked users"
 msgstr "Gesperrte Nutzer verwalten"
 
@@ -26,152 +26,144 @@ msgstr "Gesperrte Nutzer verwalten"
 #. *< flags
 #. *< dependencies
 #. *< priority
-#: ../src/pidgin-pp.c:421
+#: ../src/pidgin-pp.c:437
 msgid "core-pidgin_pp_"
 msgstr "core-pidgin_pp_"
 
-#: ../src/pidgin-pp.c:453 ../src/blocklist.c:208
+#: ../src/pidgin-pp.c:469
+#: ../src/blocklist.c:207
 msgid "Privacy Please"
 msgstr "Privatsphäre bitte"
 
-#: ../src/pidgin-pp.c:454
+#: ../src/pidgin-pp.c:470
 msgid "Stops IM-spam"
 msgstr "Stoppt IM-Spam"
 
-#: ../src/pidgin-pp.c:455
-msgid ""
-"A simple plugin to stop unwanted messages and repeated authorization "
-"requests from spammers."
-msgstr ""
-"Ein einfaches Plugin, um unerwünschte Nachrichten und wiederholte "
-"Autorisierungsanfragen von Spammern zu stoppen"
+#: ../src/pidgin-pp.c:471
+msgid "A simple plugin to stop unwanted messages and repeated authorization requests from spammers."
+msgstr "Ein einfaches Plugin, um unerwünschte Nachrichten und wiederholte Autorisierungsanfragen von Spammern zu stoppen"
 
-#: ../src/pp-prefs.c:132
+#: ../src/pp-prefs.c:133
 msgid "Auto-reply"
 msgstr "Automatisch antworten"
 
-#: ../src/pp-prefs.c:134
+#: ../src/pp-prefs.c:135
 msgid "Auto-reply on blocked messages with:"
 msgstr "Auf gesperrte Mitteilungen automatisch antworten mit:"
 
-#: ../src/pp-prefs.c:139
+#: ../src/pp-prefs.c:140
 msgid "Auto-reply on blocked messages from unknown people with:"
-msgstr ""
-"Automatisch auf gesperrte Mitteilungen von unbekannten Leuten antworten mit:"
+msgstr "Automatisch auf gesperrte Mitteilungen von unbekannten Leuten antworten mit:"
 
-#: ../src/pp-prefs.c:150
+#: ../src/pp-prefs.c:151
 msgid "Messages"
 msgstr "Mitteilungen"
 
-#: ../src/pp-prefs.c:153
+#: ../src/pp-prefs.c:154
 msgid "Block messages from people not on your contact list"
-msgstr ""
-"Nachrichten von Leuten, die nicht in Ihrer Kontaktliste stehen, sperren"
+msgstr "Nachrichten von Leuten, die nicht in Ihrer Kontaktliste stehen, sperren"
 
-#: ../src/pp-prefs.c:158
+#: ../src/pp-prefs.c:159
 msgid "Block messages that match a regular expression:"
 msgstr "Nachrichten mit folgendem passendem regulären Ausdruck sperren:"
 
-#: ../src/pp-prefs.c:164
+#: ../src/pp-prefs.c:165
 msgid "Block messages from senders that match a regular expression:"
 msgstr "Nachrichten von Absendern mit passendem regulären Ausdruck sperren:"
 
-#: ../src/pp-prefs.c:176
+#: ../src/pp-prefs.c:177
 msgid "Authorization"
 msgstr "Autorisierung"
 
-#: ../src/pp-prefs.c:179
+#: ../src/pp-prefs.c:180
 msgid "Suppress repeated authorization requests"
 msgstr "Wiederholte Autorisierungsanfragen unterdrücken"
 
-#: ../src/pp-prefs.c:182
+#: ../src/pp-prefs.c:183
 msgid "Block all authorization requests"
 msgstr "Sperre alle Autorisierungsanfragen"
 
-#: ../src/pp-prefs.c:185
+#: ../src/pp-prefs.c:186
 msgid "Block authorization requests from OSCAR (ICQ/AIM)"
 msgstr "Sperre alle Autorisierungsanfragen von OSCAR (ICQ/AIM)"
 
-#: ../src/pp-prefs.c:189
+#: ../src/pp-prefs.c:190
 msgid "Block authorization requests with hyperlinks"
-msgstr ""
+msgstr "Autorisierungsanfragen mit Hyperlinks sperren"
 
-#: ../src/pp-prefs.c:193
+#: ../src/pp-prefs.c:194
 msgid "Automatically show user info on authorization requests"
-msgstr ""
-"Nutzer-Informationen bei einer Autorisierungsanfrage automatisch anzeigen"
+msgstr "Nutzer-Informationen bei einer Autorisierungsanfrage automatisch anzeigen"
 
-#: ../src/pp-prefs.c:202
+#: ../src/pp-prefs.c:198
+msgid "Deny authorization requests from senders that match a regular expression:"
+msgstr "Autorisierungsanfragen von Absendern mit passendem regulären Ausdruck sperren:"
+
+#: ../src/pp-prefs.c:210
 msgid "Bot check"
 msgstr "BOT-Prüfung"
 
-#: ../src/pp-prefs.c:207
+#: ../src/pp-prefs.c:215
 msgid "Verify message sender by asking a question"
 msgstr "Überprüft den Absender einer Nachricht mit einer Frage"
 
-#: ../src/pp-prefs.c:209
+#: ../src/pp-prefs.c:217
 msgid "Question:"
 msgstr "Frage:"
 
-#: ../src/pp-prefs.c:211
+#: ../src/pp-prefs.c:219
 msgid "Answer:"
 msgstr "Antwort:"
 
-#: ../src/pp-prefs.c:213
+#: ../src/pp-prefs.c:221
 msgid "OK message:"
 msgstr "OK Nachricht:"
 
-#: ../src/pp-prefs.c:222
+#: ../src/pp-prefs.c:230
 msgid "Protocol specific"
 msgstr "Protokoll-spezifisch"
 
-#: ../src/pp-prefs.c:226
+#: ../src/pp-prefs.c:234
 msgid "Block jabber headline messages (MSN alerts, announcements etc.)"
-msgstr ""
-"Sperrt Jabber Schlagzeilen (MSN Benachrichtigungen, Bekanntmachungen etc.)"
+msgstr "Sperrt Jabber Schlagzeilen (MSN Benachrichtigungen, Bekanntmachungen etc.)"
 
-#: ../src/pp-prefs.c:230
+#: ../src/pp-prefs.c:238
 msgid "Allow all messages on IRC"
 msgstr "Erlaube alle Nachrichten im IRC"
 
-#: ../src/pp-prefs.c:233
+#: ../src/pp-prefs.c:241
 msgid "Block AOL system messages"
 msgstr "Sperre AOL System-Nachrichten"
 
-#: ../src/pp-prefs.c:285
+#: ../src/pp-prefs.c:293
 msgid "Your message could not be delivered"
 msgstr "Ihre Nachricht konnte nicht zugestellt werden"
 
-#: ../src/pp-prefs.c:291
+#: ../src/pp-prefs.c:303
 msgid "11"
 msgstr "11"
 
-#: ../src/pp-prefs.c:294
+#: ../src/pp-prefs.c:306
 msgid "Very well then, you may speak"
 msgstr "Sehr gut, dann können Sie sprechen"
 
-#: ../src/pp-prefs.c:297
+#: ../src/pp-prefs.c:309
 msgid "To prove that you are human, please enter the result of 8+3"
-msgstr ""
-"Um zu beweisen, dass Sie ein Mensch sind, geben Sie bitte das Ergebnis von 8 "
-"+3 ein"
+msgstr "Um zu beweisen, dass Sie ein Mensch sind, geben Sie bitte das Ergebnis von 8 +3 ein"
 
-#: ../src/pp-prefs.c:301
-msgid ""
-"I currently only accept messages from people on my contact list - please "
-"request my authorization."
-msgstr ""
-"Ich akzeptiere aktuell nur Nachrichten von Leuten, die in meiner "
-"Kontaktliste stehen - Bitte fordern Sie eine Autorisierung an"
+#: ../src/pp-prefs.c:313
+msgid "I currently only accept messages from people on my contact list - please request my authorization."
+msgstr "Ich akzeptiere aktuell nur Nachrichten von Leuten, die in meiner Kontaktliste stehen - Bitte fordern Sie eine Autorisierung an"
 
-#: ../src/blocklist.c:150
+#: ../src/blocklist.c:149
 msgid "Unblock (privacy please)"
 msgstr "Sperre aufheben (Privatsphäre bitte)"
 
-#: ../src/blocklist.c:155
+#: ../src/blocklist.c:154
 msgid "Block (privacy please)"
 msgstr "Sperren (Privatsphäre bitte)"
 
-#: ../src/blocklist.c:221
+#: ../src/blocklist.c:220
 msgid "Blocked users"
 msgstr "Gesperrte Nutzer"
+
