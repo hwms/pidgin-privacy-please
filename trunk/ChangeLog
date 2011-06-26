@@ -2,7 +2,7 @@
 		http://pidgin-privacy-please.googlecode.com/
 ===============================================================================
 
-v0.7.0 (19 Jun 2011)
+v0.7.0 (26 Jun 2011)
 ====================
  * The "we can use ICQ again!" release
  * Blocked ICQ auth requests no longer lead to popup windows (pidgin >= 2.8.0)
