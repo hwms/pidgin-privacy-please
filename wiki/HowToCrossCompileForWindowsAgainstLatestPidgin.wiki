@@ -97,7 +97,7 @@ make -f Makefile.mingw
 make -f Makefile.mingw dist
 }}}
 
-Or, as xaminmo points out, until pidgin-privacy-please 0.7.0 is actually released:
+Or, as xaminmo points out, to build the latest development version of the plugin:
 {{{
 sed -i /^PIDGIN_TRAY/d ${PIDGIN_DIR}/pidgin/win32/pidgin_dll_rc.rc.in
 
