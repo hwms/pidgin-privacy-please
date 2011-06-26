@@ -1,6 +1,18 @@
 ﻿#summary Changelog for pidgin-privacy-please
 #labels Featured
 
+== v0.7.0 (26 Jun 2011) ==
+ * The "we can use ICQ again!" release
+ * Blocked ICQ auth requests no longer lead to popup windows (pidgin >= 2.8.0)
+ * Fixed a logic error that would cause the user info dialog not to be shown automatically when suppression of repeated auth requests was disabled
+ * Added option to block authorization requests that contain hyperlinks
+ * Added option to deny authorization requests using a regular expression (thanks to Daniel Borca)
+ * Corrected text for the "Suppress repeated authorization requests" option
+ * Changed license to GPLv3
+ * Added Russian translation (thanks to Anatoliy Kozlov)
+ * Updated German translation (thanks to Mario Siegmann)
+ * Code cleanup
+
 == v0.6.4 (04 Nov 2010) ==
  * The "hey, i *know* you" release
  * Fixed an issue where known buddies would be bot checked
