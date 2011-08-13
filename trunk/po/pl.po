@@ -1,0 +1,168 @@
+# Copyright (C) 2011
+# This file is distributed under the same license as the Pidgin-Privacy-Please package.
+# Krystian Maksymowicz <krystian.maksymowicz@gmail.com>, 2011
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pidgin-privacy-please\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-19 17:52+0200\n"
+"PO-Revision-Date: 2011-08-01 17:12+0100\n"
+"Last-Translator: Krystian Maksymowicz <krystian.maksymowicz@gmail.com>\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: POLAND\n"
+
+#: ../src/pidgin-pp.c:354
+msgid "Manage blocked users"
+msgstr "Lista zablokowanych"
+
+#. *< type
+#. *< ui_requirement
+#. *< flags
+#. *< dependencies
+#. *< priority
+#: ../src/pidgin-pp.c:437
+msgid "core-pidgin_pp_"
+msgstr "core-pidgin_pp_"
+
+#: ../src/pidgin-pp.c:469
+#: ../src/blocklist.c:207
+msgid "Privacy Please"
+msgstr "Ciutka prywatności"
+
+#: ../src/pidgin-pp.c:470
+msgid "Stops IM-spam"
+msgstr "Powstrzymuje spam"
+
+#: ../src/pidgin-pp.c:471
+msgid "A simple plugin to stop unwanted messages and repeated authorization requests from spammers."
+msgstr "Prosta wtyczka blokująca niechciame wiadomości i uporczywe prośby o autoryzację od spamerów."
+
+#: ../src/pp-prefs.c:133
+msgid "Auto-reply"
+msgstr "Autoodpowiedź"
+
+#: ../src/pp-prefs.c:135
+msgid "Auto-reply on blocked messages with:"
+msgstr "Autoodpowiedź na zablokowane wiadomości:"
+
+#: ../src/pp-prefs.c:140
+msgid "Auto-reply on blocked messages from unknown people with:"
+msgstr "Autoodpowiedź na zablokowane wiadomości od nieznajomych:"
+
+#: ../src/pp-prefs.c:151
+msgid "Messages"
+msgstr "Wiadomości"
+
+#: ../src/pp-prefs.c:154
+msgid "Block messages from people not on your contact list"
+msgstr "Blokuj wiadomości od ludzi spoza twojej listy znajomych."
+
+#: ../src/pp-prefs.c:159
+msgid "Block messages that match a regular expression:"
+msgstr "Blokuj wiadomości opisane wyrażeniem regularnym:"
+
+#: ../src/pp-prefs.c:165
+msgid "Block messages from senders that match a regular expression:"
+msgstr "Blokuj wiadomości od nadawców opisanych wyrażeniem regularnym:"
+
+#: ../src/pp-prefs.c:177
+msgid "Authorization"
+msgstr "Autoryzacja"
+
+#: ../src/pp-prefs.c:180
+msgid "Suppress repeated authorization requests"
+msgstr "Blokuj wielokrotne prośby o autoryzację"
+
+#: ../src/pp-prefs.c:183
+msgid "Block all authorization requests"
+msgstr "Blokuj wszystkie prośby o autoryzację"
+
+#: ../src/pp-prefs.c:186
+msgid "Block authorization requests from OSCAR (ICQ/AIM)"
+msgstr "Blokuj prośby o autoryzację od OSCAR (ICQ/AIM)"
+
+#: ../src/pp-prefs.c:190
+msgid "Block authorization requests with hyperlinks"
+msgstr "Blokuj prośby o autoryzację gdy zawierają linki."
+
+#: ../src/pp-prefs.c:194
+msgid "Automatically show user info on authorization requests"
+msgstr "Automatycznie pokazuj informacje o użytkowniku przy prośbach o autoryzację"
+
+#: ../src/pp-prefs.c:198
+msgid "Deny authorization requests from senders that match a regular expression:"
+msgstr "Odrzucaj prosy o autoryzację od nadawców opisanych wyrażeniem regularnym:"
+
+#: ../src/pp-prefs.c:210
+msgid "Bot check"
+msgstr "Weryfikacja botów"
+
+#: ../src/pp-prefs.c:215
+msgid "Verify message sender by asking a question"
+msgstr "Zweryfikuj nadawcę zadając pytanie"
+
+#: ../src/pp-prefs.c:217
+msgid "Question:"
+msgstr "Pytanie:"
+
+#: ../src/pp-prefs.c:219
+msgid "Answer:"
+msgstr "Odpowiedź:"
+
+#: ../src/pp-prefs.c:221
+msgid "OK message:"
+msgstr "Akceptacja:"
+
+#: ../src/pp-prefs.c:230
+msgid "Protocol specific"
+msgstr "Inne"
+
+#: ../src/pp-prefs.c:234
+msgid "Block jabber headline messages (MSN alerts, announcements etc.)"
+msgstr "Blokuj jabberowe nagłówki wiadomości (alerty MSN, powiadomienia itp.)"
+
+#: ../src/pp-prefs.c:238
+msgid "Allow all messages on IRC"
+msgstr "Zezwalaj na wszystkie wiadomości w sieci IRC"
+
+#: ../src/pp-prefs.c:241
+msgid "Block AOL system messages"
+msgstr "Blokuj systemowe wiadomości AOL"
+
+#: ../src/pp-prefs.c:293
+msgid "Your message could not be delivered"
+msgstr "Twoja wiadomość została odrzucona"
+
+#: ../src/pp-prefs.c:303
+msgid "11"
+msgstr "11"
+
+#: ../src/pp-prefs.c:306
+msgid "Very well then, you may speak"
+msgstr "Dobrze. A więc, co chciałeś?"
+
+#: ../src/pp-prefs.c:309
+msgid "To prove that you are human, please enter the result of 8+3"
+msgstr "By dowieść że nie jesteś spamerem powiedz ile to jest 8+3"
+
+#: ../src/pp-prefs.c:313
+msgid "I currently only accept messages from people on my contact list - please request my authorization."
+msgstr "Aktualnie czytam jedynie wiadomości od ludzi z mojej listy kontaktów. Prześlij prośbę o autoryzację."
+
+#: ../src/blocklist.c:149
+msgid "Unblock (privacy please)"
+msgstr "Odblokuj (Ciutka prywatności)"
+
+#: ../src/blocklist.c:154
+msgid "Block (privacy please)"
+msgstr "Blokuj (Ciutka prywatności)"
+
+#: ../src/blocklist.c:220
+msgid "Blocked users"
+msgstr "Zablokowani użytkownicy"
+
