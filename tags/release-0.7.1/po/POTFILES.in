@@ -1,0 +1,3 @@
+src/pidgin-pp.c
+src/pp-prefs.c
+src/blocklist.c

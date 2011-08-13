@@ -1,0 +1,47 @@
+# Makefile.mingw
+#
+# Description: Top Makefile for pidgin-privacy-please.
+#
+
+.PHONY: all installer clean
+
+MINGW_MAKEFILE=Makefile.mingw
+VERSION=`grep ^PACKAGE_VERSION= configure | cut -d "'" -f 2`
+
+all:
+	$(MAKE) -C src -f $(MINGW_MAKEFILE)
+	$(MAKE) -C po -f $(MINGW_MAKEFILE)
+
+installer: all
+	$(MAKE) -C src -f $(MINGW_MAKEFILE) installer
+
+clean:
+	$(MAKE) -C src -f $(MINGW_MAKEFILE) clean
+	$(MAKE) -C po -f $(MINGW_MAKEFILE) clean
+
+PO_INSTALL_SCRIPT = win32/po_install.nsi
+PO_UNINSTALL_SCRIPT = win32/po_uninstall.nsi
+
+$(PO_INSTALL_SCRIPT):
+	echo "; Automatically generated installer script include for translation .mo files" > $(PO_INSTALL_SCRIPT)
+	for file in po/*gmo ; do \
+		file=$${file/po\//} ; \
+		lang=$${file/.gmo/} ; \
+		echo 'SetOutPath "$$INSTDIR"' >> $(PO_INSTALL_SCRIPT) ; \
+		echo "CreateDirectory \$$INSTDIR\locale\\$$lang\\LC_MESSAGES" >>$(PO_INSTALL_SCRIPT) ; \
+		echo  "File /oname=locale\\$$lang\\LC_MESSAGES\\pidgin-privacy-please.mo ..\\po\\$$file" >>$(PO_INSTALL_SCRIPT) ; \
+	done
+
+$(PO_UNINSTALL_SCRIPT):
+	echo "; Automatically generated uninstaller script include for translation .mo files" > $(PO_UNINSTALL_SCRIPT)
+	for file in po/*gmo ; do \
+		file=$${file/po\//} ; \
+		lang=$${file/.gmo/} ; \
+		echo 'SetOutPath "$$INSTDIR"' >> $(PO_INSTALL_SCRIPT) ; \
+		echo "Delete \"\$$INSTDIR\locale\\$$lang\\LC_MESSAGES\\pidgin-privacy-please.mo\"" >>$(PO_UNINSTALL_SCRIPT) ; \
+		echo "RMDir \$$INSTDIR\locale\\$$lang\\LC_MESSAGES" >>$(PO_UNINSTALL_SCRIPT) ; \
+		echo "RMDir \$$INSTDIR\locale\\$$lang" >>$(PO_UNINSTALL_SCRIPT) ; \
+	done
+
+dist: $(PO_INSTALL_SCRIPT) $(PO_UNINSTALL_SCRIPT)
+	makensis -DVERSION=$(VERSION) win32/pidgin-privacy-please.nsi
