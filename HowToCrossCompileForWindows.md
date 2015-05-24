@@ -1,0 +1,1 @@
+The latest information on cross-compiling for Windows can now be found on https://github.com/cockroach/pidgin-privacy-please/wiki/How-to-Cross-Compile-for-Windows
